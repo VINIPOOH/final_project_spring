@@ -7,25 +7,39 @@
 </head>
 <body>
 <div th:include="~{layout/header.html::header}"></div>
-<form method="post" th:action="@{/registration}" th:object="${registrationInfoDto}">
-    <div class="error" style="color: red;" th:if="${#fields.hasErrors('username')}">
-        <p><strong>Errors</strong></p>
-        <ul>
-            <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
-        </ul>
-    </div>
-    <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
-    <div class="form-group">
-        <input type="text" class="form-control" id="username" name="username" >
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control" id="password" name="password">
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control" id="passwordRepeat" name="passwordRepeat">
-    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-heading" th:text="#{registrationpage.form.header}"></h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form" method="post" th:action="@{/registration}" th:object="${registrationInfoDto}">
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
+                            <p th:if="${#fields.hasErrors('username')}" th:text="#{registrationpage.form.login.wrong}"></p>
 
-    <button type="submit" th:text="#{lofinpage.button.login}"></button>
-</form>
+                        </div>
+
+                        <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
+                        <div class="form-group" >
+
+                            <label for="username">notIntEmail</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="notInt" >
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="passwordRepeat" name="passwordRepeat">
+                        </div>
+
+                        <button class="btn btn-success" type="submit" th:text="#{lofinpage.button.login}"></button>
+                    </form>
+                </div>
+            </div>
+    </div>
+    </div>
+</div>
 </body>
 </html>
