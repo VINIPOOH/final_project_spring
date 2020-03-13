@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,18 +21,25 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false , unique = true)
     private Long id;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
     private String password;
+    private Long userMoneyInCents;
+    @OneToMany(mappedBy = "addressee")
+    private List<Delivery> waysWhereThisLocalityIsSend;
+    @OneToMany(mappedBy = "addresser")
+    private List<Delivery> waysWhereThisLocalityIsGet;
+
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
