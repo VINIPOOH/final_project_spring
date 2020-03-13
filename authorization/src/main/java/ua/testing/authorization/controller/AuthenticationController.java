@@ -10,12 +10,14 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.authorization.dto.RegistrationInfoDto;
 import ua.testing.authorization.exception.OccupiedLoginException;
 import ua.testing.authorization.service.AuthenticationService;
 import ua.testing.authorization.service.UserService;
 
+import javax.swing.text.StyledEditorKit;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,12 +42,19 @@ public class AuthenticationController {
 
     @RequestMapping(value = {"/login/error"}, method = RequestMethod.GET)
     public ModelAndView loginError() {
-        return new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("registration");
+//переправить страница в доступе отказано сделать 404 нот фаунд
+        modelAndView.addObject("isLoginOrPasswordWrong",true);
+        return modelAndView;
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public ModelAndView login() {
-        return new ModelAndView("login");
+    public ModelAndView login(@RequestParam(value = "error", required = false) String error,
+                              @RequestParam(value = "logout", required = false) String logout) {
+        ModelAndView modelAndView= new ModelAndView("login");
+        modelAndView.addObject("error", error != null);
+        modelAndView.addObject("logout", logout != null);
+        return modelAndView;
     }
 
     @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)

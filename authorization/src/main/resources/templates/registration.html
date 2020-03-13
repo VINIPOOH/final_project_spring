@@ -18,10 +18,11 @@
                     <form class="form" method="post" th:action="@{/registration}" th:object="${registrationInfoDto}">
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
                             <p th:if="${#fields.hasErrors('username')}" th:text="#{registrationpage.form.login.wrong}"></p>
-
+                            <p th:if="${#fields.hasErrors('passwordRepeat')}" th:text="#{registrationpage.form.password_reapit.wrong}"></p>
+                            <p th:if="${#fields.hasErrors('password')}" th:text="#{registrationpage.form.password.wrong}"></p>
                         </div>
 
-                        <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
+<!--                        <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">-->
                         <div class="form-group" >
 
                             <label for="username">notIntEmail</label>
@@ -34,7 +35,8 @@
                             <input type="password" class="form-control" id="passwordRepeat" name="passwordRepeat">
                         </div>
 
-                        <button class="btn btn-success" type="submit" th:text="#{lofinpage.button.login}"></button>
+                        <button class="btn btn-success" type="submit" th:text="#{registrationpage.button.registration}"></button>
+                        <a class="btn"  align="left" th:href="@{/login}" th:text="#{registrationpage.button.gotoLogin}"></a>
                     </form>
                 </div>
             </div>
