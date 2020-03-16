@@ -18,8 +18,13 @@ public class Locality {
     private Long id;
     private String nameRu;
     private String nameEn;
-    @OneToMany(mappedBy = "localitySand")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "localitySand")
     private List<Way> waysWhereThisLocalityIsSend;
-    @OneToMany(mappedBy = "localityGet")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "localityGet")
     private List<Way> waysWhereThisLocalityIsGet;
+
+    public Locality(String nameRu, String nameEn) {
+        this.nameRu = nameRu;
+        this.nameEn = nameEn;
+    }
 }

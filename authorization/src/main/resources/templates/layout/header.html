@@ -12,11 +12,11 @@
             <nav class="navbar navbar-default col-md-10",>
                 <div class="container-fluid row">
                     <div class="navbar-header col-md-2">
-                        <a href="#" class="navbar-brand" th:text="#{layout.header.logo}"></a>
+                        <a th:href="@{/home}" class="navbar-brand" th:text="#{layout.header.logo}"></a>
                     </div>
                     <div class="col-md-10 rov">
                         <ul class="nav navbar-nav col-md-1">
-                            <li class="active"><a href="#" th:text="#{layout.header.homepage}"></a></li>
+                            <li class="active"><a th:href="@{/home}" th:text="#{layout.header.homepage}"></a></li>
                         </ul>
                     </div>
                 </div>

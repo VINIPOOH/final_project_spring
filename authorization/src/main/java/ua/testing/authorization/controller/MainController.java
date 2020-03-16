@@ -24,11 +24,6 @@ public class MainController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
-    public ModelAndView home() {
-        return new ModelAndView("index");
-    }
-
 
     @RequestMapping(value = {"/user/user_profile"}, method = RequestMethod.GET)
     public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {

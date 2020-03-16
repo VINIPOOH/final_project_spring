@@ -8,8 +8,6 @@ import ua.testing.authorization.entity.User;
 import ua.testing.authorization.exception.OccupiedLoginException;
 import ua.testing.authorization.repository.UserRepository;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -35,7 +33,7 @@ public class UserService {
 
         try {
             userRepository.save(user);
-        }catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new OccupiedLoginException(user);
         }
 

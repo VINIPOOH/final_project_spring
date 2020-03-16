@@ -21,7 +21,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false , unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -30,9 +30,9 @@ public class User implements UserDetails {
     private RoleType roleType;
     private String password;
     private Long userMoneyInCents;
-    @OneToMany(mappedBy = "addressee")
+    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "addressee")
     private List<Delivery> waysWhereThisLocalityIsSend;
-    @OneToMany(mappedBy = "addresser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addresser")
     private List<Delivery> waysWhereThisLocalityIsGet;
 
     private boolean accountNonExpired;
