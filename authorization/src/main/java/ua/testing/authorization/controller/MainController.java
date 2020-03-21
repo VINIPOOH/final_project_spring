@@ -25,14 +25,7 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = {"/user/user_profile"}, method = RequestMethod.GET)
-    public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByEmail(userDetails.getUsername());
-        httpSession.setAttribute(SessionConstants.SESSION_USER.name(), user);
-        ModelAndView view = new ModelAndView("user/user_profile");
-        view.addObject(user);
-        return view;
-    }
+
 
 
     @RequestMapping(value = {"/admin/users"}, method = RequestMethod.GET)

@@ -41,9 +41,26 @@
                 </div>
             </div>
         </div>
-        <div th:if="${deliveryCostAndTimeDto!=null}" class="col-md-6">
-            <p1 th:text="#{homepage.paragraf.price}+${deliveryCostAndTimeDto.costInCents}"></p1>
-            <p1 th:text="#{homepage.paragraf.time}+${deliveryCostAndTimeDto.timeOnWayInHours}"></p1>
+        <div th:if="${deliveryCostAndTimeDto!=null}" class="col-md-6 container-fluid">
+            <table class="table" style="
+        width: 40%;
+        margin: 0 auto;
+        background:  #0c5460;
+        border-radius: 10px;
+        color: white;
+        ">
+                <tbody>
+                <tr>
+                    <td><span th:text="#{homepage.paragraf.price}">  </span></td>
+                    <td><span th:text="${deliveryCostAndTimeDto.costInCents}"> </span></td>
+                </tr>
+                <tr>
+                    <td><span th:text="#{homepage.paragraf.time}">  </span></td>
+                    <td><span th:text="${deliveryCostAndTimeDto.timeOnWayInHours}"> </span></td>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

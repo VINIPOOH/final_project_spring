@@ -8,8 +8,8 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     </head>
     <body th:fragment="header">
-        <div class="row">
-            <nav class="navbar navbar-default col-md-10",>
+        <div class="row border border-green">
+            <nav class="navbar navbar-default col-md-9",>
                 <div class="container-fluid row">
                     <div class="navbar-header col-md-2">
                         <a th:href="@{/home}" class="navbar-brand" th:text="#{layout.header.logo}"></a>
@@ -21,10 +21,24 @@
                     </div>
                 </div>
             </nav>
-            <div class="col-md-2">
-                <a class="" href="?lang=en" th:text="#{button.en.text}"></a>
-                <a href="?lang=ru" th:text="#{button.ru.text}"></a>
+            <div class="col-md-1">
+<!--для кнопки логин или логаут-->
             </div>
+            <div class="col-md-2">
+                <a class="btn" href="?lang=en" th:text="#{button.en.text}"></a>
+                <a class="btn" href="?lang=ru" th:text="#{button.ru.text}"></a>
+            </div>
+        </div>
+    </body>
+    <body th:fragment="userHeader">
+        <div class="row border border-secondary">
+            <nav class="navbar navbar-default col-md-12",>
+                <div class="container-fluid row">
+                    <ul class="nav navbar-nav col-md-1 btn">
+                        <li class="active"><a th:href="@{/user/delivers-to-get}" th:text="#{layout.userheader.not.gotten.delivers}"></a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </body>
 </html>

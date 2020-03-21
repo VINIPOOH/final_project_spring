@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+
 @Entity
 public class Delivery {
     @Id
@@ -28,6 +28,5 @@ public class Delivery {
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "addresser_id")
     private User addresser;
-
-    private boolean isPackageReceived;
+    private Boolean isPackageReceived;
 }

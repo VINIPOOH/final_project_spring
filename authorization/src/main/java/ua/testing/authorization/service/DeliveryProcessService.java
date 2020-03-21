@@ -42,7 +42,7 @@ public class DeliveryProcessService {
                 .build();
     }
 
-    private int calculateDeliveryCost(int deliveryWeight, Way way) throws  AskedDataIsNotExist {
+    private int calculateDeliveryCost(int deliveryWeight, Way way) throws AskedDataIsNotExist {
         int overPayOnKilometerForWeight = way.getWayTariffs().stream()
                 .filter(x -> x.getMinWeightRange() <= deliveryWeight
                         && x.getMaxWeightRange() > deliveryWeight)
@@ -54,8 +54,8 @@ public class DeliveryProcessService {
 
     private Way getWay(DeliveryInfoRequestDto deliveryInfoRequestDto) throws NoSuchWayException {
         return wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryInfoRequestDto.getLocalitySandID()
-                    , deliveryInfoRequestDto.getLocalityGetID())
-                    .orElseThrow(() -> new NoSuchWayException(deliveryInfoRequestDto));
+                , deliveryInfoRequestDto.getLocalityGetID())
+                .orElseThrow(() -> new NoSuchWayException(deliveryInfoRequestDto));
     }
 
     public List<Locality> getLocalitis() {

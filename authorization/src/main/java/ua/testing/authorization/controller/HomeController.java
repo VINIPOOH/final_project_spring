@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ua.testing.authorization.dataAder;
 import ua.testing.authorization.dto.DeliveryCostAndTimeDto;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
 import ua.testing.authorization.entity.Locality;
@@ -15,6 +14,7 @@ import ua.testing.authorization.exception.NoSuchWayException;
 import ua.testing.authorization.exception.UnsupportableWeightFactorException;
 import ua.testing.authorization.service.DeliveryProcessService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -40,28 +40,25 @@ public class HomeController {
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.POST)
     public ModelAndView homeCount
-            (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult) {
+            (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult,
+             HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject(httpSession.getAttribute(SessionConstants.SESSION_USER.name()));
         modelAndView.addObject(deliveryInfoRequestDto);
         if (bindingResult.hasErrors()) {
-            System.out.println("1////");
             return modelAndView;
         }
         try {
-            System.out.println("2////");
             DeliveryCostAndTimeDto deliveryCostAndTimeDto = deliveryProcessService
                     .getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
             modelAndView.addObject(deliveryCostAndTimeDto);
 
 
         } catch (NoSuchWayException e) {
-            System.out.println("3////");
             modelAndView.addObject("noSuchWayException", true);
         } catch (UnsupportableWeightFactorException e) {
-            System.out.println("4////");
             modelAndView.addObject("unsupportableWeightFactorException", true);
         }
-        System.out.println("5////");
         return modelAndView;
     }
 }

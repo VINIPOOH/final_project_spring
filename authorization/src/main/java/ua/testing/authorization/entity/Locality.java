@@ -9,12 +9,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+
 @Entity
 public class Locality {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false , unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
     private String nameRu;
     private String nameEn;

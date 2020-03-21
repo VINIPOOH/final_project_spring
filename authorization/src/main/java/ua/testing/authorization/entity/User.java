@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+
 @Entity
 @Table(name = "user",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private RoleType roleType;
     private String password;
     private Long userMoneyInCents;
-    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "addressee")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
     private List<Delivery> waysWhereThisLocalityIsSend;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addresser")
     private List<Delivery> waysWhereThisLocalityIsGet;
