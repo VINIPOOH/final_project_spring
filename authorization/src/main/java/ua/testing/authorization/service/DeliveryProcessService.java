@@ -69,4 +69,10 @@ public class DeliveryProcessService {
     public List<Delivery> getNotTakenDeliversByUserId(long userId){
         return deliveryRepository.findAllByIsPackageReceivedFalseAndAddressee_Id(userId);
     }
+
+    public void configmGetingDelivery(long deliveryId) throws AskedDataIsNotExist {
+        Delivery deliveryToUpdate=deliveryRepository.findById(deliveryId).orElseThrow(()->new AskedDataIsNotExist());
+        deliveryToUpdate.setIsPackageReceived(true);
+        deliveryRepository.save(deliveryToUpdate);
+    }
 }
