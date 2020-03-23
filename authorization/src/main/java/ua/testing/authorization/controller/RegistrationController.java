@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,14 +21,12 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationService authenticationService;
     private final UserService userService;
 
 
     @Autowired
-    public RegistrationController(PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService) {
+    public RegistrationController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
-        this.authenticationService = authenticationService;
         this.userService = userService;
     }
 
@@ -39,31 +38,22 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = {"/registration"}, method = RequestMethod.POST)
-    public ModelAndView registrationTry(@Valid @ModelAttribute RegistrationInfoDto registrationInfoDto, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView registrationTry(@Valid @ModelAttribute RegistrationInfoDto registrationInfoDto,
+                                        BindingResult bindingResult) throws OccupiedLoginException {
+        ModelAndView modelAndView = new ModelAndView("registration");
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("registration");
             return modelAndView;
         }
         if (registrationInfoDto.getPassword().equals(registrationInfoDto.getPasswordRepeat())) {
-            registrationInfoDto.setPassword
-                    (passwordEncoder.encode(registrationInfoDto.getPassword()));
-            try {
-                userService.addNewUserToDB(
-                        authenticationService.convertRegistrationDotToSimpleUserReadyForAddToDB
-                                (registrationInfoDto)
-                );
-            } catch (OccupiedLoginException e) {
-                modelAndView.addObject(registrationInfoDto);
-                modelAndView.setViewName("registration");
-                return modelAndView;
-            }
-            modelAndView.setViewName("login");
-        } else {
-            modelAndView.setViewName("registration");
+            userService.addNewUserToDB(registrationInfoDto);
+            modelAndView.setViewName("redirect:/login");
         }
         return modelAndView;
     }
 
+    @ExceptionHandler(OccupiedLoginException.class)
+    public ModelAndView occupiedLoginExceptionHandling(){
+        return new ModelAndView("redirect:/registration");
+    }
 
 }

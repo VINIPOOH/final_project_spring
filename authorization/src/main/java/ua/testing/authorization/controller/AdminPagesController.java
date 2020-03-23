@@ -26,8 +26,7 @@ public class AdminPagesController {
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView users() {
         ModelAndView view = new ModelAndView("admin/users");
-        List<User> usersList = userService.getAllUsers();
-        view.addObject(usersList);
+        view.addObject(userService.getAllUsers());
         return view;
     }
 

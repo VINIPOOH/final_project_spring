@@ -31,24 +31,22 @@ public class HomeController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
-        List<Locality> localities = deliveryProcessService.getLocalitis();
-        modelAndView.addObject(localities);
+        modelAndView.addObject(deliveryProcessService.getLocalitis());
         return modelAndView;
     }
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.POST)
     public ModelAndView homeCount
-            (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult,
-             HttpSession httpSession) {
+            (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("home");
-        //modelAndView.addObject(httpSession.getAttribute(SessionConstants.SESSION_USER.name()));
+        //TODO
         modelAndView.addObject(deliveryInfoRequestDto);
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }
         try {
-            DeliveryCostAndTimeDto deliveryCostAndTimeDto = deliveryProcessService
-                    .getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
+            DeliveryCostAndTimeDto deliveryCostAndTimeDto =
+                    deliveryProcessService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
             modelAndView.addObject(deliveryCostAndTimeDto);
         } catch (NoSuchWayException e) {
             modelAndView.addObject("noSuchWayException", true);

@@ -24,21 +24,8 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
-
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with login: " + email));
 
-    }
-
-    public User convertRegistrationDotToSimpleUserReadyForAddToDB(RegistrationInfoDto registration) {
-        return User.builder()
-                .accountNonExpired(true)
-                .credentialsNonExpired(true)
-                .accountNonLocked(true)
-                .email(registration.getUsername())
-                .enabled(true)
-                .password(registration.getPassword())
-                .roleType(RoleType.ROLE_USER)
-                .build();
     }
 }
