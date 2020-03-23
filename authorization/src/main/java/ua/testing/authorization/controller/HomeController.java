@@ -29,8 +29,6 @@ public class HomeController {
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
     public ModelAndView home() {
-
-
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
         List<Locality> localities = deliveryProcessService.getLocalitis();
@@ -43,7 +41,7 @@ public class HomeController {
             (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult,
              HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject(httpSession.getAttribute(SessionConstants.SESSION_USER.name()));
+        //modelAndView.addObject(httpSession.getAttribute(SessionConstants.SESSION_USER.name()));
         modelAndView.addObject(deliveryInfoRequestDto);
         if (bindingResult.hasErrors()) {
             return modelAndView;
@@ -52,8 +50,6 @@ public class HomeController {
             DeliveryCostAndTimeDto deliveryCostAndTimeDto = deliveryProcessService
                     .getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
             modelAndView.addObject(deliveryCostAndTimeDto);
-
-
         } catch (NoSuchWayException e) {
             modelAndView.addObject("noSuchWayException", true);
         } catch (UnsupportableWeightFactorException e) {

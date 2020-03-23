@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.authorization.dto.RegistrationInfoDto;
 import ua.testing.authorization.exception.OccupiedLoginException;
@@ -18,7 +17,7 @@ import ua.testing.authorization.service.UserService;
 import javax.validation.Valid;
 
 @Controller
-public class AuthenticationController {
+public class RegistrationController {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationService authenticationService;
@@ -26,29 +25,12 @@ public class AuthenticationController {
 
 
     @Autowired
-    public AuthenticationController(PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService) {
+    public RegistrationController(PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationService = authenticationService;
         this.userService = userService;
     }
 
-
-    @RequestMapping(value = {"/login/error"}, method = RequestMethod.GET)
-    public ModelAndView loginError() {
-        ModelAndView modelAndView = new ModelAndView("registration");
-//переправить страница в доступе отказано сделать 404 нот фаунд
-        modelAndView.addObject("isLoginOrPasswordWrong", true);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-                              @RequestParam(value = "logout", required = false) String logout) {
-        ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("error", error != null);
-        modelAndView.addObject("logout", logout != null);
-        return modelAndView;
-    }
 
     @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
     public ModelAndView registrationTry(Model model) {
@@ -82,5 +64,6 @@ public class AuthenticationController {
         }
         return modelAndView;
     }
+
 
 }

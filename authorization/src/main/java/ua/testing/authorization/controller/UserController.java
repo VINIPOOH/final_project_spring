@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.User;
 import ua.testing.authorization.exception.AskedDataIsNotExist;
-import ua.testing.authorization.repository.DeliveryRepository;
 import ua.testing.authorization.service.DeliveryProcessService;
 import ua.testing.authorization.service.UserService;
 
@@ -18,28 +17,24 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class UserProfileController {
+public class UserController {
 
     private final DeliveryProcessService deliveryProcessService;
     private final UserService userService;
-    private final DeliveryRepository deliveryRepository;
 
     @Autowired
-    public UserProfileController(DeliveryProcessService deliveryProcessService, UserService userService, DeliveryRepository deliveryRepository) {
+    public UserController(DeliveryProcessService deliveryProcessService, UserService userService) {
         this.deliveryProcessService = deliveryProcessService;
-
         this.userService = userService;
-        this.deliveryRepository = deliveryRepository;
     }
-
 
     @RequestMapping(value = {"/user/delivers-to-get"}, method = RequestMethod.GET)
     public ModelAndView userNotGottenDelivers(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
         ModelAndView modelAndView = new ModelAndView("user/user-deliverys-to-get");
-        User user = (User) httpSession.getAttribute(SessionConstants.SESSION_USER.name());
+        User user = (User) httpSession.getAttribute(SessionConstants.SESSION_USER);
         if (user == null) {
             user = userService.findByEmail(userDetails.getUsername());
-            httpSession.setAttribute(SessionConstants.SESSION_USER.name(), user);
+            httpSession.setAttribute(SessionConstants.SESSION_USER, user);
         }
         List<Delivery> deliveriesWhichAddressedForUser = deliveryProcessService.getNotTakenDeliversByUserId(user.getId());
         modelAndView.addObject("deliveriesWhichAddressedForUser", deliveriesWhichAddressedForUser);
@@ -57,7 +52,8 @@ public class UserProfileController {
     @RequestMapping(value = {"/user/userprofile"}, method = RequestMethod.GET)
     public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByEmail(userDetails.getUsername());
-        httpSession.setAttribute(SessionConstants.SESSION_USER.name(), user);
+//        httpSession.setAttribute(SessionConstants.SESSION_USER.name(), user);
+        httpSession.setAttribute(SessionConstants.SESSION_USER, user);
         ModelAndView view = new ModelAndView("user/userprofile");
         view.addObject(user);
         return view;

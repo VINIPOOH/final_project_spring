@@ -1,5 +1,5 @@
 package ua.testing.authorization.controller;
 
-public enum SessionConstants {
-    SESSION_USER
+public interface SessionConstants {
+    String SESSION_USER ="user";
 }

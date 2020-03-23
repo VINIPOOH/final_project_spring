@@ -4,9 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ua.testing.authorization.entity.Delivery;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
-import javax.persistence.Query;
 import java.util.List;
 
 @Repository

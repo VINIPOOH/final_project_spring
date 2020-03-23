@@ -66,12 +66,12 @@ public class DeliveryProcessService {
         return localityRepository.findAll();
     }
 
-    public List<Delivery> getNotTakenDeliversByUserId(long userId){
+    public List<Delivery> getNotTakenDeliversByUserId(long userId) {
         return deliveryRepository.findAllByIsPackageReceivedFalseAndAddressee_Id(userId);
     }
 
     public void configmGetingDelivery(long deliveryId) throws AskedDataIsNotExist {
-        Delivery deliveryToUpdate=deliveryRepository.findById(deliveryId).orElseThrow(()->new AskedDataIsNotExist());
+        Delivery deliveryToUpdate = deliveryRepository.findById(deliveryId).orElseThrow(() -> new AskedDataIsNotExist());
         deliveryToUpdate.setIsPackageReceived(true);
         deliveryRepository.save(deliveryToUpdate);
     }

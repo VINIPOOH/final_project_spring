@@ -1,26 +1,22 @@
 package ua.testing.authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.entity.Delivery;
-import ua.testing.authorization.entity.Locality;
-import ua.testing.authorization.entity.TariffWeightFactor;
-import ua.testing.authorization.entity.Way;
 import ua.testing.authorization.repository.DeliveryRepository;
 import ua.testing.authorization.repository.UserRepository;
 import ua.testing.authorization.repository.WayRepository;
+
 import java.time.LocalDate;
-import java.util.LinkedList;
 
 @Service
 public class DataAder {
 
-    private  WayRepository wayRepository;
+    private WayRepository wayRepository;
 
-    private  DeliveryRepository deliveryRepository;
+    private DeliveryRepository deliveryRepository;
 
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public DataAder(WayRepository wayRepository, DeliveryRepository deliveryRepository, UserRepository userRepository) {
@@ -53,7 +49,7 @@ public class DataAder {
                 .addresser(userRepository.findByEmail("a@1").get())
                 .arrivalDate(LocalDate.now())
                 .isPackageReceived(false)
-                .way(wayRepository.findByLocalitySand_IdAndLocalityGet_Id(4,3).get())
+                .way(wayRepository.findByLocalitySand_IdAndLocalityGet_Id(4, 3).get())
                 .build();
         deliveryRepository.save(delivery);
     }
