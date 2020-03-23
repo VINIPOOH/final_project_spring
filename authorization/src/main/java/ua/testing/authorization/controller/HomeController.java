@@ -3,20 +3,18 @@ package ua.testing.authorization.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ua.testing.authorization.dto.DeliveryCostAndTimeDto;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
-import ua.testing.authorization.entity.Locality;
 import ua.testing.authorization.exception.NoSuchWayException;
 import ua.testing.authorization.exception.UnsupportableWeightFactorException;
 import ua.testing.authorization.service.DeliveryProcessService;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class HomeController {
@@ -31,28 +29,34 @@ public class HomeController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
-        modelAndView.addObject(deliveryProcessService.getLocalitis());
+        modelAndView.addObject(deliveryProcessService.getLocalities());
         return modelAndView;
     }
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.POST)
     public ModelAndView homeCount
-            (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("home");
-        //TODO
-        modelAndView.addObject(deliveryInfoRequestDto);
+            (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult,
+             RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException {
+        ModelAndView modelAndView = new ModelAndView("redirect:/home");
         if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
             return modelAndView;
         }
-        try {
-            DeliveryCostAndTimeDto deliveryCostAndTimeDto =
-                    deliveryProcessService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
-            modelAndView.addObject(deliveryCostAndTimeDto);
-        } catch (NoSuchWayException e) {
-            modelAndView.addObject("noSuchWayException", true);
-        } catch (UnsupportableWeightFactorException e) {
-            modelAndView.addObject("unsupportableWeightFactorException", true);
-        }
+        redirectAttributes
+                .addFlashAttribute(deliveryProcessService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
         return modelAndView;
+    }
+
+    @ExceptionHandler(NoSuchWayException.class)
+    public ModelAndView noSuchWayExceptionHandling(RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("noSuchWayException", true);
+        return new ModelAndView("redirect:/home");
+    }
+
+    @ExceptionHandler(UnsupportableWeightFactorException.class)
+    public ModelAndView unsupportableWeightFactorException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("unsupportableWeightFactorException", true);
+        return new ModelAndView("redirect:/home");
     }
 }

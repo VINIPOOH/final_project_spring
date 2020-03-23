@@ -45,7 +45,7 @@ public class UserController {
 
     @RequestMapping(value = {"/user/delivers-to-get"}, method = RequestMethod.POST)
     public String userNotGottenDeliversConfirmGettingDelivery(int deliveryId) throws AskedDataIsNotExist {
-        deliveryProcessService.configmGetingDelivery(deliveryId);
+        deliveryProcessService.confirmGettingDelivery(deliveryId);
         return "redirect:/user/delivers-to-get";
     }
 

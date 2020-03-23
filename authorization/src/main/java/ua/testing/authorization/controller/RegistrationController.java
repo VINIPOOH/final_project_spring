@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.authorization.dto.RegistrationInfoDto;
 import ua.testing.authorization.exception.OccupiedLoginException;
-import ua.testing.authorization.service.AuthenticationService;
 import ua.testing.authorization.service.UserService;
 
 import javax.validation.Valid;
@@ -23,13 +22,11 @@ public class RegistrationController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
-
     @Autowired
     public RegistrationController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
     }
-
 
     @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
     public ModelAndView registrationTry(Model model) {
@@ -52,7 +49,7 @@ public class RegistrationController {
     }
 
     @ExceptionHandler(OccupiedLoginException.class)
-    public ModelAndView occupiedLoginExceptionHandling(){
+    public ModelAndView occupiedLoginExceptionHandling() {
         return new ModelAndView("redirect:/registration");
     }
 

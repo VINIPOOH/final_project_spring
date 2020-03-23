@@ -32,12 +32,14 @@ public class DeliveryProcessService {
         this.deliveryRepository = deliveryRepository;
     }
 
-    public DeliveryCostAndTimeDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto) throws NoSuchWayException, UnsupportableWeightFactorException {
+    public DeliveryCostAndTimeDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
+            throws NoSuchWayException, UnsupportableWeightFactorException {
         Way way = getWay(deliveryInfoRequestDto);
         int deliveryCost;
         try {
             deliveryCost = calculateDeliveryCost(deliveryInfoRequestDto.getDeliveryWeight(), way);
         } catch (AskedDataIsNotExist askedDataIsNotExist) {
+            System.out.println(askedDataIsNotExist.toString());
             throw new UnsupportableWeightFactorException(deliveryInfoRequestDto);
         }
         return DeliveryCostAndTimeDto.builder()
@@ -50,7 +52,7 @@ public class DeliveryProcessService {
         int overPayOnKilometerForWeight = way.getWayTariffs().stream()
                 .filter(x -> x.getMinWeightRange() <= deliveryWeight
                         && x.getMaxWeightRange() > deliveryWeight)
-                .findFirst().orElseThrow(() -> new AskedDataIsNotExist())
+                .findFirst().orElseThrow(AskedDataIsNotExist::new)
                 .getOverPayOnKilometer();
         int totalKilometerPrice = overPayOnKilometerForWeight + way.getPriceForKilometerInCents();
         return totalKilometerPrice * way.getDistanceInKilometres();
@@ -62,7 +64,7 @@ public class DeliveryProcessService {
                 .orElseThrow(() -> new NoSuchWayException(deliveryInfoRequestDto));
     }
 
-    public List<Locality> getLocalitis() {
+    public List<Locality> getLocalities() {
         return localityRepository.findAll();
     }
 
@@ -70,7 +72,7 @@ public class DeliveryProcessService {
         return deliveryRepository.findAllByIsPackageReceivedFalseAndAddressee_Id(userId);
     }
 
-    public void configmGetingDelivery(long deliveryId) throws AskedDataIsNotExist {
+    public void confirmGettingDelivery(long deliveryId) throws AskedDataIsNotExist {
         Delivery deliveryToUpdate = deliveryRepository.findById(deliveryId).orElseThrow(() -> new AskedDataIsNotExist());
         deliveryToUpdate.setIsPackageReceived(true);
         deliveryRepository.save(deliveryToUpdate);

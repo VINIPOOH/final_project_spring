@@ -44,7 +44,7 @@ public class UserService {
 
     }
 
-    private EntityMapper<User, RegistrationInfoDto> getMapper(){
+    private EntityMapper<User, RegistrationInfoDto> getMapper() {
         return (registration) -> User.builder()
                 .accountNonExpired(true)
                 .credentialsNonExpired(true)

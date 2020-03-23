@@ -7,9 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.testing.authorization.dto.RegistrationInfoDto;
-import ua.testing.authorization.entity.RoleType;
-import ua.testing.authorization.entity.User;
 import ua.testing.authorization.repository.UserRepository;
 
 @Service

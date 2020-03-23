@@ -3,6 +3,7 @@ package ua.testing.authorization.dto;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -14,8 +15,8 @@ public class DeliveryInfoRequestDto {
     private int deliveryWeight;
 
     @PositiveOrZero
-    private int localitySandID;
+    private long localitySandID;
 
     @PositiveOrZero
-    private int localityGetID;
+    private long localityGetID;
 }
