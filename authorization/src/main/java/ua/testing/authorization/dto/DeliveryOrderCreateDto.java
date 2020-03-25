@@ -3,13 +3,13 @@ package ua.testing.authorization.dto;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Data
 @ToString
-public class DeliveryInfoRequestDto {
-
+public class DeliveryOrderCreateDto {
     @Positive
     private int deliveryWeight;
 
@@ -18,4 +18,8 @@ public class DeliveryInfoRequestDto {
 
     @PositiveOrZero
     private long localityGetID;
+    @Email
+    private String addresseeEmail;
+
+    private String addresserEmail;
 }

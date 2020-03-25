@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
-    List<Delivery> findAllByIsPackageReceivedFalseAndAddressee_Id(Long addressee_id);
+    List<Delivery> findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(Long addressee_id);
 
 
 }

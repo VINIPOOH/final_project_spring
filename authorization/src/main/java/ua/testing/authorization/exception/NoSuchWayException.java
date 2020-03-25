@@ -9,4 +9,7 @@ public class NoSuchWayException extends Exception {
     public NoSuchWayException(DeliveryInfoRequestDto deliveryInfoRequestDto) {
         this.deliveryInfoRequestDto = deliveryInfoRequestDto;
     }
+
+    public NoSuchWayException() {
+    }
 }

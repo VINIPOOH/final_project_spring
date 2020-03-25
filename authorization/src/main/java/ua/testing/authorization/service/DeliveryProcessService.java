@@ -4,28 +4,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.DeliveryCostAndTimeDto;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
+import ua.testing.authorization.dto.DeliveryOrderCreateDto;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.Locality;
 import ua.testing.authorization.entity.Way;
 import ua.testing.authorization.exception.AskedDataIsNotExist;
+import ua.testing.authorization.exception.NoSuchUserException;
 import ua.testing.authorization.exception.NoSuchWayException;
 import ua.testing.authorization.exception.UnsupportableWeightFactorException;
-import ua.testing.authorization.repository.DeliveryRepository;
-import ua.testing.authorization.repository.LocalityRepository;
-import ua.testing.authorization.repository.TariffWeightFactorRepository;
-import ua.testing.authorization.repository.WayRepository;
+import ua.testing.authorization.repository.*;
 
 import java.util.List;
 
 @Service
 public class DeliveryProcessService {
+    private final UserRepository userRepository;
     private final LocalityRepository localityRepository;
     private final WayRepository wayRepository;
     private final TariffWeightFactorRepository tariffWeightFactorRepository;
     private final DeliveryRepository deliveryRepository;
 
     @Autowired
-    public DeliveryProcessService(LocalityRepository localityRepository, WayRepository wayRepository, TariffWeightFactorRepository tariffWeightFactorRepository, DeliveryRepository deliveryRepository) {
+    public DeliveryProcessService(UserRepository userRepository, LocalityRepository localityRepository, WayRepository wayRepository, TariffWeightFactorRepository tariffWeightFactorRepository, DeliveryRepository deliveryRepository) {
+        this.userRepository = userRepository;
         this.localityRepository = localityRepository;
         this.wayRepository = wayRepository;
         this.tariffWeightFactorRepository = tariffWeightFactorRepository;
@@ -59,9 +60,13 @@ public class DeliveryProcessService {
     }
 
     private Way getWay(DeliveryInfoRequestDto deliveryInfoRequestDto) throws NoSuchWayException {
-        return wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryInfoRequestDto.getLocalitySandID()
-                , deliveryInfoRequestDto.getLocalityGetID())
-                .orElseThrow(() -> new NoSuchWayException(deliveryInfoRequestDto));
+        return getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());
+    }
+
+    private Way getWay(long localitySandId, long localityGetId) throws NoSuchWayException {
+        return wayRepository.findByLocalitySand_IdAndLocalityGet_Id(localitySandId
+                , localityGetId)
+                .orElseThrow(NoSuchWayException::new);
     }
 
     public List<Locality> getLocalities() {
@@ -69,12 +74,23 @@ public class DeliveryProcessService {
     }
 
     public List<Delivery> getNotTakenDeliversByUserId(long userId) {
-        return deliveryRepository.findAllByIsPackageReceivedFalseAndAddressee_Id(userId);
+        return deliveryRepository.findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(userId);
     }
 
     public void confirmGettingDelivery(long deliveryId) throws AskedDataIsNotExist {
         Delivery deliveryToUpdate = deliveryRepository.findById(deliveryId).orElseThrow(() -> new AskedDataIsNotExist());
         deliveryToUpdate.setIsPackageReceived(true);
         deliveryRepository.save(deliveryToUpdate);
+    }
+
+    public void сreateDeliveryOrder(DeliveryOrderCreateDto deliveryOrderCreateDto) throws NoSuchUserException, NoSuchWayException {
+
+        deliveryRepository.save(Delivery.builder()
+                .addressee(userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).get())
+                .addresser(userRepository.findByEmail(deliveryOrderCreateDto.getAddresserEmail()).orElseThrow(NoSuchUserException::new))
+                .way(getWay(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID()))
+                .isPackageReceived(false)
+                .isDeliveryPaid(false)
+                .build());
     }
 }

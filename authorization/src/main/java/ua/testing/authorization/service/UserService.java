@@ -44,6 +44,11 @@ public class UserService {
 
     }
 
+    public void replenishAccountBalance(User user, int amountMoney) {
+        user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);
+        userRepository.save(user);
+    }
+
     private EntityMapper<User, RegistrationInfoDto> getMapper() {
         return (registration) -> User.builder()
                 .accountNonExpired(true)
@@ -51,6 +56,7 @@ public class UserService {
                 .accountNonLocked(true)
                 .email(registration.getUsername())
                 .enabled(true)
+                .userMoneyInCents(0L)
                 .password(passwordEncoder.encode(registration.getPassword()))
                 .roleType(RoleType.ROLE_USER)
                 .build();

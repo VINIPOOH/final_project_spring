@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:fragment="baseTymelifeLinks" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:fragment="head_base_data">
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -9,15 +9,14 @@
     </head>
     <body th:fragment="header">
         <div class="row border border-green">
-            <nav class="navbar navbar-default col-md-8",>
-                <div class="container-fluid row">
+            <nav class="navbar navbar-default col-md-8">
+                <div class="container-fluid">
                     <div class="navbar-header col-md-2">
                         <a th:href="@{/home}" class="navbar-brand" th:text="#{layout.header.logo}"></a>
                     </div>
-                    <div class="col-md-10 rov">
-                        <ul class="nav navbar-nav col-md-1">
-                            <li class="active"><a th:href="@{/home}" th:text="#{layout.header.homepage}"></a></li>
-                        </ul>
+                    <div class="col-md-10 row justify-content-start">
+                        <a class="col-2"  th:href="@{/home}" th:text="#{layout.header.homepage}"></a>
+                        <a class="col-2" th:href="@{/user/userprofile}" th:text="#{layout.userheader.cabinet}"></a>
                     </div>
                 </div>
             </nav>
@@ -48,9 +47,14 @@
         <div class="row border border-secondary">
             <nav class="navbar navbar-default col-md-12",>
                 <div class="container-fluid row">
-                    <ul class="nav navbar-nav col-md-2 btn">
-                        <li class="active"><a th:href="@{/user/delivers-to-get}" th:text="#{layout.userheader.not.gotten.delivers}"></a></li>
-                    </ul>
+                    <div class="col-md-10 row justify-content-start">
+
+                        <a class="col-2" th:href="@{/user/delivers-to-get}" th:text="#{layout.userheader.not.gotten.delivers}"></a>
+                        <a class="col-1" th:href="@{/user/userprofile}" th:text="#{layout.userheader.balance}"></a>
+                        <a class="col-2" th:href="@{/user/user-delivery-initiation}" th:text="#{layout.userheader.delivery.initiation}"></a>
+                        <a class="col-2" th:href="@{/user/user-delivery-initiation}" th:text="#{layout.userheader.delivery.pay}"></a>
+
+                    </div>
                 </div>
             </nav>
         </div>

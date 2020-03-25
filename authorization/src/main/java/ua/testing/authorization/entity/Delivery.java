@@ -20,7 +20,7 @@ public class Delivery {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "arrivalDate", nullable = false)
+    @Column(name = "arrivalDate", nullable = true)
     private LocalDate arrivalDate;
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "way_id")
@@ -32,4 +32,5 @@ public class Delivery {
     @JoinColumn(name = "addresser_id")
     private User addresser;
     private Boolean isPackageReceived;
+    private Boolean isDeliveryPaid;
 }
