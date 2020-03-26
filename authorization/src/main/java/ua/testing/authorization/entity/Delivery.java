@@ -19,18 +19,18 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
-
-    @Column(name = "arrivalDate", nullable = true)
     private LocalDate arrivalDate;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "way_id")
     private Way way;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addressee_id")
     private User addressee;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addresser_id")
     private User addresser;
     private Boolean isPackageReceived;
     private Boolean isDeliveryPaid;
+    private int weight;
+    private long costInCents;
 }

@@ -7,13 +7,13 @@ import ua.testing.authorization.dto.DeliveryInfoRequestDto;
 import ua.testing.authorization.dto.DeliveryOrderCreateDto;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.Locality;
+import ua.testing.authorization.entity.User;
 import ua.testing.authorization.entity.Way;
-import ua.testing.authorization.exception.AskedDataIsNotExist;
-import ua.testing.authorization.exception.NoSuchUserException;
-import ua.testing.authorization.exception.NoSuchWayException;
-import ua.testing.authorization.exception.UnsupportableWeightFactorException;
+import ua.testing.authorization.exception.*;
 import ua.testing.authorization.repository.*;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -45,7 +45,7 @@ public class DeliveryProcessService {
         }
         return DeliveryCostAndTimeDto.builder()
                 .costInCents(deliveryCost)
-                .timeOnWayInHours(way.getTimeOnWayInHours())
+                .timeOnWayInHours(way.getTimeOnWayInDays())
                 .build();
     }
 
@@ -73,7 +73,7 @@ public class DeliveryProcessService {
         return localityRepository.findAll();
     }
 
-    public List<Delivery> getNotTakenDeliversByUserId(long userId) {
+    public List<Delivery> getPricesAndNotTakenDeliversByUserId(long userId) {
         return deliveryRepository.findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(userId);
     }
 
@@ -83,14 +83,39 @@ public class DeliveryProcessService {
         deliveryRepository.save(deliveryToUpdate);
     }
 
-    public void сreateDeliveryOrder(DeliveryOrderCreateDto deliveryOrderCreateDto) throws NoSuchUserException, NoSuchWayException {
+    public void createDeliveryOrder(DeliveryOrderCreateDto deliveryOrderCreateDto) throws NoSuchUserException, NoSuchWayException, AskedDataIsNotExist {
 
+        Way way = getWay(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID());
         deliveryRepository.save(Delivery.builder()
                 .addressee(userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).get())
                 .addresser(userRepository.findByEmail(deliveryOrderCreateDto.getAddresserEmail()).orElseThrow(NoSuchUserException::new))
-                .way(getWay(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID()))
+                .way(way)
                 .isPackageReceived(false)
                 .isDeliveryPaid(false)
+                .costInCents(calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way))
                 .build());
     }
+
+    public List<Delivery> getNotPayedDeliversByUserId(long userId) {
+        return deliveryRepository.findAllByIsDeliveryPaidFalseAndAddresser_Id(userId);
+    }
+
+
+    @Transactional
+    public Delivery payForDelivery(long deliveryId, long userId) throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NoSuchUserException, NotEnoughMoneyException {
+        Delivery deliveryToUpdate = deliveryRepository.findById(deliveryId).orElseThrow(AskedDataIsNotExist::new);
+        if (deliveryToUpdate.getIsDeliveryPaid()) {
+            throw new DeliveryAlreadyPaidException();
+        }
+        User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
+        if (user.getUserMoneyInCents() < deliveryToUpdate.getCostInCents()) {
+            throw new NotEnoughMoneyException();
+        }
+        user.setUserMoneyInCents(user.getUserMoneyInCents() - deliveryToUpdate.getCostInCents());
+        deliveryToUpdate.setIsDeliveryPaid(true);
+        deliveryToUpdate.setAddresser(user);
+        deliveryToUpdate.setArrivalDate(LocalDate.now().plusDays(deliveryToUpdate.getWay().getTimeOnWayInDays()));
+        return deliveryRepository.save(deliveryToUpdate);
+    }
+
 }

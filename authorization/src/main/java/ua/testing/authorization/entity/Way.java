@@ -14,30 +14,30 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "way",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"localitySend_id", "localityGet_id"})})
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"locality_send_id", "locality_get_id"})})
 
 public class Way {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "localitySend_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "locality_send_id")
     private Locality localitySand;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "localityGet_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "locality_get_id")
     private Locality localityGet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "way")
     private List<Delivery> deliveries;
     private int distanceInKilometres;
-    private int timeOnWayInHours;
+    private int timeOnWayInDays;
     private int priceForKilometerInCents;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
-            name = "way_tariffWeightFactor",
+            name = "way_tariff_weight_factor",
             joinColumns = @JoinColumn(name = "way_id"),
-            inverseJoinColumns = @JoinColumn(name = "tariffWeightFactor_id"))
+            inverseJoinColumns = @JoinColumn(name = "tariff_weight_factor_id"))
     private List<TariffWeightFactor> wayTariffs;
 
     @Override

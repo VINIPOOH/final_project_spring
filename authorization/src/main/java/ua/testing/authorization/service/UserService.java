@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.RegistrationInfoDto;
 import ua.testing.authorization.entity.RoleType;
 import ua.testing.authorization.entity.User;
+import ua.testing.authorization.exception.NoSuchUserException;
 import ua.testing.authorization.exception.OccupiedLoginException;
 import ua.testing.authorization.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -44,9 +46,12 @@ public class UserService {
 
     }
 
-    public void replenishAccountBalance(User user, int amountMoney) {
+    @Transactional
+    public User replenishAccountBalance(long userId, long amountMoney) throws NoSuchUserException {
+        User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
         user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);
         userRepository.save(user);
+        return userRepository.findById(userId).get();
     }
 
     private EntityMapper<User, RegistrationInfoDto> getMapper() {

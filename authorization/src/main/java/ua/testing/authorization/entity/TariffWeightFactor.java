@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "way")
 public class TariffWeightFactor {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
