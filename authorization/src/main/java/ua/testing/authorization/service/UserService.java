@@ -6,10 +6,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.RegistrationInfoDto;
+import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.RoleType;
 import ua.testing.authorization.entity.User;
 import ua.testing.authorization.exception.NoSuchUserException;
 import ua.testing.authorization.exception.OccupiedLoginException;
+import ua.testing.authorization.repository.DeliveryRepository;
 import ua.testing.authorization.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -20,11 +22,13 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final DeliveryRepository deliveryRepository;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, DeliveryRepository deliveryRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.deliveryRepository = deliveryRepository;
     }
 
     public List<User> getAllUsers() {
@@ -44,6 +48,10 @@ public class UserService {
             throw new OccupiedLoginException(user);
         }
 
+    }
+
+    public List<Delivery> findDeliveryHistoryByUserId(long userId){
+        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId);
     }
 
     @Transactional

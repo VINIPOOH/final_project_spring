@@ -36,7 +36,7 @@ public class UserInfoController {
 
     @RequestMapping(value = {"/userprofile"}, method = RequestMethod.POST)
     public ModelAndView userProfileReplenish(HttpSession httpSession, int money) throws NoSuchUserException {
-        ModelAndView modelAndView = new ModelAndView("/user/userprofile");
+        ModelAndView modelAndView = new ModelAndView("user/userprofile");
         if (money <= 0) {
             modelAndView.addObject("incorrectMoney", true);
             return modelAndView;
@@ -44,4 +44,12 @@ public class UserInfoController {
         Util.addUserToSession(httpSession, userService.replenishAccountBalance(Util.getUserFromSession(httpSession).getId(), money));
         return modelAndView;
     }
+
+    @RequestMapping(value = "user-statistic", method = RequestMethod.GET)
+    public ModelAndView userStatistic(HttpSession httpSession){
+        ModelAndView modelAndView=new ModelAndView("user/user-statistic");
+        modelAndView.addObject("userDelivers",userService.findDeliveryHistoryByUserId(Util.getUserFromSession(httpSession).getId()));
+        return modelAndView;
+    }
+
 }

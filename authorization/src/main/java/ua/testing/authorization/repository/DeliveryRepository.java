@@ -12,4 +12,5 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(Long addressee_id);
 
     List<Delivery> findAllByIsDeliveryPaidFalseAndAddresser_Id(Long addresser_id);
+    List<Delivery> findAllByAddressee_IdOrAddresser_Id(Long addressee_id, Long addresser_id);
 }
