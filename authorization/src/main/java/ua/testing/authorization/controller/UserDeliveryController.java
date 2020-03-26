@@ -20,18 +20,19 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-public class UserController {
+@RequestMapping(value = {"/user/"})
+public class UserDeliveryController {
 
     private final DeliveryProcessService deliveryProcessService;
     private final UserService userService;
 
     @Autowired
-    public UserController(DeliveryProcessService deliveryProcessService, UserService userService) {
+    public UserDeliveryController(DeliveryProcessService deliveryProcessService, UserService userService) {
         this.deliveryProcessService = deliveryProcessService;
         this.userService = userService;
     }
 
-    @RequestMapping(value = {"/user/delivers-to-get"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.GET)
     public ModelAndView userNotGottenDelivers(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("user/user-deliverys-to-get");
         User user = Util.getUserFromSession(httpSession);
@@ -42,7 +43,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"/user/delivers-to-get"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.POST)
     public String userConfirmDeliveryPay(int deliveryId, HttpSession httpSession) throws AskedDataIsNotExist {
         User user = Util.getUserFromSession(httpSession);
         deliveryProcessService.confirmGettingDelivery(deliveryId);
@@ -50,7 +51,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"/user/user-delivery-initiation"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-initiation");
         modelAndView.addObject(new DeliveryOrderCreateDto());
@@ -58,7 +59,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/user/user-delivery-initiation"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.POST)
     public ModelAndView homeCount
             (@Valid @ModelAttribute DeliveryOrderCreateDto deliveryOrderCreateDto, BindingResult bindingResult,
              HttpSession httpSession, RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException, AskedDataIsNotExist {
@@ -74,7 +75,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/user/user-delivery-request-confirm"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"user-delivery-request-confirm"}, method = RequestMethod.GET)
     public ModelAndView userConfirmDelivers(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-request-confirm");
         User user = Util.getUserFromSession(httpSession);
@@ -84,8 +85,9 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"/user/user-delivery-request-confirm"}, method = RequestMethod.POST)
-    public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId) throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NotEnoughMoneyException, NoSuchUserException {
+    @RequestMapping(value = {"user-delivery-request-confirm"}, method = RequestMethod.POST)
+    public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId)
+            throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NotEnoughMoneyException, NoSuchUserException {
         User user = Util.getUserFromSession(httpSession);
         Util.addUserToSession(httpSession, deliveryProcessService.payForDelivery(deliveryId, user.getId()).getAddresser());
         return "redirect:/user/user-delivery-request-confirm";
