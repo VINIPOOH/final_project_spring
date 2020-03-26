@@ -26,7 +26,7 @@ public class UserInfoController {
     @RequestMapping(value = {"/userprofile"}, method = RequestMethod.GET)
     public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
         ModelAndView view = new ModelAndView("user/userprofile");
-        if (!Util.getUserFromSession(httpSession).isPresent()) {
+        if (Util.getUserFromSession(httpSession)==null) {
             Util.addUserToSession(httpSession, userService.findByEmail(userDetails.getUsername()));
         }
         return view;
@@ -39,7 +39,7 @@ public class UserInfoController {
             modelAndView.addObject("incorrectMoney", true);
             return modelAndView;
         }
-        Util.addUserToSession(httpSession, userService.replenishAccountBalance(Util.getUserFromSession(httpSession).get().getId(), money));
+        Util.addUserToSession(httpSession, userService.replenishAccountBalance(Util.getUserFromSession(httpSession).getId(), money));
         return modelAndView;
     }
 }

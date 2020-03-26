@@ -7,8 +7,8 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class Util {
-    public static Optional<User> getUserFromSession(HttpSession httpSession) {
-        return Optional.ofNullable((User) httpSession.getAttribute(SessionConstants.SESSION_USER));
+    public static User getUserFromSession(HttpSession httpSession) {
+        return (User) httpSession.getAttribute(SessionConstants.SESSION_USER);
     }
 
     public static void addUserToSession(HttpSession httpSession, User user) {

@@ -34,7 +34,7 @@ public class UserController {
     @RequestMapping(value = {"/user/delivers-to-get"}, method = RequestMethod.GET)
     public ModelAndView userNotGottenDelivers(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("user/user-deliverys-to-get");
-        User user = Util.getUserFromSession(httpSession).get();
+        User user = Util.getUserFromSession(httpSession);
         modelAndView.addObject("deliveriesWhichAddressedForUser",
                 deliveryProcessService.getPricesAndNotTakenDeliversByUserId(user.getId()));
         modelAndView.addObject(user);
@@ -44,7 +44,7 @@ public class UserController {
 
     @RequestMapping(value = {"/user/delivers-to-get"}, method = RequestMethod.POST)
     public String userConfirmDeliveryPay(int deliveryId, HttpSession httpSession) throws AskedDataIsNotExist {
-        User user = Util.getUserFromSession(httpSession).get();
+        User user = Util.getUserFromSession(httpSession);
         deliveryProcessService.confirmGettingDelivery(deliveryId);
         return "redirect:/user/delivers-to-get";
     }
@@ -77,7 +77,7 @@ public class UserController {
     @RequestMapping(value = {"/user/user-delivery-request-confirm"}, method = RequestMethod.GET)
     public ModelAndView userConfirmDelivers(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-request-confirm");
-        User user = Util.getUserFromSession(httpSession).get();
+        User user = Util.getUserFromSession(httpSession);
         modelAndView.addObject("deliveriesWhichIsNotPaid", deliveryProcessService.getNotPayedDeliversByUserId(user.getId()));
         modelAndView.addObject(user);
         return modelAndView;
@@ -86,7 +86,7 @@ public class UserController {
 
     @RequestMapping(value = {"/user/user-delivery-request-confirm"}, method = RequestMethod.POST)
     public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId) throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NotEnoughMoneyException, NoSuchUserException {
-        User user = Util.getUserFromSession(httpSession).get();
+        User user = Util.getUserFromSession(httpSession);
         Util.addUserToSession(httpSession, deliveryProcessService.payForDelivery(deliveryId, user.getId()).getAddresser());
         return "redirect:/user/user-delivery-request-confirm";
     }
