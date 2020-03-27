@@ -12,23 +12,26 @@ import ua.testing.authorization.dto.DeliveryInfoRequestDto;
 import ua.testing.authorization.exception.NoSuchWayException;
 import ua.testing.authorization.exception.UnsupportableWeightFactorException;
 import ua.testing.authorization.service.DeliveryProcessService;
+import ua.testing.authorization.service.LocalityService;
 
 import javax.validation.Valid;
 
 @Controller
 public class HomeController {
     private final DeliveryProcessService deliveryProcessService;
+    private final LocalityService localityService;
 
     @Autowired
-    public HomeController(DeliveryProcessService deliveryProcessService) {
+    public HomeController(DeliveryProcessService deliveryProcessService, LocalityService localityService) {
         this.deliveryProcessService = deliveryProcessService;
+        this.localityService = localityService;
     }
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
-        modelAndView.addObject(deliveryProcessService.getLocalities());
+        modelAndView.addObject(localityService.getLocalities());
         return modelAndView;
     }
 

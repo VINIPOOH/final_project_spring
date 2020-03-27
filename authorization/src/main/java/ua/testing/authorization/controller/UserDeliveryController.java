@@ -14,6 +14,7 @@ import ua.testing.authorization.dto.DeliveryOrderCreateDto;
 import ua.testing.authorization.entity.User;
 import ua.testing.authorization.exception.*;
 import ua.testing.authorization.service.DeliveryProcessService;
+import ua.testing.authorization.service.LocalityService;
 import ua.testing.authorization.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -24,12 +25,12 @@ import javax.validation.Valid;
 public class UserDeliveryController {
 
     private final DeliveryProcessService deliveryProcessService;
-    private final UserService userService;
+    private final LocalityService localityService;
 
     @Autowired
-    public UserDeliveryController(DeliveryProcessService deliveryProcessService, UserService userService) {
+    public UserDeliveryController(DeliveryProcessService deliveryProcessService, LocalityService localityService) {
         this.deliveryProcessService = deliveryProcessService;
-        this.userService = userService;
+        this.localityService = localityService;
     }
 
     @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.GET)
@@ -52,17 +53,17 @@ public class UserDeliveryController {
 
 
     @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView userDeliveryInitiation() {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-initiation");
         modelAndView.addObject(new DeliveryOrderCreateDto());
-        modelAndView.addObject(deliveryProcessService.getLocalities());
+        modelAndView.addObject(localityService.getLocalities());
         return modelAndView;
     }
 
     @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.POST)
-    public ModelAndView homeCount
-            (@Valid @ModelAttribute DeliveryOrderCreateDto deliveryOrderCreateDto, BindingResult bindingResult,
-             HttpSession httpSession, RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException, AskedDataIsNotExist {
+    public ModelAndView userDeliveryInitiationPost(@Valid @ModelAttribute DeliveryOrderCreateDto deliveryOrderCreateDto,
+                                                   BindingResult bindingResult, HttpSession httpSession,
+                                                   RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException, AskedDataIsNotExist {
         ModelAndView modelAndView = new ModelAndView("redirect:/user/user-delivery-initiation");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
@@ -71,7 +72,6 @@ public class UserDeliveryController {
         deliveryOrderCreateDto.setAddresserEmail(
                 ((User) httpSession.getAttribute(SessionConstants.SESSION_USER)).getEmail());
         deliveryProcessService.createDeliveryOrder(deliveryOrderCreateDto);
-
         return modelAndView;
     }
 
