@@ -6,12 +6,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.RegistrationInfoDto;
-import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.RoleType;
 import ua.testing.authorization.entity.User;
 import ua.testing.authorization.exception.NoSuchUserException;
 import ua.testing.authorization.exception.OccupiedLoginException;
-import ua.testing.authorization.repository.DeliveryRepository;
 import ua.testing.authorization.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -22,13 +20,11 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final DeliveryRepository deliveryRepository;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, DeliveryRepository deliveryRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.deliveryRepository = deliveryRepository;
     }
 
     public List<User> getAllUsers() {
@@ -45,22 +41,15 @@ public class UserService {
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            throw new OccupiedLoginException(user);
+            throw new OccupiedLoginException();
         }
-
-    }
-
-
-    public List<Delivery> findDeliveryHistoryByUserId(long userId){
-        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId);
     }
 
     @Transactional
     public User replenishAccountBalance(long userId, long amountMoney) throws NoSuchUserException {
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
         user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);
-        userRepository.save(user);
-        return userRepository.findById(userId).get();
+        return userRepository.save(user);
     }
 
     private EntityMapper<User, RegistrationInfoDto> getMapper() {

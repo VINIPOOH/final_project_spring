@@ -9,7 +9,9 @@ import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.User;
 import ua.testing.authorization.entity.Way;
 import ua.testing.authorization.exception.*;
-import ua.testing.authorization.repository.*;
+import ua.testing.authorization.repository.DeliveryRepository;
+import ua.testing.authorization.repository.UserRepository;
+import ua.testing.authorization.repository.WayRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -26,6 +28,10 @@ public class DeliveryProcessService {
         this.userRepository = userRepository;
         this.wayRepository = wayRepository;
         this.deliveryRepository = deliveryRepository;
+    }
+
+    public List<Delivery> findDeliveryHistoryByUserId(long userId) {
+        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId);
     }
 
     public List<Delivery> getPricesAndNotTakenDeliversByUserId(long userId) {
@@ -45,7 +51,7 @@ public class DeliveryProcessService {
     @Transactional
     public Delivery payForDelivery(long deliveryId, long userId) throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NoSuchUserException, NotEnoughMoneyException {
         Delivery deliveryToUpdate = getDeliveryOrException(deliveryId);
-        User user = getUserOrException(userId, deliveryToUpdate);        ;
+        User user = getUserOrException(userId, deliveryToUpdate);
         return deliveryRepository.save(prepareDeliverySaveData(deliveryToUpdate, user));
     }
 
@@ -80,7 +86,7 @@ public class DeliveryProcessService {
 
     public DeliveryCostAndTimeDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
             throws NoSuchWayException, UnsupportableWeightFactorException {
-        Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(),deliveryInfoRequestDto.getLocalityGetID());
+        Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());
         return DeliveryCostAndTimeDto.builder()
                 .costInCents(calculateDeliveryCost(deliveryInfoRequestDto.getDeliveryWeight(), way))
                 .timeOnWayInHours(way.getTimeOnWayInDays())

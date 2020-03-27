@@ -4,7 +4,6 @@ import ua.testing.authorization.controller.SessionConstants;
 import ua.testing.authorization.entity.User;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 public class Util {
     public static User getUserFromSession(HttpSession httpSession) {

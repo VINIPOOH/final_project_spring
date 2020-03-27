@@ -15,7 +15,6 @@ import ua.testing.authorization.entity.User;
 import ua.testing.authorization.exception.*;
 import ua.testing.authorization.service.DeliveryProcessService;
 import ua.testing.authorization.service.LocalityService;
-import ua.testing.authorization.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -45,8 +44,7 @@ public class UserDeliveryController {
 
 
     @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.POST)
-    public String userConfirmDeliveryPay(int deliveryId, HttpSession httpSession) throws AskedDataIsNotExist {
-        User user = Util.getUserFromSession(httpSession);
+    public String userConfirmDeliveryPay(int deliveryId) throws AskedDataIsNotExist {
         deliveryProcessService.confirmGettingDelivery(deliveryId);
         return "redirect:/user/delivers-to-get";
     }
@@ -63,7 +61,7 @@ public class UserDeliveryController {
     @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.POST)
     public ModelAndView userDeliveryInitiationPost(@Valid @ModelAttribute DeliveryOrderCreateDto deliveryOrderCreateDto,
                                                    BindingResult bindingResult, HttpSession httpSession,
-                                                   RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException, AskedDataIsNotExist {
+                                                   RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException {
         ModelAndView modelAndView = new ModelAndView("redirect:/user/user-delivery-initiation");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
@@ -88,8 +86,8 @@ public class UserDeliveryController {
     @RequestMapping(value = {"user-delivery-request-confirm"}, method = RequestMethod.POST)
     public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId)
             throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NotEnoughMoneyException, NoSuchUserException {
-        User user = Util.getUserFromSession(httpSession);
-        Util.addUserToSession(httpSession, deliveryProcessService.payForDelivery(deliveryId, user.getId()).getAddresser());
+        Util.addUserToSession(httpSession,
+                deliveryProcessService.payForDelivery(deliveryId,Util.getUserFromSession(httpSession).getId()).getAddresser());
         return "redirect:/user/user-delivery-request-confirm";
     }
 

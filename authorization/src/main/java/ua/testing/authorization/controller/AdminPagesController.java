@@ -6,18 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ua.testing.authorization.DataAder;
 import ua.testing.authorization.service.UserService;
 
 @Controller
 public class AdminPagesController {
 
-    private final DataAder dataAder;
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public AdminPagesController(DataAder dataAder, UserService userService) {
-        this.dataAder = dataAder;
+    public AdminPagesController(UserService userService) {
         this.userService = userService;
     }
 
@@ -28,11 +25,11 @@ public class AdminPagesController {
         view.addObject(userService.getAllUsers());
         return view;
     }
+
     @RequestMapping(value = {"/admin/addData"}, method = RequestMethod.GET)
     public ModelAndView addData() {
-        ModelAndView view = new ModelAndView("redirect:/login");
-       // dataAder.run();
-        return view;
+        // dataAdder.run();
+        return new ModelAndView("redirect:/login");
     }
 
 }
