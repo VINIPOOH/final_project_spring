@@ -50,6 +50,7 @@ public class UserService {
 
     }
 
+
     public List<Delivery> findDeliveryHistoryByUserId(long userId){
         return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId);
     }

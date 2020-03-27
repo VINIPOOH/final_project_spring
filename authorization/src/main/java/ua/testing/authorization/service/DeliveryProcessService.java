@@ -91,6 +91,7 @@ public class DeliveryProcessService {
                 .addresser(userRepository.findByEmail(deliveryOrderCreateDto.getAddresserEmail()).orElseThrow(NoSuchUserException::new))
                 .way(way)
                 .isPackageReceived(false)
+                .weight(deliveryOrderCreateDto.getDeliveryWeight())
                 .isDeliveryPaid(false)
                 .costInCents(calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way))
                 .build());
@@ -99,7 +100,6 @@ public class DeliveryProcessService {
     public List<Delivery> getNotPayedDeliversByUserId(long userId) {
         return deliveryRepository.findAllByIsDeliveryPaidFalseAndAddresser_Id(userId);
     }
-
 
     @Transactional
     public Delivery payForDelivery(long deliveryId, long userId) throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NoSuchUserException, NotEnoughMoneyException {
