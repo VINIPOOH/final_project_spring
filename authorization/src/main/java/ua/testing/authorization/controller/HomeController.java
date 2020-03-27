@@ -3,6 +3,7 @@ package ua.testing.authorization.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,5 +48,17 @@ public class HomeController {
         redirectAttributes
                 .addFlashAttribute(deliveryProcessService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
         return modelAndView;
+    }
+
+    @ExceptionHandler(NoSuchWayException.class)
+    public ModelAndView noSuchWayExceptionHandling(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("noSuchWayException", true);
+        return new ModelAndView("redirect:/home");
+    }
+
+    @ExceptionHandler(UnsupportableWeightFactorException.class)
+    public ModelAndView unsupportableWeightFactorException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("unsupportableWeightFactorException", true);
+        return new ModelAndView("redirect:/home");
     }
 }

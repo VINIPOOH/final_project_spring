@@ -18,7 +18,7 @@
                     <form  id="form" class="form" method="post" th:action="@{/user/user-delivery-initiation}" th:object="${deliveryOrderCreateDto}" >
                         <div>
                         <div class="alert alert-danger" role="alert" th:if="${incorrectWeightInput}">
-                            <p th:text="#{registrationpage.form.weight.incorect}"></p>
+                            <p th:text="#{homepage.form.weight.incorect}"></p>
                         </div>
                         <div class="alert alert-danger" role="alert" th:if="${unsupportableWeightFactorException}">
                             <p th:text="#{registrationpage.form.weight.wrong}"></p>
