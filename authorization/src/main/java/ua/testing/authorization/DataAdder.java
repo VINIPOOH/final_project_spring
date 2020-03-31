@@ -36,7 +36,6 @@ public class DataAdder {
                         .maxWeightRange(200)
                         .overPayOnKilometer(200)
                         .build());
-
         Way kievDnepropetrovsk = Way.builder()
                 .distanceInKilometres(477)
                 .localityGet(kiev)

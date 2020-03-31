@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 @Log4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -16,7 +17,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Throwable.class)
-    public String unCachedExceptionHandler(){
+    public String unCachedExceptionHandler() {
         return "405";
     }
 }

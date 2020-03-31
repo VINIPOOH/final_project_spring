@@ -16,11 +16,14 @@ import java.util.List;
 @Table(name = "tariff_weight_factor")
 public class TariffWeightFactor {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
+    @Column(nullable = false)
     private int minWeightRange;
+    @Column(nullable = false)
     private int maxWeightRange;
+    @Column(nullable = false)
     private int overPayOnKilometer;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "wayTariffs")

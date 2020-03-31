@@ -38,6 +38,7 @@ public class DeliveryProcessService {
         return deliveryRepository.findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(userId);
     }
 
+    @Transactional
     public void confirmGettingDelivery(long deliveryId) throws AskedDataIsNotExist {
         Delivery deliveryToUpdate = deliveryRepository.findById(deliveryId).orElseThrow(AskedDataIsNotExist::new);
         deliveryToUpdate.setIsPackageReceived(true);
@@ -63,6 +64,7 @@ public class DeliveryProcessService {
         return deliveryToUpdate;
     }
 
+    //lamda
     private User getUserOrException(long userId, Delivery deliveryToUpdate) throws NoSuchUserException, NotEnoughMoneyException {
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
         if (user.getUserMoneyInCents() < deliveryToUpdate.getCostInCents()) {
@@ -79,6 +81,7 @@ public class DeliveryProcessService {
         return deliveryToUpdate;
     }
 
+    @Transactional
     public void createDeliveryOrder(DeliveryOrderCreateDto deliveryOrderCreateDto) throws NoSuchUserException, NoSuchWayException, UnsupportableWeightFactorException {
         deliveryRepository.save(buildDelivery(deliveryOrderCreateDto,
                 getWay(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID())));
@@ -93,6 +96,7 @@ public class DeliveryProcessService {
                 .build();
     }
 
+    //разобраться с етой транзакцией (как вариант дабл чек)
     private Delivery buildDelivery(DeliveryOrderCreateDto deliveryOrderCreateDto, Way way) throws NoSuchUserException, UnsupportableWeightFactorException {
         return Delivery.builder()
                 .addressee(userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new))
@@ -117,8 +121,7 @@ public class DeliveryProcessService {
                         && x.getMaxWeightRange() > deliveryWeight)
                 .findFirst().orElseThrow(UnsupportableWeightFactorException::new)
                 .getOverPayOnKilometer();
-        int totalKilometerPrice = overPayOnKilometerForWeight + way.getPriceForKilometerInCents();
-        return totalKilometerPrice * way.getDistanceInKilometres();
+        return (overPayOnKilometerForWeight + way.getPriceForKilometerInCents()) * way.getDistanceInKilometres();
     }
 
 }

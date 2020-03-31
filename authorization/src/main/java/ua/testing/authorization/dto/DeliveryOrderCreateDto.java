@@ -8,7 +8,6 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Data
-@ToString
 public class DeliveryOrderCreateDto {
     @Positive
     private int deliveryWeight;

@@ -12,11 +12,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 @Entity
 public class Delivery {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
     private LocalDate arrivalDate;
@@ -29,8 +28,12 @@ public class Delivery {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addresser_id")
     private User addresser;
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private Boolean isPackageReceived;
+    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private Boolean isDeliveryPaid;
+    @Column(nullable = false)
     private int weight;
+    @Column(nullable = false)
     private long costInCents;
 }

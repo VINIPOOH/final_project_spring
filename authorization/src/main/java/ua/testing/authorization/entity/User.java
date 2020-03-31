@@ -23,26 +23,31 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "role")
+    @Column(name = "role", nullable = false, columnDefinition = "VARCHAR(255) default 'ROLE_USER'")
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false, columnDefinition = "BIGINT default 0")
     private Long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
     private List<Delivery> waysWhereThisLocalityIsSend;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addresser")
     private List<Delivery> waysWhereThisLocalityIsGet;
 
+    @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonExpired;
+    @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonLocked;
+    @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean credentialsNonExpired;
+    @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean enabled;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

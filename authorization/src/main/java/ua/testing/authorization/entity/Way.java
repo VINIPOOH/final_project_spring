@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Way {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -29,8 +29,11 @@ public class Way {
     private Locality localityGet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "way")
     private List<Delivery> deliveries;
+    @Column(nullable = false)
     private int distanceInKilometres;
+    @Column(nullable = false)
     private int timeOnWayInDays;
+    @Column(nullable = false)
     private int priceForKilometerInCents;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

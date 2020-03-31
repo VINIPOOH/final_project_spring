@@ -16,10 +16,12 @@ import java.util.List;
 @Entity
 public class Locality {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
+    @Column(nullable = false)
     private String nameRu;
+    @Column(nullable = false)
     private String nameEn;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "localitySand")
     private List<Way> waysWhereThisLocalityIsSend;
