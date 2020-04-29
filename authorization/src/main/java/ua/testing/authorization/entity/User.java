@@ -36,9 +36,9 @@ public class User implements UserDetails {
     @Column(nullable = false, columnDefinition = "BIGINT default 0")
     private Long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
-    private List<Delivery> waysWhereThisLocalityIsSend;
+    private List<Delivery> waysWhereThisUserIsSend;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addresser")
-    private List<Delivery> waysWhereThisLocalityIsGet;
+    private List<Delivery> waysWhereThisUserIsGet;
 
     @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonExpired;
@@ -48,6 +48,10 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired;
     @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean enabled;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Bill> bills;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

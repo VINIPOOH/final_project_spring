@@ -22,10 +22,10 @@ public class Way {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "locality_send_id")
+    @JoinColumn(name = "locality_send_id", nullable = false)
     private Locality localitySand;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "locality_get_id")
+    @JoinColumn(name = "locality_get_id", nullable = false)
     private Locality localityGet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "way")
     private List<Delivery> deliveries;

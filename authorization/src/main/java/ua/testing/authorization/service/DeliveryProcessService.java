@@ -1,6 +1,8 @@
 package ua.testing.authorization.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.DeliveryCostAndTimeDto;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
@@ -30,8 +32,8 @@ public class DeliveryProcessService {
         this.deliveryRepository = deliveryRepository;
     }
 
-    public List<Delivery> findDeliveryHistoryByUserId(long userId) {
-        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId);
+    public Page<Delivery> findDeliveryHistoryByUserId(long userId, Pageable pageable) {
+        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId, pageable);
     }
 
     public List<Delivery> getPricesAndNotTakenDeliversByUserId(long userId) {
@@ -57,17 +59,17 @@ public class DeliveryProcessService {
     }
 
     private Delivery prepareDeliverySaveData(Delivery deliveryToUpdate, User user) {
-        user.setUserMoneyInCents(user.getUserMoneyInCents() - deliveryToUpdate.getCostInCents());
-        deliveryToUpdate.setIsDeliveryPaid(true);
+        user.setUserMoneyInCents(user.getUserMoneyInCents() - deliveryToUpdate.getBill().getCostInCents());
+        deliveryToUpdate.getBill().setIsDeliveryPaid(true);
         deliveryToUpdate.setAddresser(user);
-        deliveryToUpdate.setArrivalDate(LocalDate.now().plusDays(deliveryToUpdate.getWay().getTimeOnWayInDays()));
+        deliveryToUpdate.getBill().setDateOfPay(LocalDate.now().plusDays(deliveryToUpdate.getWay().getTimeOnWayInDays()));
         return deliveryToUpdate;
     }
 
     //lamda
     private User getUserOrException(long userId, Delivery deliveryToUpdate) throws NoSuchUserException, NotEnoughMoneyException {
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
-        if (user.getUserMoneyInCents() < deliveryToUpdate.getCostInCents()) {
+        if (user.getUserMoneyInCents() < deliveryToUpdate.getBill().getCostInCents()) {
             throw new NotEnoughMoneyException();
         }
         return user;
@@ -75,7 +77,7 @@ public class DeliveryProcessService {
 
     private Delivery getDeliveryOrException(long deliveryId) throws AskedDataIsNotExist, DeliveryAlreadyPaidException {
         Delivery deliveryToUpdate = deliveryRepository.findById(deliveryId).orElseThrow(AskedDataIsNotExist::new);
-        if (deliveryToUpdate.getIsDeliveryPaid()) {
+        if (deliveryToUpdate.getBill().getIsDeliveryPaid()) {
             throw new DeliveryAlreadyPaidException();
         }
         return deliveryToUpdate;
@@ -104,8 +106,8 @@ public class DeliveryProcessService {
                 .way(way)
                 .isPackageReceived(false)
                 .weight(deliveryOrderCreateDto.getDeliveryWeight())
-                .isDeliveryPaid(false)
-                .costInCents(calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way))
+//                .isDeliveryPaid(false)
+//                .costInCents(calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way))
                 .build();
     }
 

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -18,22 +17,23 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
-    private LocalDate arrivalDate;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "way_id")
+    @JoinColumn(name = "way_id", nullable = false)
     private Way way;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "addressee_id")
+    @JoinColumn(name = "addressee_id", nullable = false)
     private User addressee;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "addresser_id")
+    @JoinColumn(name = "addresser_id", nullable = false)
     private User addresser;
     @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private Boolean isPackageReceived;
-    @Column(nullable = false, columnDefinition = "BIT(1) default 0")
-    private Boolean isDeliveryPaid;
+
     @Column(nullable = false)
     private int weight;
-    @Column(nullable = false)
-    private long costInCents;
+
+
+    @OneToOne(mappedBy = "delivery")
+    Bill bill;
 }

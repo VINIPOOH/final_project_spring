@@ -8,11 +8,25 @@
 <div th:include="~{layout/header.html::header}"></div>
 <div th:include="~{layout/header.html::userHeader}"></div>
 <div name="deliveries" class="container">
-    <div class="row border border-info mt-2 rounded" th:each="deliveryForUser : ${userDelivers}">
+    <div class="row border border-info mt-2 rounded" th:each="deliveryForUser : ${userDeliversPage}">
         <p1 th:text="${deliveryForUser.id}+${deliveryForUser.addressee.email}+${deliveryForUser.addresser.email}
 +${deliveryForUser.arrivalDate}+${deliveryForUser.costInCents}+${deliveryForUser.weight}
 +${deliveryForUser.isDeliveryPaid}+${deliveryForUser.isPackageReceived}+${deliveryForUser.way.localityGet.nameRu}
 +${deliveryForUser.way.localitySand.nameRu}"></p1>
+    </div>
+    <div class="pagination-div">
+    <span th:if="${userDeliversPage.hasPrevious()}">
+        <a th:href="@{/user/user-statistic(page=${userDeliversPage.number - 1},size=${userDeliversPage.size})}">Previous</a>
+    </span>
+        <th:block th:each="i : ${#numbers.sequence(0, userDeliversPage.totalPages - 1)}">
+            <span class="selected" th:if="${userDeliversPage.number == i}">[[${i}+1]]</span>
+            <span th:unless="${userDeliversPage.number == i}">
+             <a th:href="@{/user/user-statistic(page=${i},size=${userDeliversPage.size})}">[[${i}+1]]</a>
+        </span>
+        </th:block>
+        <span th:if="${userDeliversPage.hasNext()}">
+        <a th:href="@{/user/user-statistic(page=${userDeliversPage.number + 1},size=${userDeliversPage.size})}">Next</a>
+    </span>
     </div>
 </div>
 </body>

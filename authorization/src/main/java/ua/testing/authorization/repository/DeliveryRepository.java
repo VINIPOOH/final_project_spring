@@ -1,5 +1,7 @@
 package ua.testing.authorization.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ua.testing.authorization.entity.Delivery;
@@ -13,5 +15,5 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
     List<Delivery> findAllByIsDeliveryPaidFalseAndAddresser_Id(Long addresser_id);
 
-    List<Delivery> findAllByAddressee_IdOrAddresser_Id(Long addressee_id, Long addresser_id);
+    Page<Delivery> findAllByAddressee_IdOrAddresser_Id(Long addressee_id, Long addresser_id, Pageable pageable);
 }

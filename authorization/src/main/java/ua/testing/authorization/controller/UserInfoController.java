@@ -1,6 +1,9 @@
 package ua.testing.authorization.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -46,10 +49,11 @@ public class UserInfoController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "user-statistic", method = RequestMethod.GET)
-    public ModelAndView userStatistic(HttpSession httpSession) {
+    @RequestMapping(value = "/user-statistic", method = RequestMethod.GET)
+    public ModelAndView userStatistic(HttpSession httpSession,
+                                      @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 4) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("user/user-statistic");
-        modelAndView.addObject("userDelivers", deliveryProcessService.findDeliveryHistoryByUserId(Util.getUserFromSession(httpSession).getId()));
+        modelAndView.addObject("userDeliversPage", deliveryProcessService.findDeliveryHistoryByUserId(Util.getUserFromSession(httpSession).getId(), pageable));
         return modelAndView;
     }
 
