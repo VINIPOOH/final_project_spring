@@ -1,7 +1,6 @@
 package ua.testing.authorization.dto;
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Positive;
@@ -19,6 +18,6 @@ public class DeliveryOrderCreateDto {
     private long localityGetID;
     @Email
     private String addresseeEmail;
-
+//TODO
     private String addresserEmail;
 }

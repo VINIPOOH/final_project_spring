@@ -24,9 +24,6 @@ public class Delivery {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addressee_id", nullable = false)
     private User addressee;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "addresser_id", nullable = false)
-    private User addresser;
     @Column(nullable = false, columnDefinition = "BIT(1) default 0")
     private Boolean isPackageReceived;
 

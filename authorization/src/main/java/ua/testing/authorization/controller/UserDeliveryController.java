@@ -86,8 +86,8 @@ public class UserDeliveryController {
     @RequestMapping(value = {"user-delivery-request-confirm"}, method = RequestMethod.POST)
     public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId)
             throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NotEnoughMoneyException, NoSuchUserException {
-        Util.addUserToSession(httpSession,
-                deliveryProcessService.payForDelivery(deliveryId, Util.getUserFromSession(httpSession).getId()).getAddresser());
+//        Util.addUserToSession(httpSession,
+//                deliveryProcessService.payForDelivery(deliveryId, Util.getUserFromSession(httpSession).getId()).getAddresser());
         return "redirect:/user/user-delivery-request-confirm";
     }
 

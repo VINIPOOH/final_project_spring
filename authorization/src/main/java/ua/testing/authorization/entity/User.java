@@ -37,8 +37,6 @@ public class User implements UserDetails {
     private Long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
     private List<Delivery> waysWhereThisUserIsSend;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addresser")
-    private List<Delivery> waysWhereThisUserIsGet;
 
     @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonExpired;

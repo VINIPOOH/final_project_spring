@@ -33,11 +33,13 @@ public class DeliveryProcessService {
     }
 
     public Page<Delivery> findDeliveryHistoryByUserId(long userId, Pageable pageable) {
-        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId, pageable);
+//        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId, pageable);
+        return null;
     }
 
     public List<Delivery> getPricesAndNotTakenDeliversByUserId(long userId) {
-        return deliveryRepository.findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(userId);
+//        return deliveryRepository.findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(userId);
+        return null;
     }
 
     @Transactional
@@ -48,7 +50,8 @@ public class DeliveryProcessService {
     }
 
     public List<Delivery> getNotPayedDeliversByUserId(long userId) {
-        return deliveryRepository.findAllByIsDeliveryPaidFalseAndAddresser_Id(userId);
+//        return deliveryRepository.findAllByIsDeliveryPaidFalseAndAddresser_Id(userId);
+        return null;
     }
 
     @Transactional
@@ -61,7 +64,7 @@ public class DeliveryProcessService {
     private Delivery prepareDeliverySaveData(Delivery deliveryToUpdate, User user) {
         user.setUserMoneyInCents(user.getUserMoneyInCents() - deliveryToUpdate.getBill().getCostInCents());
         deliveryToUpdate.getBill().setIsDeliveryPaid(true);
-        deliveryToUpdate.setAddresser(user);
+        deliveryToUpdate.getBill().setUser(user);
         deliveryToUpdate.getBill().setDateOfPay(LocalDate.now().plusDays(deliveryToUpdate.getWay().getTimeOnWayInDays()));
         return deliveryToUpdate;
     }
@@ -102,7 +105,7 @@ public class DeliveryProcessService {
     private Delivery buildDelivery(DeliveryOrderCreateDto deliveryOrderCreateDto, Way way) throws NoSuchUserException, UnsupportableWeightFactorException {
         return Delivery.builder()
                 .addressee(userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new))
-                .addresser(userRepository.findByEmail(deliveryOrderCreateDto.getAddresserEmail()).orElseThrow(NoSuchUserException::new))
+//                .bill()addresser(userRepository.findByEmail(deliveryOrderCreateDto.getAddresserEmail()).orElseThrow(NoSuchUserException::new))
                 .way(way)
                 .isPackageReceived(false)
                 .weight(deliveryOrderCreateDto.getDeliveryWeight())
