@@ -14,7 +14,8 @@
                     <h3 class="panel-heading" th:text="#{homepage.form.header}"></h3>
                 </div>
                 <div class="panel-body">
-                    <form  id="form" class="form" method="post" th:action="@{/home}" th:object="${deliveryInfoRequestDto}" >
+                    <form class="form" id="form" method="post" th:action="@{/home}"
+                          th:object="${deliveryInfoRequestDto}">
                         <div class="alert alert-danger" role="alert" th:if="${incorrectWeightInput}">
                             <p th:text="#{homepage.form.weight.incorect}"></p>
                         </div>
@@ -22,29 +23,38 @@
                             <p th:text="#{registrationpage.form.weight.wrong}"></p>
                         </div>
                         <div class="alert alert-danger" role="alert" th:if="${noSuchWayException}">
-                            <p  th:text="#{registrationpage.form.way.wrong}"></p>
+                            <p th:text="#{registrationpage.form.way.wrong}"></p>
                         </div>
 
-                        <div class="form-group" >
-                            <input type="number" class="form-control" id="deliveryWeight" name="deliveryWeight" th:placeholder="#{homepage.form.weight}" >
+                        <div class="form-group">
+                            <input class="form-control" id="deliveryWeight" name="deliveryWeight" th:placeholder="#{homepage.form.weight}"
+                                   type="number">
                         </div>
                         <label th:text="#{homepage.form.label.locality_sand}"></label>
-                        <select th:field="*{localitySandID}" form="form" class="form-control">
-                            <option th:if="${#locale.getISO3Language()=='rus'}" th:each="locality :${localityList}" th:value="${locality.id}" th:text="${locality.nameRu}" th:id= "localitySandID" th:name="localitySandID"></option>
-                            <option th:if="${#locale.getISO3Language()=='eng'}" th:each="locality :${localityList}" th:value="${locality.id}" th:text="${locality.nameEn}" th:id="localitySandID" th:name="localitySandID"></option>
+                        <select class="form-control" form="form" th:field="*{localitySandID}">
+                            <option th:each="locality :${localityList}" th:id="localitySandID"
+                                    th:if="${#locale.getISO3Language()=='rus'}" th:name="localitySandID" th:text="${locality.nameRu}"
+                                    th:value="${locality.id}"></option>
+                            <option th:each="locality :${localityList}" th:id="localitySandID"
+                                    th:if="${#locale.getISO3Language()=='eng'}" th:name="localitySandID" th:text="${locality.nameEn}"
+                                    th:value="${locality.id}"></option>
                         </select>
                         <label th:text="#{homepage.form.label.locality_get}"></label>
-                        <select th:field="*{localityGetID}" form="form" class="form-control">
-                            <option th:if="${#locale.getISO3Language()=='rus'}" th:each="locality :${localityList}" th:value="${locality.id}" th:text="${locality.nameRu}" th:id="localityGetID" th:name="localityGetID"></option>
-                            <option th:if="${#locale.getISO3Language()=='eng'}" th:each="locality :${localityList}" th:value="${locality.id}" th:text="${locality.nameEn}" th:id="localityGetID" th:name="localityGetID"></option>
+                        <select class="form-control" form="form" th:field="*{localityGetID}">
+                            <option th:each="locality :${localityList}" th:id="localityGetID"
+                                    th:if="${#locale.getISO3Language()=='rus'}" th:name="localityGetID" th:text="${locality.nameRu}"
+                                    th:value="${locality.id}"></option>
+                            <option th:each="locality :${localityList}" th:id="localityGetID"
+                                    th:if="${#locale.getISO3Language()=='eng'}" th:name="localityGetID" th:text="${locality.nameEn}"
+                                    th:value="${locality.id}"></option>
                         </select>
                         <p1></p1>
-                        <button class="btn btn-success" type="submit" th:text="#{homepage.form.button}"></button>
+                        <button class="btn btn-success" th:text="#{homepage.form.button}" type="submit"></button>
                     </form>
                 </div>
             </div>
         </div>
-        <div th:if="${deliveryCostAndTimeDto!=null}" class="col-md-6 container-fluid">
+        <div class="col-md-6 container-fluid" th:if="${deliveryCostAndTimeDto!=null}">
             <table class="table" style="
         width: 40%;
         margin: 0 auto;

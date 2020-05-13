@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.testing.authorization.controller.util.Util;
 import ua.testing.authorization.dto.DeliveryOrderCreateDto;
 import ua.testing.authorization.entity.User;
-import ua.testing.authorization.exception.*;
-import ua.testing.authorization.service.DeliveryProcessService;
+import ua.testing.authorization.exception.NoSuchUserException;
+import ua.testing.authorization.exception.NoSuchWayException;
+import ua.testing.authorization.exception.UnsupportableWeightFactorException;
+import ua.testing.authorization.service.BillService;
 import ua.testing.authorization.service.LocalityService;
 
 import javax.servlet.http.HttpSession;
@@ -21,34 +22,16 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = {"/user/"})
-public class UserDeliveryController {
+public class UserDeliveryInitiationController {
 
-    private final DeliveryProcessService deliveryProcessService;
+    private final BillService billService;
     private final LocalityService localityService;
 
     @Autowired
-    public UserDeliveryController(DeliveryProcessService deliveryProcessService, LocalityService localityService) {
-        this.deliveryProcessService = deliveryProcessService;
+    public UserDeliveryInitiationController(BillService billService, LocalityService localityService) {
+        this.billService = billService;
         this.localityService = localityService;
     }
-
-    @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.GET)
-    public ModelAndView userNotGottenDelivers(HttpSession httpSession) {
-        ModelAndView modelAndView = new ModelAndView("user/user-deliverys-to-get");
-        User user = Util.getUserFromSession(httpSession);
-        modelAndView.addObject("deliveriesWhichAddressedForUser",
-                deliveryProcessService.getPricesAndNotTakenDeliversByUserId(user.getId()));
-        modelAndView.addObject(user);
-        return modelAndView;
-    }
-
-
-    @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.POST)
-    public String userConfirmDeliveryPay(int deliveryId) throws AskedDataIsNotExist {
-        deliveryProcessService.confirmGettingDelivery(deliveryId);
-        return "redirect:/user/delivers-to-get";
-    }
-
 
     @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.GET)
     public ModelAndView userDeliveryInitiation() {
@@ -67,29 +50,10 @@ public class UserDeliveryController {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
             return modelAndView;
         }
-        deliveryOrderCreateDto.setAddresserEmail(
-                ((User) httpSession.getAttribute(SessionConstants.SESSION_USER)).getEmail());
-        deliveryProcessService.createDeliveryOrder(deliveryOrderCreateDto);
+        billService.initializeBill(deliveryOrderCreateDto, ((User) httpSession.getAttribute(SessionConstants.SESSION_USER)).getId());
         return modelAndView;
     }
 
-    @RequestMapping(value = {"user-delivery-request-confirm"}, method = RequestMethod.GET)
-    public ModelAndView userConfirmDelivers(HttpSession httpSession) {
-        ModelAndView modelAndView = new ModelAndView("user/user-delivery-request-confirm");
-        User user = Util.getUserFromSession(httpSession);
-        modelAndView.addObject("deliveriesWhichIsNotPaid", deliveryProcessService.getNotPayedDeliversByUserId(user.getId()));
-        modelAndView.addObject(user);
-        return modelAndView;
-    }
-
-
-    @RequestMapping(value = {"user-delivery-request-confirm"}, method = RequestMethod.POST)
-    public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId)
-            throws AskedDataIsNotExist, DeliveryAlreadyPaidException, NotEnoughMoneyException, NoSuchUserException {
-//        Util.addUserToSession(httpSession,
-//                deliveryProcessService.payForDelivery(deliveryId, Util.getUserFromSession(httpSession).getId()).getAddresser());
-        return "redirect:/user/user-delivery-request-confirm";
-    }
 
     @ExceptionHandler(NoSuchWayException.class)
     public ModelAndView noSuchWayExceptionHandling(RedirectAttributes redirectAttributes) {

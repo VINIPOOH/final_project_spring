@@ -22,7 +22,7 @@
     </thead>
     <tbody>
     <tr th:each="user: ${userList}">
-        <td ><span  th:text="${user.password}"></span> </td>
+        <td><span th:text="${user.password}"></span></td>
         <td><span th:text="${user.email}">  </span></td>
         <td><span th:text="${user.roleType}"> </span></td>
     </tr>

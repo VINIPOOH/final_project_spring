@@ -1,33 +1,43 @@
 <!DOCTYPE html>
-<html th:fragment="baseTymelifeLinks" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:fragment="baseTymelifeLinks" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
     <head th:fragment="head_base_data">
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+              rel="stylesheet">
+        <script crossorigin="anonymous"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     </head>
     <body th:fragment="header">
         <div class="row border border-green">
             <nav class="navbar navbar-default col-md-8">
                 <div class="container-fluid">
                     <div class="navbar-header col-md-2">
-                        <a th:href="@{/home}" class="navbar-brand" th:text="#{layout.header.logo}"></a>
+                        <a class="navbar-brand" th:href="@{/home}" th:text="#{layout.header.logo}"></a>
                     </div>
                     <div class="col-md-10 row justify-content-start">
-                        <a class="col-2"  th:href="@{/home}" th:text="#{layout.header.homepage}"></a>
+                        <a class="col-2" th:href="@{/home}" th:text="#{layout.header.homepage}"></a>
                         <a class="col-2" th:href="@{/user/userprofile}" th:text="#{layout.userheader.cabinet}"></a>
                     </div>
                 </div>
             </nav>
             <div class="col-md-1">
-<!--для кнопки логин или логаут-->
+                <!--для кнопки логин или логаут-->
             </div>
             <div class="col-md-3">
-                <div><a class="btn" href="?lang=en" th:text="#{button.en.text}"></a>
+                <div>
+                    <a class="btn" href="?lang=en" th:text="#{button.en.text}"></a>
                     <a class="btn" href="?lang=ru" th:text="#{button.ru.text}"></a>
                 </div>
-                <div sec:authorize="isAuthenticated()" class="row">
+                <div class="row" sec:authorize="isAuthenticated()">
                     <div class="col-md-6">
                         <label th:text="${session.user.email}"></label>
                     </div>
@@ -35,9 +45,12 @@
                         <a class="btn border" th:href="@{/logout}" th:text="#{layout.header.link.logout}"></a>
                     </div>
                 </div>
-                <div sec:authorize="!isAuthenticated()" class="row">
-                    <a class="btn btn-success" th:href="@{/login}" type="submit" th:text="#{lofinpage.button.login}"></a>
-                    <a class="btn"  align="left" th:href="@{/registration}" th:text="#{lofinpage.button.gotoRegistration}"></a></a>
+                <div class="row" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-success" th:href="@{/login}" th:text="#{lofinpage.button.login}"
+                       type="submit"></a>
+                    <a align="left" class="btn" th:href="@{/registration}"
+                       th:text="#{lofinpage.button.gotoRegistration}"></a>
+                    </a>
                 </div>
 
             </div>
@@ -45,15 +58,19 @@
     </body>
     <body th:fragment="userHeader">
         <div class="row border border-secondary">
-            <nav class="navbar navbar-default col-md-12",>
+            <nav , class="navbar navbar-default col-md-12">
                 <div class="container-fluid row">
                     <div class="col-md-10 row justify-content-start">
 
-                        <a class="col-2" th:href="@{/user/delivers-to-get}" th:text="#{layout.userheader.not.gotten.delivers}"></a>
+                        <a class="col-2" th:href="@{/user/delivers-to-get}"
+                           th:text="#{layout.userheader.not.gotten.delivers}"></a>
                         <a class="col-1" th:href="@{/user/userprofile}" th:text="#{layout.userheader.balance}"></a>
-                        <a class="col-2" th:href="@{/user/user-delivery-initiation}" th:text="#{layout.userheader.delivery.initiation}"></a>
-                        <a class="col-2" th:href="@{/user/user-delivery-request-confirm}" th:text="#{layout.userheader.delivery.pay}"></a>
-                        <a class="col-2" th:href="@{/user/user-statistic}" th:text="#{layout.userheader.user.statistic}"></a>
+                        <a class="col-2" th:href="@{/user/user-delivery-initiation}"
+                           th:text="#{layout.userheader.delivery.initiation}"></a>
+                        <a class="col-2" th:href="@{/user/user-delivery-pay}"
+                           th:text="#{layout.userheader.delivery.pay}"></a>
+                        <a class="col-2" th:href="@{/user/user-statistic}"
+                           th:text="#{layout.userheader.user.statistic}"></a>
                     </div>
                 </div>
             </nav>

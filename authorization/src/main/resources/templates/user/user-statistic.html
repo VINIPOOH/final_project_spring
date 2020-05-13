@@ -7,12 +7,10 @@
 <body>
 <div th:include="~{layout/header.html::header}"></div>
 <div th:include="~{layout/header.html::userHeader}"></div>
-<div name="deliveries" class="container">
+<div class="container" name="deliveries">
     <div class="row border border-info mt-2 rounded" th:each="deliveryForUser : ${userDeliversPage}">
-        <p1 th:text="${deliveryForUser.id}+${deliveryForUser.addressee.email}+${deliveryForUser.addresser.email}
-+${deliveryForUser.arrivalDate}+${deliveryForUser.costInCents}+${deliveryForUser.weight}
-+${deliveryForUser.isDeliveryPaid}+${deliveryForUser.isPackageReceived}+${deliveryForUser.way.localityGet.nameRu}
-+${deliveryForUser.way.localitySand.nameRu}"></p1>
+        <p1 th:text="${deliveryForUser.id}+${deliveryForUser.delivery.id}+${deliveryForUser.costInCents}
++${deliveryForUser.dateOfPay}"></p1>
     </div>
     <div class="pagination-div">
     <span th:if="${userDeliversPage.hasPrevious()}">

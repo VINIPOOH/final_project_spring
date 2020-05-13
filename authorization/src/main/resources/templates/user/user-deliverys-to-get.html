@@ -7,24 +7,29 @@
 <body>
 <div th:include="~{layout/header.html::header}"></div>
 <div th:include="~{layout/header.html::userHeader}"></div>
-<div name="deliveries-which-wait-getting" class="container">
+<div class="container" name="deliveries-which-wait-getting">
     <div class="row border border-info mt-2 rounded" th:each="deliveryForUser : ${deliveriesWhichAddressedForUser}">
         <div class="card-body col-md-3">
-            <h5 class="card-title" th:text="#{user-deliverys-to-get.card.title}+${deliveryForUser.addresser.email}
+            <h5 class="card-title" th:text="#{user-deliverys-to-get.card.title}+${deliveryForUser.bill.user.email}
 +#{user-deliverys-to-get.card.title.delivery.id}+${deliveryForUser.id}"></h5>
         </div>
         <div class="col-md-4 mt-3">
-            <p1 th:if="${#locale.getISO3Language() == 'eng'}" class="list-group-item" th:text="#{user-deliverys-to-get.card.list.from.city}+${deliveryForUser.way.localitySand.nameEn}"></p1>
-            <p1 th:if="${#locale.getISO3Language() == 'rus'}" class="list-group-item" th:text="#{user-deliverys-to-get.card.list.from.city}+${deliveryForUser.way.localitySand.nameRu}"></p1>
+            <p1 class="list-group-item" th:if="${#locale.getISO3Language() == 'eng'}"
+                th:text="#{user-deliverys-to-get.card.list.from.city}+${deliveryForUser.way.localitySand.nameEn}"></p1>
+            <p1 class="list-group-item" th:if="${#locale.getISO3Language() == 'rus'}"
+                th:text="#{user-deliverys-to-get.card.list.from.city}+${deliveryForUser.way.localitySand.nameRu}"></p1>
         </div>
         <div class="col-md-3 mt-3">
-        <p1 th:if="${#locale.getISO3Language() == 'eng'}" class="list-group-item" th:text="#{user-deliverys-to-get.card.list.to.city}+ ${deliveryForUser.way.localityGet.nameEn}"></p1>
-        <p1 th:if="${#locale.getISO3Language() == 'rus'}" class="list-group-item" th:text="#{user-deliverys-to-get.card.list.to.city}+ ${deliveryForUser.way.localityGet.nameRu}"></p1>
+            <p1 class="list-group-item" th:if="${#locale.getISO3Language() == 'eng'}"
+                th:text="#{user-deliverys-to-get.card.list.to.city}+ ${deliveryForUser.way.localityGet.nameEn}"></p1>
+            <p1 class="list-group-item" th:if="${#locale.getISO3Language() == 'rus'}"
+                th:text="#{user-deliverys-to-get.card.list.to.city}+ ${deliveryForUser.way.localityGet.nameRu}"></p1>
         </div>
         <div class="card-body col-md-2">
             <form class="form" method="post" th:action="@{/user/delivers-to-get}">
                 <input th:name="deliveryId" th:value="${deliveryForUser.id}" type="hidden">
-                <button class="btn btn-success" type="submit" th:text="#{user_statisticpage.button.confirm.receipt.delivery}"></button>
+                <button class="btn btn-success" th:text="#{user_statisticpage.button.confirm.receipt.delivery}"
+                        type="submit"></button>
             </form>
         </div>
 

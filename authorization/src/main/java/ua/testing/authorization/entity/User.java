@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @Column(nullable = false, columnDefinition = "BIGINT default 0")
     private Long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
-    private List<Delivery> waysWhereThisUserIsSend;
+    private List<Delivery> deliveriesForUser;
 
     @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonExpired;
@@ -61,5 +61,8 @@ public class User implements UserDetails {
         return email;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{}";
+    }
 }

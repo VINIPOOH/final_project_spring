@@ -4,56 +4,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.authorization.controller.util.Util;
-import ua.testing.authorization.exception.NoSuchUserException;
-import ua.testing.authorization.service.DeliveryProcessService;
-import ua.testing.authorization.service.UserService;
+import ua.testing.authorization.service.BillService;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping(value = {"/user"})
 public class UserInfoController {
-    private final UserService userService;
-    private final DeliveryProcessService deliveryProcessService;
+
+    private final BillService billService;
 
     @Autowired
-    public UserInfoController(UserService userService, DeliveryProcessService deliveryProcessService) {
-        this.userService = userService;
-        this.deliveryProcessService = deliveryProcessService;
+    public UserInfoController(BillService billService) {
+        this.billService = billService;
     }
 
-    @RequestMapping(value = {"/userprofile"}, method = RequestMethod.GET)
-    public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
-        ModelAndView view = new ModelAndView("user/userprofile");
-        if (Util.getUserFromSession(httpSession) == null) {
-            Util.addUserToSession(httpSession, userService.findByEmail(userDetails.getUsername()));
-        }
-        return view;
-    }
-
-    @RequestMapping(value = {"/userprofile"}, method = RequestMethod.POST)
-    public ModelAndView userProfileReplenish(HttpSession httpSession, int money) throws NoSuchUserException {
-        ModelAndView modelAndView = new ModelAndView("user/userprofile");
-        if (money <= 0) {
-            modelAndView.addObject("incorrectMoney", true);
-            return modelAndView;
-        }
-        Util.addUserToSession(httpSession, userService.replenishAccountBalance(Util.getUserFromSession(httpSession).getId(), money));
-        return modelAndView;
-    }
 
     @RequestMapping(value = "/user-statistic", method = RequestMethod.GET)
     public ModelAndView userStatistic(HttpSession httpSession,
                                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 4) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("user/user-statistic");
-        modelAndView.addObject("userDeliversPage", deliveryProcessService.findDeliveryHistoryByUserId(Util.getUserFromSession(httpSession).getId(), pageable));
+        modelAndView.addObject("userDeliversPage", billService.getBillHistoryByUserId(Util.getUserFromSession(httpSession).getId(), pageable));
         return modelAndView;
     }
 

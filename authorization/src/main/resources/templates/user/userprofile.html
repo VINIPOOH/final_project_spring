@@ -11,8 +11,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="border border-info mt-2 rounded">
-                <p th:text="#{userprofilepage.paragrapf.userMoneyInCents}" ></p>
-                <p th:text="${session.user.userMoneyInCents}" ></p>
+                <p th:text="#{userprofilepage.paragrapf.userMoneyInCents}"></p>
+                <p th:text="${session.user.userMoneyInCents}"></p>
             </div>
         </div>
         <div class="col-md-6 ">
@@ -22,13 +22,14 @@
                 </div>
                 <div class="panel-body">
                     <form class="form" method="post" th:action="@{/user/userprofile}">
-<!--                        <div class="alert alert-danger" role="alert" th:if="${error}">-->
-<!--                            <p th:if="${error}" th:text="#{loginpage.form.wrong}"></p>-->
-<!--                        </div>-->
+                        <!--                        <div class="alert alert-danger" role="alert" th:if="${error}">-->
+                        <!--                            <p th:if="${error}" th:text="#{loginpage.form.wrong}"></p>-->
+                        <!--                        </div>-->
                         <div class="form-group">
-                            <input type="number" class="form-control" id="money" name="money" >
+                            <input class="form-control" id="money" name="money" type="number">
                         </div>
-                        <button class="btn btn-success" type="submit" th:text="#{userprofilepage.button.replenish}"></button>
+                        <button class="btn btn-success" th:text="#{userprofilepage.button.replenish}"
+                                type="submit"></button>
                     </form>
                 </div>
             </div>

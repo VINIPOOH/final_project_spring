@@ -1,7 +1,6 @@
 package ua.testing.authorization.dto;
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

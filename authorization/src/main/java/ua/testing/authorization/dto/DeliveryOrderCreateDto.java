@@ -18,6 +18,4 @@ public class DeliveryOrderCreateDto {
     private long localityGetID;
     @Email
     private String addresseeEmail;
-//TODO
-    private String addresserEmail;
 }

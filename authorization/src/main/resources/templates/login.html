@@ -22,13 +22,14 @@
                         </div>
                         <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
                         <div class="form-group">
-                            <input type="email" class="form-control" id="username" name="username" >
+                            <input class="form-control" id="username" name="username" type="email">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" id="password" name="password">
+                            <input class="form-control" id="password" name="password" type="password">
                         </div>
-                        <button class="btn btn-success" type="submit" th:text="#{lofinpage.button.login}"></button>
-                        <a class="btn"  align="left" th:href="@{/registration}" th:text="#{lofinpage.button.gotoRegistration}"></a>
+                        <button class="btn btn-success" th:text="#{lofinpage.button.login}" type="submit"></button>
+                        <a align="left" class="btn" th:href="@{/registration}"
+                           th:text="#{lofinpage.button.gotoRegistration}"></a>
                     </form>
 
                 </div>

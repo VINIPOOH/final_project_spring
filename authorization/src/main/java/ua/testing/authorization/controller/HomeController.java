@@ -12,19 +12,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
 import ua.testing.authorization.exception.NoSuchWayException;
 import ua.testing.authorization.exception.UnsupportableWeightFactorException;
-import ua.testing.authorization.service.DeliveryProcessService;
+import ua.testing.authorization.service.DeliveryService;
 import ua.testing.authorization.service.LocalityService;
 
 import javax.validation.Valid;
 
 @Controller
 public class HomeController {
-    private final DeliveryProcessService deliveryProcessService;
+    private final DeliveryService deliveryService;
     private final LocalityService localityService;
 
     @Autowired
-    public HomeController(DeliveryProcessService deliveryProcessService, LocalityService localityService) {
-        this.deliveryProcessService = deliveryProcessService;
+    public HomeController(DeliveryService deliveryService, LocalityService localityService) {
+        this.deliveryService = deliveryService;
         this.localityService = localityService;
     }
 
@@ -46,7 +46,7 @@ public class HomeController {
             return modelAndView;
         }
         redirectAttributes
-                .addFlashAttribute(deliveryProcessService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
+                .addFlashAttribute(deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
         return modelAndView;
     }
 
