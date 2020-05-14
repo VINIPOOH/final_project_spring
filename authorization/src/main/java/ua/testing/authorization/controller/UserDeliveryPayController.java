@@ -13,6 +13,7 @@ import ua.testing.authorization.service.BillService;
 import ua.testing.authorization.service.LocalityService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 @Controller
 @RequestMapping(value = {"/user/"})
@@ -29,10 +30,11 @@ public class UserDeliveryPayController {
 
 
     @RequestMapping(value = {"user-delivery-pay"}, method = RequestMethod.GET)
-    public ModelAndView userConfirmDelivers(HttpSession httpSession) {
+    public ModelAndView userConfirmDelivers(HttpSession httpSession, Locale locale) {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-pay");
         User user = Util.getUserFromSession(httpSession);
-        modelAndView.addObject("deliveriesWhichIsNotPaid", billService.getBillsToPayByUserID(user.getId()));
+        modelAndView.addObject("BillInfoToPayDtoList",
+                billService.getBillsToPayByUserID(user.getId(),locale));
         modelAndView.addObject(user);
         return modelAndView;
     }

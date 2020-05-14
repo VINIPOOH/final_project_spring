@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ua.testing.authorization.dto.BillInfoToPayDto;
 import ua.testing.authorization.dto.DeliveryOrderCreateDto;
+import ua.testing.authorization.dto.mapper.Mapper;
 import ua.testing.authorization.entity.Bill;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.User;
@@ -20,6 +22,8 @@ import ua.testing.authorization.repository.WayRepository;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class BillService {
@@ -37,8 +41,30 @@ public class BillService {
         this.wayRepository = wayRepository;
     }
 
-    public List<Bill> getBillsToPayByUserID(long userId) {
-        return billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userId);
+    public List<BillInfoToPayDto> getBillsToPayByUserID(long userId, Locale locale) {
+        return billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userId).stream()
+                .map(getMapperBillInfoToPayDto(locale)::map)
+                .collect(Collectors.toList());
+    }
+
+    private Mapper<Bill, BillInfoToPayDto> getMapperBillInfoToPayDto(Locale locale) {
+        return bill -> {
+            BillInfoToPayDto billInfoToPayDto = BillInfoToPayDto.builder()
+                    .weight(bill.getDelivery().getWeight())
+                    .price(bill.getCostInCents())
+                    .deliveryId(bill.getDelivery().getId())
+                    .billId(bill.getId())
+                    .addreeserEmail(bill.getDelivery().getAddressee().getEmail())
+                    .build();
+            if (locale.getLanguage().equals("ru")) {
+                billInfoToPayDto.setLocalitySandName(bill.getDelivery().getWay().getLocalitySand().getNameRu());
+                billInfoToPayDto.setLocalityGetName(bill.getDelivery().getWay().getLocalityGet().getNameRu());
+            } else {
+                billInfoToPayDto.setLocalitySandName(bill.getDelivery().getWay().getLocalitySand().getNameEn());
+                billInfoToPayDto.setLocalityGetName(bill.getDelivery().getWay().getLocalityGet().getNameEn());
+            }
+            return billInfoToPayDto;
+        };
     }
 
     @Transactional
