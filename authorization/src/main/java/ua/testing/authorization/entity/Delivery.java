@@ -18,7 +18,7 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private long id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "way_id", nullable = false)
     private Way way;

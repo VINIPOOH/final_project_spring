@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
-    List<Delivery> findAllByBill_User_IdAndIsPackageReceivedFalse(Long bill_user_id);
+    List<Delivery> findAllByBill_User_IdAndIsPackageReceivedFalse(long bill_user_id);
 
-    Optional<Delivery> findByIdAndBill_User_IdAndIsPackageReceivedFalse(Long id, Long addressee_id);
+    Optional<Delivery> findByIdAndBill_User_IdAndIsPackageReceivedFalse(long id, long addressee_id);
 
 //    List<Delivery> findAllByIsPackageReceivedFalseAndIsDeliveryPaidTrueAndAddressee_Id(Long addressee_id);
 //

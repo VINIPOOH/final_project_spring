@@ -25,7 +25,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private long id;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "role", nullable = false, columnDefinition = "VARCHAR(255) default 'ROLE_USER'")

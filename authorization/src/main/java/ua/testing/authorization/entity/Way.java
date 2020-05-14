@@ -20,7 +20,7 @@ public class Way {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private long id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "locality_send_id", nullable = false)
     private Locality localitySand;

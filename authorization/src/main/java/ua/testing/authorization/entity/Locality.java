@@ -18,7 +18,7 @@ public class Locality {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private long id;
     @Column(nullable = false)
     private String nameRu;
     @Column(nullable = false)

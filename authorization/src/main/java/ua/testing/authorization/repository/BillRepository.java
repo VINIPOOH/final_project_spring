@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BillRepository extends JpaRepository<Bill, Long> {
-    List<Bill> findAllByUserIdAndIsDeliveryPaidFalse(Long user_id);
+    List<Bill> findAllByUserIdAndIsDeliveryPaidFalse(long user_id);
 
-    Page<Bill> findAllByUserIdAndIsDeliveryPaidTrue(Long user_id, Pageable pageable);
+    Page<Bill> findAllByUserIdAndIsDeliveryPaidTrue(long user_id, Pageable pageable);
 
     Optional<Bill> findByIdAndIsDeliveryPaidFalse(long bill_id);
 }
