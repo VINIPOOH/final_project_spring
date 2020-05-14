@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
+import ua.testing.authorization.dto.DeliveryInfoToGetDto;
 import ua.testing.authorization.dto.PriceAndTimeOnDeliveryDto;
+import ua.testing.authorization.dto.mapper.Mapper;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.Way;
 import ua.testing.authorization.exception.AskedDataIsNotExist;
@@ -17,6 +19,8 @@ import ua.testing.authorization.repository.WayRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class DeliveryService {
@@ -36,8 +40,29 @@ public class DeliveryService {
         return null;
     }
 
-    public List<Delivery> getDeliveryInfoToGet(long userId) {
-        return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId);
+    public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
+        return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId).stream()
+                .map(getDeliveryInfoToGetDtoMapper(locale)::map)
+                .collect(Collectors.toList());
+    }
+
+    private Mapper<Delivery, DeliveryInfoToGetDto> getDeliveryInfoToGetDtoMapper(Locale locale) {
+        return delivery -> {
+            DeliveryInfoToGetDto deliveryInfo = DeliveryInfoToGetDto.builder()
+                    .addresserEmail(delivery.getBill().getUser().getEmail())
+                    .deliveryId(delivery.getId())
+                    .localitySandName(delivery.getWay().getLocalitySand().getNameEn())
+                    .localityGetName(delivery.getWay().getLocalityGet().getNameEn())
+                    .build();
+            if (locale.getLanguage().equals("ru")) {
+                deliveryInfo.setLocalitySandName(delivery.getWay().getLocalitySand().getNameRu());
+                deliveryInfo.setLocalityGetName(delivery.getWay().getLocalityGet().getNameRu());
+            } else {
+                deliveryInfo.setLocalitySandName(delivery.getWay().getLocalitySand().getNameEn());
+                deliveryInfo.setLocalityGetName(delivery.getWay().getLocalityGet().getNameEn());
+            }
+            return deliveryInfo;
+        };
     }
 
     @Transactional

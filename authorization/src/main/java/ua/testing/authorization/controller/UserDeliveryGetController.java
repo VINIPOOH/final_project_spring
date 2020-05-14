@@ -11,6 +11,7 @@ import ua.testing.authorization.exception.AskedDataIsNotExist;
 import ua.testing.authorization.service.DeliveryService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Locale;
 
 @Controller
 @RequestMapping(value = {"/user/"})
@@ -24,11 +25,11 @@ public class UserDeliveryGetController {
     }
 
     @RequestMapping(value = {"delivers-to-get"}, method = RequestMethod.GET)
-    public ModelAndView userNotGottenDelivers(HttpSession httpSession) {
+    public ModelAndView userNotGottenDelivers(HttpSession httpSession, Locale locale) {
         ModelAndView modelAndView = new ModelAndView("user/user-deliverys-to-get");
         User user = Util.getUserFromSession(httpSession);
-        modelAndView.addObject("deliveriesWhichAddressedForUser",
-                deliveryService.getDeliveryInfoToGet(user.getId()));
+        modelAndView.addObject("DeliveryInfoToGetDtoList",
+                deliveryService.getDeliveryInfoToGet(user.getId(), locale));
         modelAndView.addObject(user);
         return modelAndView;
     }
