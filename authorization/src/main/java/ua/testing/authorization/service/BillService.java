@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ua.testing.authorization.dto.BillDto;
 import ua.testing.authorization.dto.BillInfoToPayDto;
 import ua.testing.authorization.dto.DeliveryOrderCreateDto;
 import ua.testing.authorization.dto.mapper.Mapper;
@@ -110,7 +111,17 @@ public class BillService {
         return (overPayOnKilometerForWeight + way.getPriceForKilometerInCents()) * way.getDistanceInKilometres();
     }
 
-    public Page<Bill> getBillHistoryByUserId(long userId, Pageable pageable) {
-        return billRepository.findAllByUserIdAndIsDeliveryPaidTrue(userId, pageable);
+    public Page<BillDto> getBillHistoryByUserId(long userId, Pageable pageable) {
+        return billRepository.findAllByUserIdAndIsDeliveryPaidTrue(userId, pageable).map(getBillBillDtoMapper()::map);
+    }
+
+    private Mapper<Bill, BillDto> getBillBillDtoMapper() {
+        return bill -> BillDto.builder()
+                .id(bill.getId())
+                .deliveryId(bill.getDelivery().getId())
+                .isDeliveryPaid(bill.isDeliveryPaid())
+                .costInCents(bill.getCostInCents())
+                .dateOfPay(bill.getDateOfPay())
+                .build();
     }
 }

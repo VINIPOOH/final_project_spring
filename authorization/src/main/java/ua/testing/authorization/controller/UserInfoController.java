@@ -29,7 +29,7 @@ public class UserInfoController {
     public ModelAndView userStatistic(HttpSession httpSession,
                                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 4) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("user/user-statistic");
-        modelAndView.addObject("userDeliversPage", billService.getBillHistoryByUserId(Util.getUserFromSession(httpSession).getId(), pageable));
+        modelAndView.addObject("BillDtoPage", billService.getBillHistoryByUserId(Util.getUserFromSession(httpSession).getId(), pageable));
         return modelAndView;
     }
 
