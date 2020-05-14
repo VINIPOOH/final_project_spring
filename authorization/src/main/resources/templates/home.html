@@ -32,20 +32,14 @@
                         </div>
                         <label th:text="#{homepage.form.label.locality_sand}"></label>
                         <select class="form-control" form="form" th:field="*{localitySandID}">
-                            <option th:each="locality :${localityList}" th:id="localitySandID"
-                                    th:if="${#locale.getISO3Language()=='rus'}" th:name="localitySandID" th:text="${locality.nameRu}"
-                                    th:value="${locality.id}"></option>
-                            <option th:each="locality :${localityList}" th:id="localitySandID"
-                                    th:if="${#locale.getISO3Language()=='eng'}" th:name="localitySandID" th:text="${locality.nameEn}"
+                            <option th:each="locality :${localityDtoList}" th:id="localitySandID"
+                                    th:name="localitySandID" th:text="${locality.name}"
                                     th:value="${locality.id}"></option>
                         </select>
                         <label th:text="#{homepage.form.label.locality_get}"></label>
                         <select class="form-control" form="form" th:field="*{localityGetID}">
-                            <option th:each="locality :${localityList}" th:id="localityGetID"
-                                    th:if="${#locale.getISO3Language()=='rus'}" th:name="localityGetID" th:text="${locality.nameRu}"
-                                    th:value="${locality.id}"></option>
-                            <option th:each="locality :${localityList}" th:id="localityGetID"
-                                    th:if="${#locale.getISO3Language()=='eng'}" th:name="localityGetID" th:text="${locality.nameEn}"
+                            <option th:each="locality :${localityDtoList}" th:id="localityGetID"
+                                    th:name="localityGetID" th:text="${locality.name}"
                                     th:value="${locality.id}"></option>
                         </select>
                         <p1></p1>
@@ -54,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 container-fluid" th:if="${deliveryCostAndTimeDto!=null}">
+        <div class="col-md-6 container-fluid" th:if="${PriceAndTimeOnDeliveryDto!=null}">
             <table class="table" style="
         width: 40%;
         margin: 0 auto;
@@ -65,11 +59,11 @@
                 <tbody>
                 <tr>
                     <td><span th:text="#{homepage.paragraf.price}">  </span></td>
-                    <td><span th:text="${deliveryCostAndTimeDto.costInCents}"> </span></td>
+                    <td><span th:text="${PriceAndTimeOnDeliveryDto.costInCents}"> </span></td>
                 </tr>
                 <tr>
                     <td><span th:text="#{homepage.paragraf.time}">  </span></td>
-                    <td><span th:text="${deliveryCostAndTimeDto.timeOnWayInHours}"> </span></td>
+                    <td><span th:text="${PriceAndTimeOnDeliveryDto.timeOnWayInHours}"> </span></td>
                 </tr>
                 </tbody>
             </table>

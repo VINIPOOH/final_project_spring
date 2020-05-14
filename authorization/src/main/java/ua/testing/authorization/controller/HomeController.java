@@ -16,6 +16,7 @@ import ua.testing.authorization.service.DeliveryService;
 import ua.testing.authorization.service.LocalityService;
 
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 public class HomeController {
@@ -29,10 +30,10 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView home(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
-        modelAndView.addObject(localityService.getLocalities());
+        modelAndView.addObject("localityDtoList",localityService.getLocalities(locale));
         return modelAndView;
     }
 
@@ -46,7 +47,7 @@ public class HomeController {
             return modelAndView;
         }
         redirectAttributes
-                .addFlashAttribute(deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
+                .addFlashAttribute("PriceAndTimeOnDeliveryDto", deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
         return modelAndView;
     }
 

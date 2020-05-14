@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ua.testing.authorization.dto.DeliveryCostAndTimeDto;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
+import ua.testing.authorization.dto.PriceAndTimeOnDeliveryDto;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.Way;
 import ua.testing.authorization.exception.AskedDataIsNotExist;
@@ -48,10 +48,10 @@ public class DeliveryService {
     }
 
 
-    public DeliveryCostAndTimeDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
+    public PriceAndTimeOnDeliveryDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
             throws NoSuchWayException, UnsupportableWeightFactorException {
         Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());
-        return DeliveryCostAndTimeDto.builder()
+        return PriceAndTimeOnDeliveryDto.builder()
                 .costInCents(calculateDeliveryCost(deliveryInfoRequestDto.getDeliveryWeight(), way))
                 .timeOnWayInHours(way.getTimeOnWayInDays())
                 .build();

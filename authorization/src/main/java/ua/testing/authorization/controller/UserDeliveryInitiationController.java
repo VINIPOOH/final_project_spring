@@ -19,6 +19,7 @@ import ua.testing.authorization.service.LocalityService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 @RequestMapping(value = {"/user/"})
@@ -34,10 +35,10 @@ public class UserDeliveryInitiationController {
     }
 
     @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.GET)
-    public ModelAndView userDeliveryInitiation() {
+    public ModelAndView userDeliveryInitiation(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-initiation");
         modelAndView.addObject(new DeliveryOrderCreateDto());
-        modelAndView.addObject(localityService.getLocalities());
+        modelAndView.addObject("localityDtoList", localityService.getLocalities(locale));
         return modelAndView;
     }
 
