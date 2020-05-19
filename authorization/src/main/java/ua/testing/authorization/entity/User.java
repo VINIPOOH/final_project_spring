@@ -1,9 +1,6 @@
 package ua.testing.authorization.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode()
 
 @Entity
 @Table(name = "user",
@@ -36,7 +34,7 @@ public class User implements UserDetails {
     @Column(nullable = false, columnDefinition = "BIGINT default 0")
     private Long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
-    private List<Delivery> deliveriesForUser;
+    private transient List<Delivery> deliveriesForUser;
 
     @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonExpired;
@@ -48,7 +46,7 @@ public class User implements UserDetails {
     private boolean enabled;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Bill> bills;
+    private transient List<Bill> bills;
 
 
     @Override

@@ -55,7 +55,7 @@ public class BillService {
                     .price(bill.getCostInCents())
                     .deliveryId(bill.getDelivery().getId())
                     .billId(bill.getId())
-                    .addreeserEmail(bill.getDelivery().getAddressee().getEmail())
+                    .addreeseeEmail(bill.getDelivery().getAddressee().getEmail())
                     .build();
             if (locale.getLanguage().equals("ru")) {
                 billInfoToPayDto.setLocalitySandName(bill.getDelivery().getWay().getLocalitySand().getNameRu());

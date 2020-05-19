@@ -11,7 +11,7 @@
     <div class="row border border-info mt-2 rounded" th:each="billForUser : ${BillInfoToPayDtoList}">
         <div class="card-body col-md-3">
             <h5 class="card-title"
-                th:text="#{user-delivery-pay.card.title}+${billForUser.addreeserEmail}"></h5>
+                th:text="#{user-delivery-pay.card.title}+${billForUser.addreeseeEmail}"></h5>
         </div>
         <div class="col-md-4 mt-3">
             <p1 class="list-group-item" th:text="#{user-delivery-pay.card.list.from.city}+${billForUser.localitySandName}"></p1>
