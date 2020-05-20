@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false, columnDefinition = "BIGINT default 0")
-    private Long userMoneyInCents;
+    private long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
     private List<Delivery> deliveriesForUser;
 
@@ -80,8 +80,8 @@ public class User implements UserDetails {
                 enabled == user.enabled &&
                 email.equals(user.email) &&
                 roleType == user.roleType &&
-                password.equals(user.password) &&
-                userMoneyInCents.equals(user.userMoneyInCents);
+                userMoneyInCents==user.userMoneyInCents &&
+                password.equals(user.password) ;
     }
 
     @Override

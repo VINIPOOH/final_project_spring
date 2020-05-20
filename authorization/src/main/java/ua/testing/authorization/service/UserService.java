@@ -36,10 +36,10 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with login: " + email));
     }
 
-    public void addNewUserToDB(RegistrationInfoDto registrationInfoDto) throws OccupiedLoginException {
+    public User addNewUserToDB(RegistrationInfoDto registrationInfoDto) throws OccupiedLoginException {
         User user = getMapper().mapToEntity(registrationInfoDto);
         try {
-            userRepository.save(user);
+            return userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             throw new OccupiedLoginException();
         }

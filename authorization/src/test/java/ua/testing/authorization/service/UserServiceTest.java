@@ -5,17 +5,27 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import ua.testing.authorization.dto.RegistrationInfoDto;
+import ua.testing.authorization.entity.Delivery;
+import ua.testing.authorization.entity.RoleType;
 import ua.testing.authorization.entity.User;
+import ua.testing.authorization.exception.AskedDataIsNotExist;
+import ua.testing.authorization.exception.NoSuchUserException;
+import ua.testing.authorization.exception.OccupiedLoginException;
 import ua.testing.authorization.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
-import static ua.testing.authorization.service.ServisesTestConstant.getUsers;
+import static ua.testing.authorization.service.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = UserService.class)
@@ -31,6 +41,7 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        doAnswer((i) -> i.getArgument(0)).when(passwordEncoder).encode(any(String.class));
     }
 
     @Test
@@ -45,15 +56,96 @@ public class UserServiceTest {
     }
 
     @Test
-    public void findByEmail() {
+    public void findByEmailAllCorrect() {
+        User user = getAdverser();
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
+        User result = userService.findByEmail(user.getEmail());
+
+        assertEquals(user, result);
+        verify(userRepository, times(1)).findByEmail(anyString());
+    }
+
+    @Test(expected = UsernameNotFoundException.class)
+    public void findByEmailIncorrectEmail() {
+        User user = getAdverser();
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        userService.findByEmail(user.getEmail());
+
+        fail();
     }
 
     @Test
-    public void addNewUserToDB() {
+    public void addNewUserToDBAllCorrect() throws OccupiedLoginException {
+        RegistrationInfoDto registrationInfoDto = getRegistrationInfoDto();
+        doAnswer((i) -> i.getArgument(0)).when(userRepository).save(any(User.class));
+        User expected = getUser(registrationInfoDto);
+
+        User result = userService.addNewUserToDB(registrationInfoDto);
+
+        verify(userRepository, times(1)).save(any(User.class));
+        assertEquals(expected, result);
+    }
+
+
+
+    @Test(expected = OccupiedLoginException.class)
+    public void addNewUserToDBOccupiedLogin() throws OccupiedLoginException {
+        RegistrationInfoDto registrationInfoDto = getRegistrationInfoDto();
+        when(userRepository.save(any(User.class))).thenThrow(DataIntegrityViolationException.class);
+
+        userService.addNewUserToDB(registrationInfoDto);
+
+        fail();
     }
 
     @Test
-    public void replenishAccountBalance() {
+    public void replenishAccountBalanceAllCorrect() throws NoSuchUserException {
+        User expected = getAdverser();
+        User setIn = getAdverser();
+        setIn.setUserMoneyInCents(0L);
+        expected.setUserMoneyInCents(10L);
+        long paymentSum = 10L;
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(setIn));
+        doAnswer((i) -> i.getArgument(0)).when(userRepository).save(any(User.class));
+
+        User result = userService.replenishAccountBalance(expected.getId(),paymentSum);
+
+        verify(userRepository, times(1)).save(any(User.class));
+        assertEquals(expected, result);
+        assertEquals(10L, setIn.getUserMoneyInCents());
     }
+
+    @Test(expected = NoSuchUserException.class)
+    public void replenishAccountBalanceNoSuchUser() throws NoSuchUserException {
+        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        userService.replenishAccountBalance(getUserId(), 10);
+
+        fail();
+    }
+
+    private RegistrationInfoDto getRegistrationInfoDto() {
+        return RegistrationInfoDto.builder()
+                .password("password")
+                .passwordRepeat("password")
+                .username("email")
+                .build();
+    }
+
+    private User getUser(RegistrationInfoDto registrationInfoDto) {
+        return User.builder()
+                .id(0)
+                .accountNonExpired(true)
+                .credentialsNonExpired(true)
+                .accountNonLocked(true)
+                .email(registrationInfoDto.getUsername())
+                .enabled(true)
+                .userMoneyInCents(0L)
+                .password(passwordEncoder.encode(registrationInfoDto.getPassword()))
+                .roleType(RoleType.ROLE_USER)
+                .build();
+    }
+
 }
