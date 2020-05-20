@@ -1,18 +1,18 @@
 package ua.testing.authorization.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+
 public class Bill {
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -36,5 +36,25 @@ public class Bill {
     @Override
     public String toString() {
         return "Bill{}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bill bill = (Bill) o;
+        boolean q = id == bill.id;
+        boolean s = isDeliveryPaid == bill.isDeliveryPaid;
+        boolean a = costInCents == bill.costInCents;
+        boolean w = user.equals(bill.user);
+        return id == bill.id &&
+                isDeliveryPaid == bill.isDeliveryPaid &&
+                costInCents == bill.costInCents &&
+                user.equals(bill.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, isDeliveryPaid, costInCents, dateOfPay);
     }
 }

@@ -33,7 +33,7 @@ public class HomeController {
     public ModelAndView home(Locale locale) {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
-        modelAndView.addObject("localityDtoList",localityService.getLocalities(locale));
+        modelAndView.addObject("localityDtoList", localityService.getLocalities(locale));
         return modelAndView;
     }
 

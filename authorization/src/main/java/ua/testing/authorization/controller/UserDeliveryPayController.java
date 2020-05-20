@@ -34,7 +34,7 @@ public class UserDeliveryPayController {
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-pay");
         User user = Util.getUserFromSession(httpSession);
         modelAndView.addObject("BillInfoToPayDtoList",
-                billService.getBillsToPayByUserID(user.getId(),locale));
+                billService.getBillsToPayByUserID(user.getId(), locale));
         modelAndView.addObject(user);
         return modelAndView;
     }

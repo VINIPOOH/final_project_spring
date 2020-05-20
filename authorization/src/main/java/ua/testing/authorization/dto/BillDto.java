@@ -1,7 +1,12 @@
 package ua.testing.authorization.dto;
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+
 import java.time.LocalDate;
 
+@Builder
+@EqualsAndHashCode
 public class BillDto {
     private long deliveryId;
     private long id;

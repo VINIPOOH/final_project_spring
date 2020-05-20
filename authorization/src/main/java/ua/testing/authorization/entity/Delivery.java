@@ -29,4 +29,6 @@ public class Delivery {
     private boolean isPackageReceived;
     @Column(nullable = false)
     private int weight;
+
+
 }

@@ -1,8 +1,6 @@
 package ua.testing.authorization.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.testing.authorization.dto.DeliveryInfoRequestDto;
 import ua.testing.authorization.dto.DeliveryInfoToGetDto;
@@ -35,15 +33,28 @@ public class DeliveryService {
         this.deliveryRepository = deliveryRepository;
     }
 
-    public Page<Delivery> findDeliveryHistoryByUserId(long userId, Pageable pageable) {
-//        return deliveryRepository.findAllByAddressee_IdOrAddresser_Id(userId, userId, pageable);
-        return null;
-    }
-
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
         return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId).stream()
                 .map(getDeliveryInfoToGetDtoMapper(locale)::map)
                 .collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public void confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
+        Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId).orElseThrow(AskedDataIsNotExist::new);
+        delivery.setPackageReceived(true);
+        deliveryRepository.save(delivery);
+    }
+
+
+    public PriceAndTimeOnDeliveryDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
+            throws NoSuchWayException, UnsupportableWeightFactorException {
+        Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());
+        return PriceAndTimeOnDeliveryDto.builder()
+                .costInCents(calculateDeliveryCost(deliveryInfoRequestDto.getDeliveryWeight(), way))
+                .timeOnWayInHours(way.getTimeOnWayInDays())
+                .build();
     }
 
     private Mapper<Delivery, DeliveryInfoToGetDto> getDeliveryInfoToGetDtoMapper(Locale locale) {
@@ -63,23 +74,6 @@ public class DeliveryService {
             }
             return deliveryInfo;
         };
-    }
-
-    @Transactional
-    public void confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
-        Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId).orElseThrow(AskedDataIsNotExist::new);
-        delivery.setPackageReceived(true);
-        deliveryRepository.save(delivery);
-    }
-
-
-    public PriceAndTimeOnDeliveryDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
-            throws NoSuchWayException, UnsupportableWeightFactorException {
-        Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());
-        return PriceAndTimeOnDeliveryDto.builder()
-                .costInCents(calculateDeliveryCost(deliveryInfoRequestDto.getDeliveryWeight(), way))
-                .timeOnWayInHours(way.getTimeOnWayInDays())
-                .build();
     }
 
     private Way getWay(long localitySandId, long localityGetId) throws NoSuchWayException {

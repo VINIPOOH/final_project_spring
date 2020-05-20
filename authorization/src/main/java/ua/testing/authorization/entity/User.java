@@ -1,6 +1,9 @@
 package ua.testing.authorization.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,12 +11,13 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode()
+
 
 @Entity
 @Table(name = "user",
@@ -34,7 +38,7 @@ public class User implements UserDetails {
     @Column(nullable = false, columnDefinition = "BIGINT default 0")
     private Long userMoneyInCents;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressee")
-    private transient List<Delivery> deliveriesForUser;
+    private List<Delivery> deliveriesForUser;
 
     @Column(nullable = false, columnDefinition = "BIT(1) default 1")
     private boolean accountNonExpired;
@@ -46,7 +50,7 @@ public class User implements UserDetails {
     private boolean enabled;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private transient List<Bill> bills;
+    private List<Bill> bills;
 
 
     @Override
@@ -62,5 +66,26 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                accountNonExpired == user.accountNonExpired &&
+                accountNonLocked == user.accountNonLocked &&
+                credentialsNonExpired == user.credentialsNonExpired &&
+                enabled == user.enabled &&
+                email.equals(user.email) &&
+                roleType == user.roleType &&
+                password.equals(user.password) &&
+                userMoneyInCents.equals(user.userMoneyInCents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, roleType, password, userMoneyInCents, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled);
     }
 }

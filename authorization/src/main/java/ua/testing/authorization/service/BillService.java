@@ -12,16 +12,13 @@ import ua.testing.authorization.entity.Bill;
 import ua.testing.authorization.entity.Delivery;
 import ua.testing.authorization.entity.User;
 import ua.testing.authorization.entity.Way;
-import ua.testing.authorization.exception.DeliveryAlreadyPaidException;
-import ua.testing.authorization.exception.NotEnoughMoneyException;
-import ua.testing.authorization.exception.UnsupportableWeightFactorException;
+import ua.testing.authorization.exception.*;
 import ua.testing.authorization.repository.BillRepository;
 import ua.testing.authorization.repository.DeliveryRepository;
 import ua.testing.authorization.repository.UserRepository;
 import ua.testing.authorization.repository.WayRepository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -82,24 +79,24 @@ public class BillService {
 
     //
     @Transactional
-    public void initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException {
+    public Bill initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException, NoSuchUserException, NoSuchWayException {
 
-        User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).get();
-        Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID()).get();
+        User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new);
+        Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID())
+                .orElseThrow(NoSuchWayException::new);
         Delivery newDelivery = deliveryRepository.save(Delivery.builder()
                 .addressee(addressee)
                 .way(way)
                 .weight(deliveryOrderCreateDto.getDeliveryWeight())
                 .build());
         long cost = calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way);
-        User sender = userRepository.findById(initiatorId).get();
+        User sender = userRepository.findById(initiatorId).orElseThrow(DBWorkIncorrectException::new);
         Bill bill = Bill.builder()
                 .delivery(newDelivery)
                 .user(sender)
                 .costInCents(cost)
-                .dateOfPay(LocalDate.now())
                 .build();
-        billRepository.save(bill);
+        return billRepository.save(bill);
     }
 
     private int calculateDeliveryCost(int deliveryWeight, Way way) throws UnsupportableWeightFactorException {
