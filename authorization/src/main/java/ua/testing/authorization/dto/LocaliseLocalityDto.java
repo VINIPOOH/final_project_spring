@@ -1,5 +1,8 @@
 package ua.testing.authorization.dto;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class LocaliseLocalityDto {
     private Long id;
     private String name;

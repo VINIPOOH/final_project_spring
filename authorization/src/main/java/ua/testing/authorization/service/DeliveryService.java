@@ -12,7 +12,6 @@ import ua.testing.authorization.exception.AskedDataIsNotExist;
 import ua.testing.authorization.exception.NoSuchWayException;
 import ua.testing.authorization.exception.UnsupportableWeightFactorException;
 import ua.testing.authorization.repository.DeliveryRepository;
-import ua.testing.authorization.repository.UserRepository;
 import ua.testing.authorization.repository.WayRepository;
 
 import javax.transaction.Transactional;
@@ -22,16 +21,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class DeliveryService {
-    private final UserRepository userRepository;
+
     private final WayRepository wayRepository;
     private final DeliveryRepository deliveryRepository;
 
     @Autowired
-    public DeliveryService(UserRepository userRepository, WayRepository wayRepository, DeliveryRepository deliveryRepository) {
-        this.userRepository = userRepository;
+    public DeliveryService(WayRepository wayRepository, DeliveryRepository deliveryRepository) {
         this.wayRepository = wayRepository;
         this.deliveryRepository = deliveryRepository;
     }
+
+
 
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
         return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId).stream()
@@ -39,12 +39,13 @@ public class DeliveryService {
                 .collect(Collectors.toList());
     }
 
-
     @Transactional
-    public void confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
-        Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId).orElseThrow(AskedDataIsNotExist::new);
+    public boolean confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
+        Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId)
+                .orElseThrow(AskedDataIsNotExist::new);
         delivery.setPackageReceived(true);
         deliveryRepository.save(delivery);
+        return true;
     }
 
 
@@ -78,8 +79,7 @@ public class DeliveryService {
 
     private Way getWay(long localitySandId, long localityGetId) throws NoSuchWayException {
         return wayRepository.findByLocalitySand_IdAndLocalityGet_Id(localitySandId
-                , localityGetId)
-                .orElseThrow(NoSuchWayException::new);
+                , localityGetId).orElseThrow(NoSuchWayException::new);
     }
 
     private int calculateDeliveryCost(int deliveryWeight, Way way) throws UnsupportableWeightFactorException {

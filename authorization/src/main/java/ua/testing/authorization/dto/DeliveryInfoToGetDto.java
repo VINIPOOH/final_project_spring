@@ -1,5 +1,8 @@
 package ua.testing.authorization.dto;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class DeliveryInfoToGetDto {
     private String addresserEmail;
     private Long deliveryId;
