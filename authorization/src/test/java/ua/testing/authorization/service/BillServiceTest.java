@@ -53,7 +53,6 @@ public class BillServiceTest {
     @Before
     public void init() {
 
-
         when(billRepository.findByIdAndIsDeliveryPaidFalse(getBillId())).thenReturn(Optional.of(getBill()));
         when(billRepository.findAllByUserIdAndIsDeliveryPaidFalse(anyLong())).thenReturn(getBills());
         doAnswer((invocation) -> invocation.getArgument(0)).when(billRepository).save(any(Bill.class));
@@ -140,6 +139,7 @@ public class BillServiceTest {
         verify(billRepository, times(1)).findAllByUserIdAndIsDeliveryPaidFalse(getUserId());
         assertEquals(getBills().size(), result.size());
         assertEquals(billInfoToPayDto, result.get(0));
+        assertEquals(billInfoToPayDto, result.get(0));
     }
 
     @Test
@@ -153,6 +153,7 @@ public class BillServiceTest {
 
         verify(billRepository, times(1)).findAllByUserIdAndIsDeliveryPaidFalse(getUserId());
         assertEquals(getBills().size(), billInfoToPayDtos.size());
+        assertEquals(billInfoToPayDto, billInfoToPayDtos.get(0));
     }
 
 
@@ -164,6 +165,7 @@ public class BillServiceTest {
 
         verify(billRepository, times(1)).findAllByUserIdAndIsDeliveryPaidFalse(getUserId());
         Assert.assertEquals(0, billInfoToPayDtos.size());
+
     }
 
     @Test

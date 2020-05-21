@@ -81,6 +81,8 @@ public class UserServiceTest {
         RegistrationInfoDto registrationInfoDto = getRegistrationInfoDto();
         doAnswer((i) -> i.getArgument(0)).when(userRepository).save(any(User.class));
         User expected = getUser(registrationInfoDto);
+        doAnswer((invocation) -> invocation.getArgument(0)).when(passwordEncoder).encode(anyString());
+
 
         User result = userService.addNewUserToDB(registrationInfoDto);
 
@@ -93,6 +95,7 @@ public class UserServiceTest {
     @Test(expected = OccupiedLoginException.class)
     public void addNewUserToDBOccupiedLogin() throws OccupiedLoginException {
         RegistrationInfoDto registrationInfoDto = getRegistrationInfoDto();
+        doAnswer((invocation) -> invocation.getArgument(0)).when(passwordEncoder).encode(anyString());
         when(userRepository.save(any(User.class))).thenThrow(DataIntegrityViolationException.class);
 
         userService.addNewUserToDB(registrationInfoDto);
