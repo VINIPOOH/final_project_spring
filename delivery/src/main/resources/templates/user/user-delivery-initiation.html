@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="~{layout/header.html::head_base_data}"></div>
+    <title th:text="#{homepage.title}"></title>
+</head>
+<body>
+<div th:include="~{layout/header.html::header}"></div>
+<div th:include="~{layout/header.html::userHeader}"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-heading" th:text="#{homepage.form.header}"></h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form" id="form" method="post" th:action="@{/user/user-delivery-initiation}"
+                          th:object="${deliveryOrderCreateDto}">
+                        <div>
+                            <div class="alert alert-danger" role="alert" th:if="${incorrectWeightInput}">
+                                <p th:text="#{homepage.form.weight.incorect}"></p>
+                            </div>
+                            <div class="alert alert-danger" role="alert" th:if="${unsupportableWeightFactorException}">
+                                <p th:text="#{registrationpage.form.weight.wrong}"></p>
+                            </div>
+                            <div class="alert alert-danger" role="alert" th:if="${noSuchWayException}">
+                                <p th:text="#{registrationpage.form.way.wrong}"></p>
+                            </div>
+                            <div class="alert alert-danger" role="alert" th:if="${addresseeIsNotExist}">
+                                <p th:text="#{registrationpage.form.adresee.wrong}"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="deliveryWeight" name="deliveryWeight"
+                                   th:placeholder="#{homepage.form.weight}"
+                                   type="number">
+                        </div>
+                        <label th:text="#{homepage.form.label.locality_sand}"></label>
+                        <select class="form-control" form="form" th:field="*{localitySandID}">
+                            <option th:each="locality :${localityDtoList}" th:id="localitySandID"
+                                    th:name="localitySandID" th:text="${locality.name}"
+                                    th:value="${locality.id}"></option>
+                        </select>
+                        <label th:text="#{homepage.form.label.locality_get}"></label>
+                        <select class="form-control" form="form" th:field="*{localityGetID}">
+                            <option th:each="locality :${localityDtoList}" th:id="localityGetID"
+                                    th:name="localityGetID" th:text="${locality.name}"
+                                    th:value="${locality.id}"></option>
+                        </select>
+                        <label th:text="#{homepage.form.label.aderesee.email}"></label>
+                        <div class="form-group">
+                            <input class="form-control" id="addresseeEmail" name="addresseeEmail" type="email">
+                        </div>
+
+                        <button class="btn btn-success" th:text="#{homepage.form.button}" type="submit"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:include="~{layout/header.html::head_base_data}"></div>
+    <title th:text="#{title.registrationpage}"></title>
+</head>
+<body>
+<div th:include="~{layout/header.html::header}"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-heading" th:text="#{registrationpage.form.header}"></h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form" method="post" th:action="@{/registration}" th:object="${registrationInfoDto}">
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
+                            <p th:if="${#fields.hasErrors('username')}"
+                               th:text="#{registrationpage.form.login.wrong}"></p>
+                            <p th:if="${#fields.hasErrors('passwordRepeat')}"
+                               th:text="#{registrationpage.form.password_reapit.wrong}"></p>
+                            <p th:if="${#fields.hasErrors('password')}"
+                               th:text="#{registrationpage.form.password.wrong}"></p>
+                        </div>
+
+                        <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
+                        <div class="form-group">
+                            <label for="username">notIntEmail</label>
+                            <input class="form-control" id="username" name="username" placeholder="notInt" type="text">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="password" name="password" type="password">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="passwordRepeat" name="passwordRepeat" type="password">
+                        </div>
+                        <button class="btn btn-success" th:text="#{registrationpage.button.registration}"
+                                type="submit"></button>
+                        <a align="left" class="btn" th:href="@{/login}"
+                           th:text="#{registrationpage.button.gotoLogin}"></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
