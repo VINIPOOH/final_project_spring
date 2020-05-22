@@ -24,7 +24,7 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email)  {
+    public UserDetails loadUserByUsername(String email) {
         log.debug("email" + email);
 
 

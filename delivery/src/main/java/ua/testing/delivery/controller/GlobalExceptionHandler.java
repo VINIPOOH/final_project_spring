@@ -5,7 +5,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -16,6 +19,14 @@ public class GlobalExceptionHandler {
         log.debug("");
 
         return "redirect:/404";
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ModelAndView noSuchUserException(RedirectAttributes redirectAttributes) {
+        log.debug("");
+
+        redirectAttributes.addFlashAttribute("addresseeIsNotExist", true);
+        return new ModelAndView("redirect:/405");
     }
 
 }

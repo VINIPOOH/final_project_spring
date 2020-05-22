@@ -10,12 +10,13 @@
 <div th:include="~{layout/header.html::adminHeader}"></div>
 <div class="container" name="deliveries">
     <div class="row border border-info mt-2 rounded" th:each="billInfo : ${BillDtoPage}">
-        <p1 th:text="${billInfo.id}+${billInfo.deliveryId}+${billInfo.costInCents}
-+${billInfo.dateOfPay}"></p1>
+        <p1 th:text="#{user-statistic.bill.number} + ${billInfo.id}+ #{user-statistic.delivery.number} +
+        ${billInfo.deliveryId}+ #{user-statistic.price}+ ${billInfo.costInCents} +
+        #{user-statistic.pay.date} +${billInfo.dateOfPay}"></p1>
     </div>
     <div class="pagination-div">
     <span th:if="${BillDtoPage.hasPrevious()}">
-        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number - 1},size=${BillDtoPage.size})}">Previous</a>
+        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number - 1},size=${BillDtoPage.size})}" th:text="#{user_statisticpage.button.previous}"></a>
     </span>
         <th:block th:each="i : ${#numbers.sequence(0, BillDtoPage.totalPages - 1)}">
             <span class="selected" th:if="${BillDtoPage.number == i}">[[${i}+1]]</span>
@@ -24,7 +25,7 @@
         </span>
         </th:block>
         <span th:if="${BillDtoPage.hasNext()}">
-        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number + 1},size=${BillDtoPage.size})}">Next</a>
+        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number + 1},size=${BillDtoPage.size})}" th:text="#{user_statisticpage.button.next}">Next</a>
     </span>
     </div>
 </div>

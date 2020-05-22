@@ -16,7 +16,13 @@ public class CustomErrorController implements ErrorController {
     private static Logger log = LogManager.getLogger(CustomErrorController.class);
 
     @GetMapping(value = {"/404"})
-    public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView error404(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
+        log.debug("");
+
+        return new ModelAndView("404");
+    }
+    @GetMapping(value = {"/405"})
+    public ModelAndView error405(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
         log.debug("");
 
         return new ModelAndView("404");
