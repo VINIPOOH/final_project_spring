@@ -7,8 +7,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -17,20 +15,25 @@ import javax.servlet.http.HttpSession;
 public class CustomErrorController implements ErrorController {
     private static Logger log = LogManager.getLogger(CustomErrorController.class);
 
-    @RequestMapping(value = {"/404"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/404"})
     public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
-        ModelAndView view = new ModelAndView("404");
-        return view;
+        log.debug("");
+
+        return new ModelAndView("404");
     }
 
     @GetMapping("/error")
     public String getErrorPage() {
+        log.debug("");
+
         return "404";
     }
 
 
     @Override
     public String getErrorPath() {
+        log.debug("");
+
         return "/error";
     }
 }

@@ -5,10 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.testing.delivery.dto.DeliveryOrderCreateDto;
@@ -26,6 +23,7 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryInitiationController {
+    public static final String REDIRECT_USER_USER_DELIVERY_INITIATION = "redirect:/user/user-delivery-initiation";
     private static Logger log = LogManager.getLogger(UserDeliveryInitiationController.class);
 
     private final BillService billService;
@@ -39,7 +37,7 @@ public class UserDeliveryInitiationController {
         this.localityService = localityService;
     }
 
-    @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.GET)
+    @GetMapping(value = {"user-delivery-initiation"})
     public ModelAndView userDeliveryInitiation(Locale locale) {
         log.debug("");
 
@@ -49,13 +47,13 @@ public class UserDeliveryInitiationController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.POST)
+    @PostMapping(value = {"user-delivery-initiation"})
     public ModelAndView userDeliveryInitiationPost(@Valid @ModelAttribute DeliveryOrderCreateDto deliveryOrderCreateDto,
                                                    BindingResult bindingResult, HttpSession httpSession,
                                                    RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException {
         log.debug("deliveryOrderCreateDto" + deliveryOrderCreateDto);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/user/user-delivery-initiation");
+        ModelAndView modelAndView = new ModelAndView(REDIRECT_USER_USER_DELIVERY_INITIATION);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
             return modelAndView;
@@ -71,7 +69,7 @@ public class UserDeliveryInitiationController {
 
 
         redirectAttributes.addFlashAttribute("noSuchWayException", true);
-        return new ModelAndView("redirect:/user/user-delivery-initiation");
+        return new ModelAndView(REDIRECT_USER_USER_DELIVERY_INITIATION);
     }
 
     @ExceptionHandler(UnsupportableWeightFactorException.class)
@@ -79,7 +77,7 @@ public class UserDeliveryInitiationController {
         log.debug("UnsupportableWeightFactorException");
 
         redirectAttributes.addFlashAttribute("unsupportableWeightFactorException", true);
-        return new ModelAndView("redirect:/user/user-delivery-initiation");
+        return new ModelAndView(REDIRECT_USER_USER_DELIVERY_INITIATION);
     }
 
     @ExceptionHandler(NoSuchUserException.class)
@@ -87,6 +85,6 @@ public class UserDeliveryInitiationController {
         log.debug("NoSuchUserException");
 
         redirectAttributes.addFlashAttribute("addresseeIsNotExist", true);
-        return new ModelAndView("redirect:/user/user-delivery-initiation");
+        return new ModelAndView(REDIRECT_USER_USER_DELIVERY_INITIATION);
     }
 }

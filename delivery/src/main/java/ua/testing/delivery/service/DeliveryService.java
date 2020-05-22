@@ -37,9 +37,8 @@ public class DeliveryService {
     }
 
 
-
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
-        log.debug("userId"+ userId);
+        log.debug("userId" + userId);
 
         return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId).stream()
                 .map(getDeliveryInfoToGetDtoMapper(locale)::map)
@@ -48,7 +47,7 @@ public class DeliveryService {
 
     @Transactional
     public boolean confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
-        log.debug("userId"+ userId + "deliveryId"+ deliveryId);
+        log.debug("userId" + userId + "deliveryId" + deliveryId);
 
 
         Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId)
@@ -61,7 +60,7 @@ public class DeliveryService {
 
     public PriceAndTimeOnDeliveryDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
             throws NoSuchWayException, UnsupportableWeightFactorException {
-        log.debug("deliveryInfoRequestDto"+ deliveryInfoRequestDto);
+        log.debug("deliveryInfoRequestDto" + deliveryInfoRequestDto);
 
 
         Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());

@@ -45,14 +45,6 @@ public class Way {
 
     @Override
     public String toString() {
-        return "Way{"; //+
-//                "id=" + id +
-//                ", localitySand=" + localitySand.getNameRu() +
-//                ", localityGet=" + localityGet.getNameRu() +
-//                ", distanceInKilometres=" + distanceInKilometres +
-//                ", timeOnWayInHours=" + timeOnWayInHours +
-//                ", priceForKilometerInCents=" + priceForKilometerInCents +
-//                ", wayTariffs=" + wayTariffs +
-//                '}';
+        return "Way{";
     }
 }

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.testing.delivery.dto.DeliveryInfoRequestDto;
@@ -22,6 +22,7 @@ import java.util.Locale;
 
 @Controller
 public class HomeController {
+    public static final String REDIRECT_HOME = "redirect:/home";
     private static Logger log = LogManager.getLogger(HomeController.class);
 
 
@@ -36,7 +37,7 @@ public class HomeController {
         this.localityService = localityService;
     }
 
-    @RequestMapping(value = {"/home","/"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/home", "/"})
     public ModelAndView home(Locale locale) {
         log.debug("");
 
@@ -46,13 +47,13 @@ public class HomeController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/home"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/home"})
     public ModelAndView homeCount
             (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult,
              RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException {
         log.debug(deliveryInfoRequestDto);
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/home");
+        ModelAndView modelAndView = new ModelAndView(REDIRECT_HOME);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
             return modelAndView;
@@ -65,12 +66,12 @@ public class HomeController {
     @ExceptionHandler(NoSuchWayException.class)
     public ModelAndView noSuchWayExceptionHandling(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("noSuchWayException", true);
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView(REDIRECT_HOME);
     }
 
     @ExceptionHandler(UnsupportableWeightFactorException.class)
     public ModelAndView unsupportableWeightFactorException(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("unsupportableWeightFactorException", true);
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView(REDIRECT_HOME);
     }
 }

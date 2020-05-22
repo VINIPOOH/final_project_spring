@@ -80,8 +80,8 @@ public class User implements UserDetails {
                 enabled == user.enabled &&
                 email.equals(user.email) &&
                 roleType == user.roleType &&
-                userMoneyInCents==user.userMoneyInCents &&
-                password.equals(user.password) ;
+                userMoneyInCents == user.userMoneyInCents &&
+                password.equals(user.password);
     }
 
     @Override

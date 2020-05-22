@@ -46,7 +46,7 @@ public class BillService {
     }
 
     public List<BillInfoToPayDto> getBillsToPayByUserID(long userId, Locale locale) {
-        log.debug("userId"+ userId);
+        log.debug("userId" + userId);
 
 
         return billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userId).stream()
@@ -76,7 +76,7 @@ public class BillService {
 
     @Transactional
     public boolean payForDelivery(long userId, long billId) throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
-        log.debug("userId"+ userId + "billId"+ billId);
+        log.debug("userId" + userId + "billId" + billId);
 
 
         Bill bill = billRepository.findByIdAndIsDeliveryPaidFalse(billId).orElseThrow(DeliveryAlreadyPaidException::new);
@@ -92,7 +92,7 @@ public class BillService {
     @Transactional
     public Bill initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException, NoSuchUserException, NoSuchWayException {
 
-        log.debug("deliveryOrderCreateDto"+ deliveryOrderCreateDto);
+        log.debug("deliveryOrderCreateDto" + deliveryOrderCreateDto);
 
         User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new);
         Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID())
@@ -122,7 +122,7 @@ public class BillService {
     }
 
     public Page<BillDto> getBillHistoryByUserId(long userId, Pageable pageable) {
-        log.debug("userId"+ userId);
+        log.debug("userId" + userId);
 
 
         return billRepository.findAllByUserIdAndIsDeliveryPaidTrue(userId, pageable).map(getBillBillDtoMapper()::map);

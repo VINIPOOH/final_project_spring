@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.exception.NoSuchUserException;
-import ua.testing.delivery.service.DeliveryService;
 import ua.testing.delivery.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -22,17 +22,15 @@ public class ProfileController {
     private static Logger log = LogManager.getLogger(ProfileController.class);
 
     private final UserService userService;
-    private final DeliveryService deliveryService;
 
     @Autowired
-    public ProfileController(UserService userService, DeliveryService deliveryService) {
+    public ProfileController(UserService userService) {
         log.debug("created");
 
         this.userService = userService;
-        this.deliveryService = deliveryService;
     }
 
-    @RequestMapping(value = {"/userprofile"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/userprofile"})
     public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
         log.debug(userDetails);
 
@@ -41,7 +39,7 @@ public class ProfileController {
         return view;
     }
 
-    @RequestMapping(value = {"/userprofile"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/userprofile"})
     public ModelAndView userProfileReplenish(HttpSession httpSession, int money) throws NoSuchUserException {
         log.debug("money");
 

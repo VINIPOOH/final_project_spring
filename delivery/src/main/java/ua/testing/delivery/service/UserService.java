@@ -59,7 +59,7 @@ public class UserService {
     @Transactional
     public User replenishAccountBalance(long userId, long amountMoney) throws NoSuchUserException {
 
-        log.debug("userId" + userId + "amountMoney"+amountMoney);
+        log.debug("userId" + userId + "amountMoney" + amountMoney);
 
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
         user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);
@@ -67,7 +67,7 @@ public class UserService {
     }
 
     private EntityMapper<User, RegistrationInfoDto> getMapper() {
-        return (registration) -> User.builder()
+        return registration -> User.builder()
                 .accountNonExpired(true)
                 .credentialsNonExpired(true)
                 .accountNonLocked(true)

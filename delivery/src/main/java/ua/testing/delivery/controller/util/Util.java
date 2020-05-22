@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 public class Util {
     private static Logger log = LogManager.getLogger(Util.class);
 
+    private Util() {
+    }
+
     public static User getUserFromSession(HttpSession httpSession) {
         log.debug(httpSession.getAttribute(SessionConstants.SESSION_USER));
 

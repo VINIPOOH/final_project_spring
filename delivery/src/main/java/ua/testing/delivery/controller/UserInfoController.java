@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.service.BillService;
@@ -30,7 +30,7 @@ public class UserInfoController {
     }
 
 
-    @RequestMapping(value = "/user-statistic", method = RequestMethod.GET)
+    @GetMapping(value = "/user-statistic")
     public ModelAndView userStatistic(HttpSession httpSession,
                                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 4) Pageable pageable) {
         log.debug("");

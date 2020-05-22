@@ -18,8 +18,4 @@ public class GlobalExceptionHandler {
         return "redirect:/404";
     }
 
-//    @ExceptionHandler(Throwable.class)
-//    public String unCachedExceptionHandler() {
-//        return "redirect:/405";
-//    }
 }

@@ -43,10 +43,6 @@ public class Bill {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bill bill = (Bill) o;
-        boolean q = id == bill.id;
-        boolean s = isDeliveryPaid == bill.isDeliveryPaid;
-        boolean a = costInCents == bill.costInCents;
-        boolean w = user.equals(bill.user);
         return id == bill.id &&
                 isDeliveryPaid == bill.isDeliveryPaid &&
                 costInCents == bill.costInCents &&
