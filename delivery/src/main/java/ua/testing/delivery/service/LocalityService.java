@@ -1,5 +1,7 @@
 package ua.testing.delivery.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.testing.delivery.dto.LocaliseLocalityDto;
@@ -13,14 +15,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class LocalityService {
+    private static Logger log = LogManager.getLogger(LocalityService.class);
+
     private final LocalityRepository localityRepository;
 
     @Autowired
     public LocalityService(LocalityRepository localityRepository) {
+        log.debug("created");
+
         this.localityRepository = localityRepository;
     }
 
     public List<LocaliseLocalityDto> getLocalities(Locale locale) {
+        log.debug("");
+
+
         return localityRepository.findAll().stream()
                 .map(getLocalityToLocaliseLocalityDto(locale)::map)
                 .collect(Collectors.toList());

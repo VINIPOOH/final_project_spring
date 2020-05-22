@@ -1,18 +1,21 @@
 package ua.testing.delivery.controller;
 
 
-import lombok.extern.log4j.Log4j;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Log4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static Logger log = LogManager.getLogger(GlobalExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handling() {
-        return "404";
+        log.debug("");
+
+        return "redirect:404";
     }
 
 //    @ExceptionHandler(Throwable.class)

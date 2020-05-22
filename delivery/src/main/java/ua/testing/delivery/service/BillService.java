@@ -1,5 +1,7 @@
 package ua.testing.delivery.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class BillService {
+    private static Logger log = LogManager.getLogger(BillService.class);
+
 
     private final BillRepository billRepository;
     private final UserRepository userRepository;
@@ -33,6 +37,8 @@ public class BillService {
 
     @Autowired
     public BillService(BillRepository billRepository, UserRepository userRepository, DeliveryRepository deliveryRepository, WayRepository wayRepository) {
+        log.debug("created");
+
         this.billRepository = billRepository;
         this.userRepository = userRepository;
         this.deliveryRepository = deliveryRepository;
@@ -40,6 +46,9 @@ public class BillService {
     }
 
     public List<BillInfoToPayDto> getBillsToPayByUserID(long userId, Locale locale) {
+        log.debug("userId"+ userId);
+
+
         return billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userId).stream()
                 .map(getMapperBillInfoToPayDto(locale)::map)
                 .collect(Collectors.toList());
@@ -67,6 +76,8 @@ public class BillService {
 
     @Transactional
     public boolean payForDelivery(long userId, long billId) throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
+        log.debug("userId"+ userId + "billId"+ billId);
+
 
         Bill bill = billRepository.findByIdAndIsDeliveryPaidFalse(billId).orElseThrow(DeliveryAlreadyPaidException::new);
         User user = userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(userId, bill.getCostInCents()).orElseThrow(NotEnoughMoneyException::new);
@@ -80,6 +91,8 @@ public class BillService {
     //
     @Transactional
     public Bill initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException, NoSuchUserException, NoSuchWayException {
+
+        log.debug("deliveryOrderCreateDto"+ deliveryOrderCreateDto);
 
         User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new);
         Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID())
@@ -109,6 +122,9 @@ public class BillService {
     }
 
     public Page<BillDto> getBillHistoryByUserId(long userId, Pageable pageable) {
+        log.debug("userId"+ userId);
+
+
         return billRepository.findAllByUserIdAndIsDeliveryPaidTrue(userId, pageable).map(getBillBillDtoMapper()::map);
     }
 

@@ -1,5 +1,7 @@
 package ua.testing.delivery.controller;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,17 +19,22 @@ import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
+    private static Logger log = LogManager.getLogger(RegistrationController.class);
+
 
     private final UserService userService;
 
     @Autowired
     public RegistrationController(UserService userService) {
+        log.debug("created");
 
         this.userService = userService;
     }
 
     @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
     public ModelAndView registrationTry(Model model) {
+        log.debug("model");
+
         model.addAttribute("registrationInfoDto", new RegistrationInfoDto());
         return new ModelAndView("registration");
     }

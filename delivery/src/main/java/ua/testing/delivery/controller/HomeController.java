@@ -1,5 +1,7 @@
 package ua.testing.delivery.controller;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,17 +22,24 @@ import java.util.Locale;
 
 @Controller
 public class HomeController {
+    private static Logger log = LogManager.getLogger(HomeController.class);
+
+
     private final DeliveryService deliveryService;
     private final LocalityService localityService;
 
     @Autowired
     public HomeController(DeliveryService deliveryService, LocalityService localityService) {
+        log.debug("created");
+
         this.deliveryService = deliveryService;
         this.localityService = localityService;
     }
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
     public ModelAndView home(Locale locale) {
+        log.debug("");
+
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject(new DeliveryInfoRequestDto());
         modelAndView.addObject("localityDtoList", localityService.getLocalities(locale));
@@ -41,6 +50,8 @@ public class HomeController {
     public ModelAndView homeCount
             (@Valid @ModelAttribute DeliveryInfoRequestDto deliveryInfoRequestDto, BindingResult bindingResult,
              RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException {
+        log.debug(deliveryInfoRequestDto);
+
         ModelAndView modelAndView = new ModelAndView("redirect:/home");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);

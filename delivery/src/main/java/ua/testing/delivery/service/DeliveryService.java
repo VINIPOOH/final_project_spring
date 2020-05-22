@@ -1,5 +1,7 @@
 package ua.testing.delivery.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.testing.delivery.dto.DeliveryInfoRequestDto;
@@ -21,12 +23,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class DeliveryService {
+    private static Logger log = LogManager.getLogger(DeliveryService.class);
 
     private final WayRepository wayRepository;
     private final DeliveryRepository deliveryRepository;
 
     @Autowired
     public DeliveryService(WayRepository wayRepository, DeliveryRepository deliveryRepository) {
+        log.debug("created");
+
         this.wayRepository = wayRepository;
         this.deliveryRepository = deliveryRepository;
     }
@@ -34,6 +39,8 @@ public class DeliveryService {
 
 
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
+        log.debug("userId"+ userId);
+
         return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId).stream()
                 .map(getDeliveryInfoToGetDtoMapper(locale)::map)
                 .collect(Collectors.toList());
@@ -41,6 +48,9 @@ public class DeliveryService {
 
     @Transactional
     public boolean confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
+        log.debug("userId"+ userId + "deliveryId"+ deliveryId);
+
+
         Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId)
                 .orElseThrow(AskedDataIsNotExist::new);
         delivery.setPackageReceived(true);
@@ -51,6 +61,9 @@ public class DeliveryService {
 
     public PriceAndTimeOnDeliveryDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
             throws NoSuchWayException, UnsupportableWeightFactorException {
+        log.debug("deliveryInfoRequestDto"+ deliveryInfoRequestDto);
+
+
         Way way = getWay(deliveryInfoRequestDto.getLocalitySandID(), deliveryInfoRequestDto.getLocalityGetID());
         return PriceAndTimeOnDeliveryDto.builder()
                 .costInCents(calculateDeliveryCost(deliveryInfoRequestDto.getDeliveryWeight(), way))

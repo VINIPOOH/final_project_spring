@@ -1,5 +1,7 @@
 package ua.testing.delivery.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,26 +19,35 @@ import java.util.List;
 
 @Service
 public class UserService {
+    private static Logger log = LogManager.getLogger(UserService.class);
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        log.debug("created");
+
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
     public List<User> getAllUsers() {
+        log.debug("");
+
         return userRepository.findAll();
     }
 
     public User findByEmail(String email) {
+        log.debug("email" + email);
+
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with login: " + email));
     }
 
     public User addNewUserToDB(RegistrationInfoDto registrationInfoDto) throws OccupiedLoginException {
+        log.debug("registrationInfoDto" + registrationInfoDto);
+
         User user = getMapper().mapToEntity(registrationInfoDto);
         try {
             return userRepository.save(user);
@@ -47,6 +58,9 @@ public class UserService {
 
     @Transactional
     public User replenishAccountBalance(long userId, long amountMoney) throws NoSuchUserException {
+
+        log.debug("userId" + userId + "amountMoney"+amountMoney);
+
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
         user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);
         return userRepository.save(user);

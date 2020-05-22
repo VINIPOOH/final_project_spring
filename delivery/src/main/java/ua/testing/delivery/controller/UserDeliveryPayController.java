@@ -1,5 +1,7 @@
 package ua.testing.delivery.controller;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +20,15 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryPayController {
+    private static Logger log = LogManager.getLogger(UserDeliveryPayController.class);
 
     private final BillService billService;
     private final LocalityService localityService;
 
     @Autowired
     public UserDeliveryPayController(BillService billService, LocalityService localityService) {
+        log.debug("created");
+
         this.billService = billService;
         this.localityService = localityService;
     }
@@ -31,6 +36,8 @@ public class UserDeliveryPayController {
 
     @RequestMapping(value = {"user-delivery-pay"}, method = RequestMethod.GET)
     public ModelAndView userConfirmDelivers(HttpSession httpSession, Locale locale) {
+        log.debug("");
+
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-pay");
         User user = Util.getUserFromSession(httpSession);
         modelAndView.addObject("BillInfoToPayDtoList",
@@ -43,6 +50,8 @@ public class UserDeliveryPayController {
     @RequestMapping(value = {"user-delivery-pay"}, method = RequestMethod.POST)
     public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId)
             throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
+        log.debug("deliveryId" + deliveryId);
+
         billService.payForDelivery(Util.getUserFromSession(httpSession).getId(), deliveryId);
         return "redirect:/user/user-delivery-pay";
     }

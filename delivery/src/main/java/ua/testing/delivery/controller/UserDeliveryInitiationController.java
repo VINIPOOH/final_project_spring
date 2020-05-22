@@ -1,5 +1,7 @@
 package ua.testing.delivery.controller;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,18 +26,23 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryInitiationController {
+    private static Logger log = LogManager.getLogger(UserDeliveryInitiationController.class);
 
     private final BillService billService;
     private final LocalityService localityService;
 
     @Autowired
     public UserDeliveryInitiationController(BillService billService, LocalityService localityService) {
+        log.debug("created");
+
         this.billService = billService;
         this.localityService = localityService;
     }
 
     @RequestMapping(value = {"user-delivery-initiation"}, method = RequestMethod.GET)
     public ModelAndView userDeliveryInitiation(Locale locale) {
+        log.debug("");
+
         ModelAndView modelAndView = new ModelAndView("user/user-delivery-initiation");
         modelAndView.addObject(new DeliveryOrderCreateDto());
         modelAndView.addObject("localityDtoList", localityService.getLocalities(locale));
@@ -46,6 +53,8 @@ public class UserDeliveryInitiationController {
     public ModelAndView userDeliveryInitiationPost(@Valid @ModelAttribute DeliveryOrderCreateDto deliveryOrderCreateDto,
                                                    BindingResult bindingResult, HttpSession httpSession,
                                                    RedirectAttributes redirectAttributes) throws UnsupportableWeightFactorException, NoSuchWayException, NoSuchUserException {
+        log.debug("deliveryOrderCreateDto" + deliveryOrderCreateDto);
+
         ModelAndView modelAndView = new ModelAndView("redirect:/user/user-delivery-initiation");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
@@ -58,6 +67,8 @@ public class UserDeliveryInitiationController {
 
     @ExceptionHandler(NoSuchWayException.class)
     public ModelAndView noSuchWayExceptionHandling(RedirectAttributes redirectAttributes) {
+        log.debug("NoSuchWayException");
+
 
         redirectAttributes.addFlashAttribute("noSuchWayException", true);
         return new ModelAndView("redirect:/user/user-delivery-initiation");
@@ -65,12 +76,16 @@ public class UserDeliveryInitiationController {
 
     @ExceptionHandler(UnsupportableWeightFactorException.class)
     public ModelAndView unsupportableWeightFactorException(RedirectAttributes redirectAttributes) {
+        log.debug("UnsupportableWeightFactorException");
+
         redirectAttributes.addFlashAttribute("unsupportableWeightFactorException", true);
         return new ModelAndView("redirect:/user/user-delivery-initiation");
     }
 
     @ExceptionHandler(NoSuchUserException.class)
     public ModelAndView noSuchUserException(RedirectAttributes redirectAttributes) {
+        log.debug("NoSuchUserException");
+
         redirectAttributes.addFlashAttribute("addresseeIsNotExist", true);
         return new ModelAndView("redirect:/user/user-delivery-initiation");
     }

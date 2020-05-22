@@ -7,6 +7,7 @@
 <body>
 <div th:include="~{layout/header.html::header}"></div>
 <div th:include="~{layout/header.html::userHeader}"></div>
+<div th:include="~{layout/header.html::adminHeader}"></div>
 <div class="container" name="deliveries-which-wait-getting">
     <div class="row border border-info mt-2 rounded" th:each="deliveryForUser : ${DeliveryInfoToGetDtoList}">
         <div class="card-body col-md-3">

@@ -58,7 +58,7 @@
     </body>
     <body th:fragment="userHeader">
         <div class="row border border-secondary">
-            <nav , class="navbar navbar-default col-md-12">
+            <nav class="navbar navbar-default col-md-12">
                 <div class="container-fluid row">
                     <div class="col-md-10 row justify-content-start">
 
@@ -71,6 +71,18 @@
                            th:text="#{layout.userheader.delivery.pay}"></a>
                         <a class="col-2" th:href="@{/user/user-statistic}"
                            th:text="#{layout.userheader.user.statistic}"></a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </body>
+    <body th:fragment="adminHeader">
+        <div th:if="${session.user.roleType.name()== 'ROLE_ADMIN'}" class="row border border-secondary">
+            <nav class="navbar navbar-default col-md-12">
+                <div class="container-fluid row">
+                    <div class="col-md-10 row justify-content-start">
+                        <a class="col-2" th:href="@{/admin/users}"
+                           th:text="#{layout.adminheade.users}"></a>
                     </div>
                 </div>
             </nav>
