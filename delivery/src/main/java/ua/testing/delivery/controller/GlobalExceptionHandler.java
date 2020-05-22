@@ -15,11 +15,11 @@ public class GlobalExceptionHandler {
     public String handling() {
         log.debug("");
 
-        return "redirect:404";
+        return "redirect:/404";
     }
 
 //    @ExceptionHandler(Throwable.class)
 //    public String unCachedExceptionHandler() {
-//        return "405";
+//        return "redirect:/405";
 //    }
 }

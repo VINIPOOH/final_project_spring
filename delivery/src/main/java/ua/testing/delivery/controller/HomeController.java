@@ -36,7 +36,7 @@ public class HomeController {
         this.localityService = localityService;
     }
 
-    @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/home","/"}, method = RequestMethod.GET)
     public ModelAndView home(Locale locale) {
         log.debug("");
 
