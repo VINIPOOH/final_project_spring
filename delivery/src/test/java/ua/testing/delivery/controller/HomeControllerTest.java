@@ -47,7 +47,7 @@ public class HomeControllerTest {
     public void homeEn() {
         String expected = "home";
         Locality locality = getLocalitySend();
-        LocaliseLocalityDto localiseLocalityDto = getLocaliseLocalityDto(locality);
+        LocaliseLocalityDto localiseLocalityDto = getLocaliseLocalityDtoEn(locality);
         List<LocaliseLocalityDto> localities = Collections.singletonList(localiseLocalityDto);
         when(localityService.getLocalities(any(Locale.class))).thenReturn(localities);
 
@@ -64,7 +64,7 @@ public class HomeControllerTest {
     public void homeRu() {
         String expected = "home";
         Locality locality = getLocalitySend();
-        LocaliseLocalityDto localiseLocalityDto = getLocaliseLocalityDto(locality);
+        LocaliseLocalityDto localiseLocalityDto = getLocaliseLocalityDtoRu(locality);
         List<LocaliseLocalityDto> localities = Collections.singletonList(localiseLocalityDto);
         when(localityService.getLocalities(any(Locale.class))).thenReturn(localities);
 
@@ -177,9 +177,15 @@ public class HomeControllerTest {
                 .timeOnWayInHours(1)
                 .build();
     }
-    private LocaliseLocalityDto getLocaliseLocalityDto(Locality locality) {
+    private LocaliseLocalityDto getLocaliseLocalityDtoEn(Locality locality) {
         return LocaliseLocalityDto.builder()
                 .id(locality.getId())
                 .name(locality.getNameEn()).build();
+    }
+
+    private LocaliseLocalityDto getLocaliseLocalityDtoRu(Locality locality) {
+        return LocaliseLocalityDto.builder()
+                .id(locality.getId())
+                .name(locality.getNameRu()).build();
     }
 }
