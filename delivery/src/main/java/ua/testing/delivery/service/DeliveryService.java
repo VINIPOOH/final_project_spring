@@ -40,7 +40,7 @@ public class DeliveryService {
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
         log.debug("userId" + userId);
 
-        return deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(userId).stream()
+        return deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalse(userId).stream()
                 .map(getDeliveryInfoToGetDtoMapper(locale)::map)
                 .collect(Collectors.toList());
     }
@@ -50,7 +50,7 @@ public class DeliveryService {
         log.debug("userId" + userId + "deliveryId" + deliveryId);
 
 
-        Delivery delivery = deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(deliveryId, userId)
+        Delivery delivery = deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(deliveryId, userId)
                 .orElseThrow(AskedDataIsNotExist::new);
         delivery.setPackageReceived(true);
         deliveryRepository.save(delivery);

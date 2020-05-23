@@ -29,7 +29,7 @@ public class AdminPagesController {
         log.debug("");
 
         ModelAndView view = new ModelAndView("admin/users");
-        view.addObject(userService.getAllUsers());
+        view.addObject("userList", userService.getAllUsers());
         return view;
     }
 

@@ -30,7 +30,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
-import static ua.testing.delivery.service.ServisesTestConstant.*;
+import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = BillService.class)
@@ -59,10 +59,10 @@ public class BillServiceTest {
 
         doAnswer((invocation) -> invocation.getArgument(0)).when(deliveryRepository).save(any(Delivery.class));//
 //
-        when(userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(getUserId(), getBill().getCostInCents())).thenReturn(Optional.of(getAdverser()));
+        when(userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(getUserId(), getBill().getCostInCents())).thenReturn(Optional.of(getAddreser()));
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(getAdversee()));
         doAnswer((i) -> i.getArgument(0)).when(userRepository).save(any(User.class));
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(getAdverser()));
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(getAddreser()));
 //
         when(wayRepository.findByLocalitySand_IdAndLocalityGet_Id(anyLong(), anyLong())).thenReturn(Optional.of(getWay()));
 
@@ -186,7 +186,7 @@ public class BillServiceTest {
     public void payForDeliveryNotEnoughMoney() throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
         Bill bill = getBill();
         bill.setDeliveryPaid(false);
-        User adverser = getAdverser();
+        User adverser = getAddreser();
         adverser.setUserMoneyInCents(0L);
         when(userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(getUserId(), bill.getCostInCents())).thenReturn(Optional.empty());
 

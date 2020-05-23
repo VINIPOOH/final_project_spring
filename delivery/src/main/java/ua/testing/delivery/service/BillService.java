@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class BillService {
     private static Logger log = LogManager.getLogger(BillService.class);
 
-
     private final BillRepository billRepository;
     private final UserRepository userRepository;
     private final DeliveryRepository deliveryRepository;
@@ -47,7 +46,6 @@ public class BillService {
 
     public List<BillInfoToPayDto> getBillsToPayByUserID(long userId, Locale locale) {
         log.debug("userId" + userId);
-
 
         return billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userId).stream()
                 .map(getMapperBillInfoToPayDto(locale)::map)
@@ -78,7 +76,6 @@ public class BillService {
     public boolean payForDelivery(long userId, long billId) throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
         log.debug("userId" + userId + "billId" + billId);
 
-
         Bill bill = billRepository.findByIdAndIsDeliveryPaidFalse(billId).orElseThrow(DeliveryAlreadyPaidException::new);
         User user = userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(userId, bill.getCostInCents()).orElseThrow(NotEnoughMoneyException::new);
         user.setUserMoneyInCents(user.getUserMoneyInCents() - bill.getCostInCents());
@@ -95,21 +92,29 @@ public class BillService {
         log.debug("deliveryOrderCreateDto" + deliveryOrderCreateDto);
 
         User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new);
-        Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID(), deliveryOrderCreateDto.getLocalityGetID())
-                .orElseThrow(NoSuchWayException::new);
-        Delivery newDelivery = deliveryRepository.save(Delivery.builder()
-                .addressee(addressee)
-                .way(way)
-                .weight(deliveryOrderCreateDto.getDeliveryWeight())
-                .build());
-        long cost = calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way);
-        User sender = userRepository.findById(initiatorId).orElseThrow(DBWorkIncorrectException::new);
-        Bill bill = Bill.builder()
+        Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID()
+                , deliveryOrderCreateDto.getLocalityGetID()).orElseThrow(NoSuchWayException::new);
+        Delivery newDelivery = deliveryRepository.save(getBuildDelivery(deliveryOrderCreateDto, addressee, way));
+        return billRepository.save(
+                getBuildBill(newDelivery
+                        , calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way)
+                        , userRepository.findById(initiatorId).orElseThrow(DBWorkIncorrectException::new)));
+    }
+
+    private Bill getBuildBill(Delivery newDelivery, long cost, User sender) {
+        return Bill.builder()
                 .delivery(newDelivery)
                 .user(sender)
                 .costInCents(cost)
                 .build();
-        return billRepository.save(bill);
+    }
+
+    private Delivery getBuildDelivery(DeliveryOrderCreateDto deliveryOrderCreateDto, User addressee, Way way) {
+        return Delivery.builder()
+                .addressee(addressee)
+                .way(way)
+                .weight(deliveryOrderCreateDto.getDeliveryWeight())
+                .build();
     }
 
     private int calculateDeliveryCost(int deliveryWeight, Way way) throws UnsupportableWeightFactorException {

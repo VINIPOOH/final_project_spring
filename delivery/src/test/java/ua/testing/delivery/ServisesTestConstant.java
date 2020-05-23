@@ -1,4 +1,4 @@
-package ua.testing.delivery.service;
+package ua.testing.delivery;
 
 import ua.testing.delivery.dto.BillDto;
 import ua.testing.delivery.dto.BillInfoToPayDto;
@@ -51,7 +51,7 @@ public class ServisesTestConstant {
     public static DeliveryInfoToGetDto getDeliveryInfoToGetDto() {
         return DeliveryInfoToGetDto.builder()
                 .deliveryId(1L)
-                .addresserEmail(getAdverser().getEmail())
+                .addresserEmail(getAddreser().getEmail())
                 .build();
     }
 
@@ -78,10 +78,10 @@ public class ServisesTestConstant {
     }
 
     public static List<User> getUsers(){
-        return Collections.singletonList(getAdverser());
+        return Collections.singletonList(getAddreser());
     }
 
-    public static User getAdverser() {
+    public static User getAddreser() {
         return User.builder()
                 .id(USER_ID)
                 .email("emailAdreser")
@@ -155,7 +155,7 @@ public class ServisesTestConstant {
                 .costInCents(1)
                 .isDeliveryPaid(true)
                 .delivery(getDelivery())
-                .user(getAdverser())
+                .user(getAddreser())
                 .build();
     }
 

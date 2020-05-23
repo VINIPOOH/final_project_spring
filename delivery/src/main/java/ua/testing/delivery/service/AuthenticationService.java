@@ -27,9 +27,7 @@ public class AuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         log.debug("email" + email);
 
-
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with login: " + email));
-
     }
 }

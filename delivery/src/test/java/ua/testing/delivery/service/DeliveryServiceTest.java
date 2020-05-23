@@ -24,7 +24,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static ua.testing.delivery.service.ServisesTestConstant.*;
+import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = DeliveryService.class)
@@ -50,11 +50,11 @@ public class DeliveryServiceTest {
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto();
         deliveryInfoToGetDto.setLocalityGetName(delivery.getWay().getLocalityGet().getNameRu());
         deliveryInfoToGetDto.setLocalitySandName(delivery.getWay().getLocalitySand().getNameRu());
-        when(deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(getUserId())).thenReturn(Collections.singletonList(delivery));
+        when(deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId())).thenReturn(Collections.singletonList(delivery));
 
         List<DeliveryInfoToGetDto> result = deliveryService.getDeliveryInfoToGet(getUserId(), getLocaleRu());
 
-        verify(deliveryRepository, times(1)).findAllByBill_User_IdAndIsPackageReceivedFalse(getUserId());
+        verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId());
         assertEquals(deliveryInfoToGetDto,result.get(0));
         assertEquals(getDeliveres().size(), result.size());
     }
@@ -66,11 +66,11 @@ public class DeliveryServiceTest {
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto();
         deliveryInfoToGetDto.setLocalityGetName(delivery.getWay().getLocalityGet().getNameEn());
         deliveryInfoToGetDto.setLocalitySandName(delivery.getWay().getLocalitySand().getNameEn());
-        when(deliveryRepository.findAllByBill_User_IdAndIsPackageReceivedFalse(getUserId())).thenReturn(Collections.singletonList(delivery));
+        when(deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId())).thenReturn(Collections.singletonList(delivery));
 
         List<DeliveryInfoToGetDto> result = deliveryService.getDeliveryInfoToGet(getUserId(), getLocaleEn());
 
-        verify(deliveryRepository, times(1)).findAllByBill_User_IdAndIsPackageReceivedFalse(getUserId());
+        verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId());
         assertEquals(deliveryInfoToGetDto,result.get(0));
         assertEquals(getDeliveres().size(), result.size());
     }
@@ -78,12 +78,12 @@ public class DeliveryServiceTest {
     @Test
     public void confirmGettingDeliveryAllCorrect() throws AskedDataIsNotExist {
         Delivery delivery = getDelivery();
-        when(deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId()))
+        when(deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId()))
                 .thenReturn(Optional.ofNullable(delivery));
 
         boolean result = deliveryService.confirmGettingDelivery(getUserId(),getDeliveryId());
 
-        verify(deliveryRepository, times(1)).findByIdAndBill_User_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId());
+        verify(deliveryRepository, times(1)).findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId());
         verify(deliveryRepository, times(1)).save(any(Delivery.class));
         assertTrue(result);
         assertTrue(delivery.isPackageReceived());
@@ -91,7 +91,7 @@ public class DeliveryServiceTest {
 
     @Test(expected = AskedDataIsNotExist.class)
     public void confirmGettingDeliveryIsNoExistDelivery() throws AskedDataIsNotExist {
-        when(deliveryRepository.findByIdAndBill_User_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId()))
+        when(deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId()))
                 .thenReturn(Optional.empty());
 
         deliveryService.confirmGettingDelivery(getUserId(),getDeliveryId());

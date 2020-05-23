@@ -16,6 +16,12 @@
                 </div>
                 <div class="panel-body">
                     <form class="form" method="post" th:action="@{/registration}" th:object="${registrationInfoDto}">
+                        <div class="alert alert-danger" role="alert" th:if="${inputPasswordsIsNotEquals}">
+                            <p th:if="${inputPasswordsIsNotEquals}" th:text="#{registrationpage.form.password_reapit.wrong}"></p>
+                        </div>
+                        <div class="alert alert-danger" role="alert" th:if="${OccupiedLoginException}">
+                            <p th:if="${inputPasswordsIsNotEquals}" th:text="#{registrationpage.form.login.already.taken"></p>
+                        </div>
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
                             <p th:if="${#fields.hasErrors('username')}"
                                th:text="#{registrationpage.form.login.wrong}"></p>

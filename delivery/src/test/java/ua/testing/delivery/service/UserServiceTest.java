@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
-import static ua.testing.delivery.service.ServisesTestConstant.*;
+import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = UserService.class)
@@ -55,7 +55,7 @@ public class UserServiceTest {
 
     @Test
     public void findByEmailAllCorrect() {
-        User user = getAdverser();
+        User user = getAddreser();
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
         User result = userService.findByEmail(user.getEmail());
@@ -66,7 +66,7 @@ public class UserServiceTest {
 
     @Test(expected = UsernameNotFoundException.class)
     public void findByEmailIncorrectEmail() {
-        User user = getAdverser();
+        User user = getAddreser();
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
         userService.findByEmail(user.getEmail());
@@ -103,8 +103,8 @@ public class UserServiceTest {
 
     @Test
     public void replenishAccountBalanceAllCorrect() throws NoSuchUserException {
-        User expected = getAdverser();
-        User setIn = getAdverser();
+        User expected = getAddreser();
+        User setIn = getAddreser();
         setIn.setUserMoneyInCents(0L);
         expected.setUserMoneyInCents(10L);
         long paymentSum = 10L;

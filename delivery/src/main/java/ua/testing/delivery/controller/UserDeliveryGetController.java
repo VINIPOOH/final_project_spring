@@ -45,7 +45,7 @@ public class UserDeliveryGetController {
 
 
     @PostMapping(value = {"delivers-to-get"})
-    public String userConfirmDeliveryPay(int deliveryId, HttpSession httpSession) throws AskedDataIsNotExist {
+    public String userConfirmDeliveryPay(long deliveryId, HttpSession httpSession) throws AskedDataIsNotExist {
         log.debug("delivery id" + deliveryId);
 
         deliveryService.confirmGettingDelivery(Util.getUserFromSession(httpSession).getId(), deliveryId);
