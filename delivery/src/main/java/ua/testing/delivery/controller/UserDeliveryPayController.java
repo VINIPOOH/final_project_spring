@@ -46,7 +46,7 @@ public class UserDeliveryPayController {
 
 
     @PostMapping(value = {"user-delivery-pay"})
-    public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, int deliveryId)
+    public String userNotGottenDeliversConfirmGettingDelivery(HttpSession httpSession, long deliveryId)
             throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
         log.debug("deliveryId" + deliveryId);
 
