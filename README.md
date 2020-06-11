@@ -33,6 +33,7 @@ After creating a delivery request, the system creates an invoice that the user c
 ## Running the project
 
 Clone project to your local repository
+
 Enter ЬнЫйд username and password into properties spring.datasource.username and spring.datasource.password
 in file /resources/db/application.properties 
 
