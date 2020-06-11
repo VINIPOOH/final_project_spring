@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private static Logger log = LogManager.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LogManager.getLogger(GlobalExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handling() {

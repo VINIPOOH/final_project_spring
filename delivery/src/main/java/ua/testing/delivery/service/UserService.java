@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private static Logger log = LogManager.getLogger(UserService.class);
+    private static final Logger log = LogManager.getLogger(UserService.class);
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;

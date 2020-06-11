@@ -22,8 +22,8 @@ import java.util.Locale;
 
 @Controller
 public class HomeController {
-    public static final String REDIRECT_HOME = "redirect:/home";
-    private static Logger log = LogManager.getLogger(HomeController.class);
+    private static final String REDIRECT_HOME = "redirect:/home";
+    private static final Logger log = LogManager.getLogger(HomeController.class);
 
 
     private final DeliveryService deliveryService;

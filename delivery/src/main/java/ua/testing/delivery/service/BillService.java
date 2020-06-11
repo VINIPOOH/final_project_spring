@@ -21,13 +21,14 @@ import ua.testing.delivery.repository.UserRepository;
 import ua.testing.delivery.repository.WayRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 public class BillService {
-    private static Logger log = LogManager.getLogger(BillService.class);
+    private static final Logger log = LogManager.getLogger(BillService.class);
 
     private final BillRepository billRepository;
     private final UserRepository userRepository;
@@ -80,6 +81,7 @@ public class BillService {
         User user = userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(userId, bill.getCostInCents()).orElseThrow(NotEnoughMoneyException::new);
         user.setUserMoneyInCents(user.getUserMoneyInCents() - bill.getCostInCents());
         bill.setDeliveryPaid(true);
+        bill.setDateOfPay(LocalDate.now());
         userRepository.save(user);
         billRepository.save(bill);
         return true;

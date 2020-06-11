@@ -11,7 +11,7 @@ import ua.testing.delivery.service.UserService;
 
 @Controller
 public class AdminPagesController {
-    private static Logger log = LogManager.getLogger(AdminPagesController.class);
+    private static final Logger log = LogManager.getLogger(AdminPagesController.class);
 
 
     private final UserService userService;

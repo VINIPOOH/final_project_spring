@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class DeliveryService {
-    private static Logger log = LogManager.getLogger(DeliveryService.class);
+    private static final Logger log = LogManager.getLogger(DeliveryService.class);
 
     private final WayRepository wayRepository;
     private final DeliveryRepository deliveryRepository;
@@ -48,7 +48,6 @@ public class DeliveryService {
     @Transactional
     public boolean confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
         log.debug("userId" + userId + "deliveryId" + deliveryId);
-
 
         Delivery delivery = deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(deliveryId, userId)
                 .orElseThrow(AskedDataIsNotExist::new);

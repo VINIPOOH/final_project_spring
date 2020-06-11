@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class CustomErrorController implements ErrorController {
-    private static Logger log = LogManager.getLogger(CustomErrorController.class);
+    private static final Logger log = LogManager.getLogger(CustomErrorController.class);
 
     @GetMapping(value = {"/404"})
     public ModelAndView error404() {

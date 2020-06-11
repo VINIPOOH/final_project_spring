@@ -1,6 +1,9 @@
 package ua.testing.delivery.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,8 +14,6 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-
 public class Bill {
 
     @OneToOne(cascade = CascadeType.ALL)

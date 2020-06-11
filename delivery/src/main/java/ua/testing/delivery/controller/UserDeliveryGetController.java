@@ -19,7 +19,7 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryGetController {
-    private static Logger log = LogManager.getLogger(UserDeliveryGetController.class);
+    private static final Logger log = LogManager.getLogger(UserDeliveryGetController.class);
 
 
     private final DeliveryService deliveryService;
@@ -35,7 +35,7 @@ public class UserDeliveryGetController {
     public ModelAndView userNotGottenDelivers(HttpSession httpSession, Locale locale) {
         log.debug("");
 
-        ModelAndView modelAndView = new ModelAndView("user/user-deliverys-to-get");
+        ModelAndView modelAndView = new ModelAndView("user/user-delivers-to-get");
         User user = Util.getUserFromSession(httpSession);
         modelAndView.addObject("DeliveryInfoToGetDtoList",
                 deliveryService.getDeliveryInfoToGet(user.getId(), locale));

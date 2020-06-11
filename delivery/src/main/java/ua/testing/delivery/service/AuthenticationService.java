@@ -12,7 +12,7 @@ import ua.testing.delivery.repository.UserRepository;
 
 @Service
 public class AuthenticationService implements UserDetailsService {
-    private static Logger log = LogManager.getLogger(AuthenticationService.class);
+    private static final Logger log = LogManager.getLogger(AuthenticationService.class);
 
     private final UserRepository userRepository;
 

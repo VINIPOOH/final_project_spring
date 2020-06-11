@@ -8,7 +8,7 @@ import ua.testing.delivery.entity.User;
 import javax.servlet.http.HttpSession;
 
 public class Util {
-    private static Logger log = LogManager.getLogger(Util.class);
+    private static final Logger log = LogManager.getLogger(Util.class);
 
     private Util() {
     }

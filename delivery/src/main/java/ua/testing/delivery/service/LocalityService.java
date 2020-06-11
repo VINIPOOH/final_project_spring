@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class LocalityService {
-    private static Logger log = LogManager.getLogger(LocalityService.class);
+    private static final Logger log = LogManager.getLogger(LocalityService.class);
 
     private final LocalityRepository localityRepository;
 

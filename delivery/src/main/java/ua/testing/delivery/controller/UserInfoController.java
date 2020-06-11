@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping(value = {"/user"})
 public class UserInfoController {
-    private static Logger log = LogManager.getLogger(UserInfoController.class);
+    private static final Logger log = LogManager.getLogger(UserInfoController.class);
 
     private final BillService billService;
 

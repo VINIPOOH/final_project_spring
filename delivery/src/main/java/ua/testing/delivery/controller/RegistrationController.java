@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
-    private static Logger log = LogManager.getLogger(RegistrationController.class);
+    private static final Logger log = LogManager.getLogger(RegistrationController.class);
 
 
     private final UserService userService;

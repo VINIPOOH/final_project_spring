@@ -23,8 +23,8 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryInitiationController {
-    public static final String REDIRECT_USER_USER_DELIVERY_INITIATION = "redirect:/user/user-delivery-initiation";
-    private static Logger log = LogManager.getLogger(UserDeliveryInitiationController.class);
+    private static final String REDIRECT_USER_USER_DELIVERY_INITIATION = "redirect:/user/user-delivery-initiation";
+    private static final Logger log = LogManager.getLogger(UserDeliveryInitiationController.class);
 
     private final BillService billService;
     private final LocalityService localityService;

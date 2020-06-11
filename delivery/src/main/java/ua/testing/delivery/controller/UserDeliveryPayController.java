@@ -22,7 +22,7 @@ import java.util.Locale;
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryPayController {
-    private static Logger log = LogManager.getLogger(UserDeliveryPayController.class);
+    private static final Logger log = LogManager.getLogger(UserDeliveryPayController.class);
 
     private final BillService billService;
 

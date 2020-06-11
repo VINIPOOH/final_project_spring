@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping(value = {"/user"})
 public class ProfileController {
-    private static Logger log = LogManager.getLogger(ProfileController.class);
+    private static final Logger log = LogManager.getLogger(ProfileController.class);
 
     private final UserService userService;
 
