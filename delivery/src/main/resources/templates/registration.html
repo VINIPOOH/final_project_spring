@@ -33,14 +33,16 @@
 
                         <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
                         <div class="form-group">
-                            <label for="username">notIntEmail</label>
-                            <input class="form-control" id="username" name="username" placeholder="notInt" type="text">
+                            <input class="form-control" id="username" name="username" placeholder="notInt" type="text"
+                                   th:placeholder="#{registrationpage.form.leble.email}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="password" name="password" type="password">
+                            <input class="form-control" id="password" name="password" type="password"
+                                   th:placeholder="#{loginpage.form.label.password}">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="passwordRepeat" name="passwordRepeat" type="password">
+                            <input class="form-control" id="passwordRepeat" name="passwordRepeat" type="password"
+                                   th:placeholder="#{loginpage.form.label.passwordRepeat}">
                         </div>
                         <button class="btn btn-success" th:text="#{registrationpage.button.registration}"
                                 type="submit"></button>

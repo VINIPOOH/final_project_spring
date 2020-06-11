@@ -18,7 +18,7 @@
     </head>
     <body th:fragment="header">
         <div class="row border border-green">
-            <nav class="navbar navbar-default col-md-8">
+            <nav class="navbar navbar-default col-md-7">
                 <div class="container-fluid">
                     <div class="navbar-header col-md-2">
                         <a class="navbar-brand" th:href="@{/home}" th:text="#{layout.header.logo}"></a>
@@ -32,7 +32,7 @@
             <div class="col-md-1">
                 <!--для кнопки логин или логаут-->
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div>
                     <a class="btn" href="?lang=en" th:text="#{button.en.text}"></a>
                     <a class="btn" href="?lang=ru" th:text="#{button.ru.text}"></a>
