@@ -50,11 +50,11 @@ public class DeliveryServiceTest {
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto();
         deliveryInfoToGetDto.setLocalityGetName(delivery.getWay().getLocalityGet().getNameRu());
         deliveryInfoToGetDto.setLocalitySandName(delivery.getWay().getLocalitySand().getNameRu());
-        when(deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId())).thenReturn(Collections.singletonList(delivery));
+        when(deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(getUserId())).thenReturn(Collections.singletonList(delivery));
 
         List<DeliveryInfoToGetDto> result = deliveryService.getDeliveryInfoToGet(getUserId(), getLocaleRu());
 
-        verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId());
+        verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(getUserId());
         assertEquals(deliveryInfoToGetDto,result.get(0));
         assertEquals(getDeliveres().size(), result.size());
     }
@@ -66,11 +66,11 @@ public class DeliveryServiceTest {
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto();
         deliveryInfoToGetDto.setLocalityGetName(delivery.getWay().getLocalityGet().getNameEn());
         deliveryInfoToGetDto.setLocalitySandName(delivery.getWay().getLocalitySand().getNameEn());
-        when(deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId())).thenReturn(Collections.singletonList(delivery));
+        when(deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(getUserId())).thenReturn(Collections.singletonList(delivery));
 
         List<DeliveryInfoToGetDto> result = deliveryService.getDeliveryInfoToGet(getUserId(), getLocaleEn());
 
-        verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalse(getUserId());
+        verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(getUserId());
         assertEquals(deliveryInfoToGetDto,result.get(0));
         assertEquals(getDeliveres().size(), result.size());
     }

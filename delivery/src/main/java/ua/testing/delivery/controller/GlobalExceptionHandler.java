@@ -22,11 +22,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Throwable.class)
-    public ModelAndView noSuchUserException(RedirectAttributes redirectAttributes) {
+    public ModelAndView unExpectedException(RedirectAttributes redirectAttributes) {
         log.debug("");
 
-        redirectAttributes.addFlashAttribute("addresseeIsNotExist", true);
         return new ModelAndView("redirect:/405");
     }
+
+
 
 }

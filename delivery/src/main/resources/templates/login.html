@@ -18,7 +18,6 @@
                     <form class="form" method="post" th:action="@{/login}">
                         <div class="alert alert-danger" role="alert" th:if="${error}">
                             <p th:if="${error}" th:text="#{loginpage.form.wrong}"></p>
-
                         </div>
                         <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
                         <div class="form-group">

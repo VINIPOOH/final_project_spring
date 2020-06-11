@@ -40,7 +40,7 @@ public class DeliveryService {
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
         log.debug("userId" + userId);
 
-        return deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalse(userId).stream()
+        return deliveryRepository.findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(userId).stream()
                 .map(getDeliveryInfoToGetDtoMapper(locale)::map)
                 .collect(Collectors.toList());
     }

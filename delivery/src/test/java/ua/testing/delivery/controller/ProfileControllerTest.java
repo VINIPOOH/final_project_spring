@@ -76,7 +76,7 @@ public class ProfileControllerTest {
     public void userProfileIncorrectUser() throws NoSuchUserException {
         when(userService.replenishAccountBalance(anyLong(),anyLong())).thenThrow(NoSuchUserException.class);
 
-        profileController.userProfileReplenish(httpSession, 0);
+        profileController.userProfileReplenish(httpSession, 1);
 
         fail();
     }

@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = GlobalExceptionHandler.class)
@@ -33,9 +32,8 @@ public class GlobalExceptionHandlerTest {
         String expected = "redirect:/405";
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        ModelAndView result = globalExceptionHandler.noSuchUserException(redirectAttributes);
+        ModelAndView result = globalExceptionHandler.unExpectedException(redirectAttributes);
 
-        assertTrue((Boolean) redirectAttributes.getFlashAttributes().get("addresseeIsNotExist"));
         assertEquals(expected, result.getViewName());
     }
 }

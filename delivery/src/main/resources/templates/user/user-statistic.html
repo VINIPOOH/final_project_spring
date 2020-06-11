@@ -14,7 +14,8 @@
         ${billInfo.deliveryId}+ #{user-statistic.price}+ ${billInfo.costInCents} +
         #{user-statistic.pay.date} +${billInfo.dateOfPay}"></p1>
     </div>
-    <div class="pagination-div">
+
+    <div class="pagination-div" th:if="${BillDtoPage.getTotalElements()}!=0">
     <span th:if="${BillDtoPage.hasPrevious()}">
         <a th:href="@{/user/user-statistic(page=${BillDtoPage.number - 1},size=${BillDtoPage.size})}" th:text="#{user_statisticpage.button.previous}"></a>
     </span>
