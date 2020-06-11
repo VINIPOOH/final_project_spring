@@ -87,7 +87,6 @@ public class BillService {
         return true;
     }
 
-    //
     @Transactional
     public Bill initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException, NoSuchUserException, NoSuchWayException {
 

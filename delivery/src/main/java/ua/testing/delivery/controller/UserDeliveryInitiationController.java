@@ -8,8 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.dto.DeliveryOrderCreateDto;
-import ua.testing.delivery.entity.User;
 import ua.testing.delivery.exception.NoSuchUserException;
 import ua.testing.delivery.exception.NoSuchWayException;
 import ua.testing.delivery.exception.UnsupportableWeightFactorException;
@@ -58,7 +58,7 @@ public class UserDeliveryInitiationController {
             redirectAttributes.addFlashAttribute("incorrectWeightInput", true);
             return modelAndView;
         }
-        billService.initializeBill(deliveryOrderCreateDto, ((User) httpSession.getAttribute(SessionConstants.SESSION_USER)).getId());
+        billService.initializeBill(deliveryOrderCreateDto, Util.getUserFromSession(httpSession).getId());
         return modelAndView;
     }
 
