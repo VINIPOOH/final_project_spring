@@ -17,6 +17,7 @@ public class CustomErrorController implements ErrorController {
 
         return new ModelAndView("404");
     }
+
     @GetMapping(value = {"/405"})
     public ModelAndView error405() {
         log.debug("");

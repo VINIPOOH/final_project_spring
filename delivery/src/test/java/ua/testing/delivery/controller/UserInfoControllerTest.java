@@ -47,20 +47,20 @@ public class UserInfoControllerTest {
     public void setUp() throws Exception {
         user = getAddreser();
         httpSession = new MockHttpSession();
-        Util.addUserToSession(httpSession,user);
+        Util.addUserToSession(httpSession, user);
     }
 
     @Test
     public void userStatistic() {
         Bill bill = getBill();
-        BillDto billDto= getBillDto(bill);
+        BillDto billDto = getBillDto(bill);
         List<BillDto> billInfoToPayDtos = Collections.singletonList(billDto);
-        when(billService.getBillHistoryByUserId(anyLong(), any(Pageable.class))).thenReturn(new PageImpl(billInfoToPayDtos, PageRequest.of(1, 1),1));
+        when(billService.getBillHistoryByUserId(anyLong(), any(Pageable.class))).thenReturn(new PageImpl(billInfoToPayDtos, PageRequest.of(1, 1), 1));
 
         ModelAndView result = userInfoController.userStatistic(httpSession, PageRequest.of(1, 1));
 
         verify(billService, times(1)).getBillHistoryByUserId(anyLong(), any(Pageable.class));
-        assertEquals(billInfoToPayDtos, ((Page<BillDto>)result.getModel().get("BillDtoPage")).toList());
+        assertEquals(billInfoToPayDtos, ((Page<BillDto>) result.getModel().get("BillDtoPage")).toList());
         assertEquals("user/user-statistic", result.getViewName());
     }
 

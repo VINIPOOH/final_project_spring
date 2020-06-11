@@ -45,7 +45,7 @@ public class DeliveryServiceTest {
 
     @Test
     public void getDeliveryInfoToGetRu() {
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         delivery.setBill(getBill());
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto();
         deliveryInfoToGetDto.setLocalityGetName(delivery.getWay().getLocalityGet().getNameRu());
@@ -55,13 +55,13 @@ public class DeliveryServiceTest {
         List<DeliveryInfoToGetDto> result = deliveryService.getDeliveryInfoToGet(getUserId(), getLocaleRu());
 
         verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(getUserId());
-        assertEquals(deliveryInfoToGetDto,result.get(0));
+        assertEquals(deliveryInfoToGetDto, result.get(0));
         assertEquals(getDeliveres().size(), result.size());
     }
 
     @Test
     public void getDeliveryInfoToGetEn() {
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         delivery.setBill(getBill());
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto();
         deliveryInfoToGetDto.setLocalityGetName(delivery.getWay().getLocalityGet().getNameEn());
@@ -71,19 +71,19 @@ public class DeliveryServiceTest {
         List<DeliveryInfoToGetDto> result = deliveryService.getDeliveryInfoToGet(getUserId(), getLocaleEn());
 
         verify(deliveryRepository, times(1)).findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(getUserId());
-        assertEquals(deliveryInfoToGetDto,result.get(0));
+        assertEquals(deliveryInfoToGetDto, result.get(0));
         assertEquals(getDeliveres().size(), result.size());
     }
 
     @Test
     public void confirmGettingDeliveryAllCorrect() throws AskedDataIsNotExist {
         Delivery delivery = getDelivery();
-        when(deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId()))
+        when(deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(), getUserId()))
                 .thenReturn(Optional.ofNullable(delivery));
 
-        boolean result = deliveryService.confirmGettingDelivery(getUserId(),getDeliveryId());
+        boolean result = deliveryService.confirmGettingDelivery(getUserId(), getDeliveryId());
 
-        verify(deliveryRepository, times(1)).findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId());
+        verify(deliveryRepository, times(1)).findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(), getUserId());
         verify(deliveryRepository, times(1)).save(any(Delivery.class));
         assertTrue(result);
         assertTrue(delivery.isPackageReceived());
@@ -91,10 +91,10 @@ public class DeliveryServiceTest {
 
     @Test(expected = AskedDataIsNotExist.class)
     public void confirmGettingDeliveryIsNoExistDelivery() throws AskedDataIsNotExist {
-        when(deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(),getUserId()))
+        when(deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(getDeliveryId(), getUserId()))
                 .thenReturn(Optional.empty());
 
-        deliveryService.confirmGettingDelivery(getUserId(),getDeliveryId());
+        deliveryService.confirmGettingDelivery(getUserId(), getDeliveryId());
 
         fail();
     }
@@ -129,8 +129,8 @@ public class DeliveryServiceTest {
 
     @Test(expected = UnsupportableWeightFactorException.class)
     public void getDeliveryCostAndTimeIncorrectWeightFactorBiggerOnOne() throws UnsupportableWeightFactorException, NoSuchWayException {
-        int weightRangeMax=2;
-        int weightRangeReal=2;
+        int weightRangeMax = 2;
+        int weightRangeReal = 2;
         DeliveryInfoRequestDto deliveryInfoRequestDto = getDeliveryInfoRequestDto(weightRangeReal);
 
         Delivery delivery = getDelivery();
@@ -146,8 +146,8 @@ public class DeliveryServiceTest {
 
     @Test()
     public void getDeliveryCostAndTimeWeightFactorOnHighestRange() throws UnsupportableWeightFactorException, NoSuchWayException {
-        int weightRangeMax=2;
-        int weightRangeReal=1;
+        int weightRangeMax = 2;
+        int weightRangeReal = 1;
         DeliveryInfoRequestDto deliveryInfoRequestDto = getDeliveryInfoRequestDto(weightRangeReal);
         PriceAndTimeOnDeliveryDto priceAndTimeOnDeliveryDto = getPriceAndTimeOnDeliveryDto();
         Delivery delivery = getDelivery();

@@ -16,7 +16,6 @@ public class ServisesTestConstant {
     private static final long BILL_ID = 1L;
 
 
-
     private static final long DELIVERY_ID = 1L;
     private static final Locale LOCALE_EN = new Locale("en");
     private static final Locale LOCALE_RU = new Locale("ru");
@@ -36,6 +35,7 @@ public class ServisesTestConstant {
     public static Locale getLocaleRu() {
         return LOCALE_RU;
     }
+
     public static long getDeliveryId() {
         return DELIVERY_ID;
     }
@@ -77,7 +77,7 @@ public class ServisesTestConstant {
                 .build();
     }
 
-    public static List<User> getUsers(){
+    public static List<User> getUsers() {
         return Collections.singletonList(getAddreser());
     }
 
@@ -115,15 +115,15 @@ public class ServisesTestConstant {
                 .build();
     }
 
-    public static Locality getLocalitySend(){
+    public static Locality getLocalitySend() {
         return Locality.builder().nameEn("EnSend").nameRu("RuSend").id(1).build();
     }
 
-    public static Locality getLocalityGet(){
+    public static Locality getLocalityGet() {
         return Locality.builder().nameEn("EnGet").nameRu("RuGet").id(2).build();
     }
 
-    public static List<Locality> getLocalities(){
+    public static List<Locality> getLocalities() {
         return Collections.singletonList(getLocalityGet());
     }
 

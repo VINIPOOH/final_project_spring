@@ -77,7 +77,7 @@
         </div>
     </body>
     <body th:fragment="adminHeader">
-        <div th:if="${session.user.roleType.name()== 'ROLE_ADMIN'}" class="row border border-secondary">
+        <div class="row border border-secondary" th:if="${session.user.roleType.name()== 'ROLE_ADMIN'}">
             <nav class="navbar navbar-default col-md-12">
                 <div class="container-fluid row">
                     <div class="col-md-10 row justify-content-start">

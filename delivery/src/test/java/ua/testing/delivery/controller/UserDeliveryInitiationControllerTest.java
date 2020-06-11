@@ -13,10 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import ua.testing.delivery.controller.util.Util;
-import ua.testing.delivery.dto.DeliveryInfoRequestDto;
 import ua.testing.delivery.dto.DeliveryOrderCreateDto;
 import ua.testing.delivery.dto.LocaliseLocalityDto;
-import ua.testing.delivery.dto.PriceAndTimeOnDeliveryDto;
 import ua.testing.delivery.entity.Locality;
 import ua.testing.delivery.entity.User;
 import ua.testing.delivery.exception.NoSuchUserException;
@@ -29,7 +27,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,9 +52,9 @@ public class UserDeliveryInitiationControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        httpSession=new MockHttpSession();
-        user=getAddreser();
-        Util.addUserToSession(httpSession,user);
+        httpSession = new MockHttpSession();
+        user = getAddreser();
+        Util.addUserToSession(httpSession, user);
     }
 
     @Test
@@ -98,7 +95,7 @@ public class UserDeliveryInitiationControllerTest {
         when(billService.initializeBill(any(DeliveryOrderCreateDto.class), anyLong())).thenReturn(getBill());
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        ModelAndView result = userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto,bindingResult, httpSession, redirectAttributes);
+        ModelAndView result = userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto, bindingResult, httpSession, redirectAttributes);
 
         verify(bindingResult, times(1)).hasErrors();
         verify(billService, times(1)).initializeBill(any(DeliveryOrderCreateDto.class), anyLong());
@@ -112,7 +109,7 @@ public class UserDeliveryInitiationControllerTest {
         when(bindingResult.hasErrors()).thenReturn(true);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        ModelAndView result = userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto,bindingResult, httpSession, redirectAttributes);
+        ModelAndView result = userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto, bindingResult, httpSession, redirectAttributes);
 
         verify(bindingResult, times(1)).hasErrors();
         assertTrue((Boolean) redirectAttributes.getFlashAttributes().get("incorrectWeightInput"));
@@ -126,7 +123,7 @@ public class UserDeliveryInitiationControllerTest {
         when(billService.initializeBill(any(DeliveryOrderCreateDto.class), anyLong())).thenThrow(NoSuchUserException.class);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto,bindingResult, httpSession, redirectAttributes);
+        userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto, bindingResult, httpSession, redirectAttributes);
 
         fail();
     }
@@ -138,7 +135,7 @@ public class UserDeliveryInitiationControllerTest {
         when(billService.initializeBill(any(DeliveryOrderCreateDto.class), anyLong())).thenThrow(UnsupportableWeightFactorException.class);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto,bindingResult, httpSession, redirectAttributes);
+        userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto, bindingResult, httpSession, redirectAttributes);
 
         fail();
     }
@@ -150,7 +147,7 @@ public class UserDeliveryInitiationControllerTest {
         when(billService.initializeBill(any(DeliveryOrderCreateDto.class), anyLong())).thenThrow(NoSuchWayException.class);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto,bindingResult, httpSession, redirectAttributes);
+        userDeliveryInitiationController.userDeliveryInitiationPost(deliveryOrderCreateDto, bindingResult, httpSession, redirectAttributes);
 
         fail();
     }

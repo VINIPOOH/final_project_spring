@@ -55,6 +55,7 @@ public class UserDeliveryPayController {
         billService.payForDelivery(Util.getUserFromSession(httpSession).getId(), deliveryId);
         return "redirect:/user/user-delivery-pay";
     }
+
     @ExceptionHandler(NotEnoughMoneyException.class)
     public ModelAndView notEnoughMoneyException(RedirectAttributes redirectAttributes) {
         log.debug("");

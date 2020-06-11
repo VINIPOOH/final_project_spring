@@ -50,7 +50,7 @@ public class UserServiceTest {
         List<User> result = userRepository.findAll();
 
         verify(userRepository, times(1)).findAll();
-        assertEquals(users.get(0),result.get(0));
+        assertEquals(users.get(0), result.get(0));
     }
 
     @Test
@@ -89,7 +89,6 @@ public class UserServiceTest {
     }
 
 
-
     @Test(expected = OccupiedLoginException.class)
     public void addNewUserToDBOccupiedLogin() throws OccupiedLoginException {
         RegistrationInfoDto registrationInfoDto = getRegistrationInfoDto();
@@ -111,7 +110,7 @@ public class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(setIn));
         doAnswer((i) -> i.getArgument(0)).when(userRepository).save(any(User.class));
 
-        User result = userService.replenishAccountBalance(expected.getId(),paymentSum);
+        User result = userService.replenishAccountBalance(expected.getId(), paymentSum);
 
         verify(userRepository, times(1)).save(any(User.class));
         assertEquals(expected, result);

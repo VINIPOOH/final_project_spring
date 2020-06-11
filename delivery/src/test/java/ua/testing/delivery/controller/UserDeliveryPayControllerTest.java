@@ -45,13 +45,13 @@ public class UserDeliveryPayControllerTest {
     public void setUp() throws Exception {
         user = getAddreser();
         httpSession = new MockHttpSession();
-        Util.addUserToSession(httpSession,user);
+        Util.addUserToSession(httpSession, user);
     }
 
     @Test
     public void userConfirmDeliversEn() {
         Bill bill = getBill();
-        BillInfoToPayDto billInfoToPayDto= getBillInfoToPayDtoEn(bill);
+        BillInfoToPayDto billInfoToPayDto = getBillInfoToPayDtoEn(bill);
         billInfoToPayDto.setLocalityGetName(bill.getDelivery().getWay().getLocalityGet().getNameEn());
         billInfoToPayDto.setLocalitySandName(bill.getDelivery().getWay().getLocalitySand().getNameEn());
         List<BillInfoToPayDto> billInfoToPayDtos = Collections.singletonList(billInfoToPayDto);
@@ -59,7 +59,7 @@ public class UserDeliveryPayControllerTest {
 
         ModelAndView result = userDeliveryPayController.userConfirmDelivers(httpSession, getLocaleEn());
 
-        verify(billService, times(1)).getBillsToPayByUserID(anyLong(),any(Locale.class));
+        verify(billService, times(1)).getBillsToPayByUserID(anyLong(), any(Locale.class));
         assertEquals(billInfoToPayDtos, result.getModel().get("BillInfoToPayDtoList"));
         assertEquals("user/user-delivery-pay", result.getViewName());
     }
@@ -67,7 +67,7 @@ public class UserDeliveryPayControllerTest {
     @Test
     public void userConfirmDeliversRu() {
         Bill bill = getBill();
-        BillInfoToPayDto billInfoToPayDto= getBillInfoToPayDtoEn(bill);
+        BillInfoToPayDto billInfoToPayDto = getBillInfoToPayDtoEn(bill);
         billInfoToPayDto.setLocalityGetName(bill.getDelivery().getWay().getLocalityGet().getNameRu());
         billInfoToPayDto.setLocalitySandName(bill.getDelivery().getWay().getLocalitySand().getNameRu());
         List<BillInfoToPayDto> billInfoToPayDtos = Collections.singletonList(billInfoToPayDto);
@@ -75,7 +75,7 @@ public class UserDeliveryPayControllerTest {
 
         ModelAndView result = userDeliveryPayController.userConfirmDelivers(httpSession, getLocaleRu());
 
-        verify(billService, times(1)).getBillsToPayByUserID(anyLong(),any(Locale.class));
+        verify(billService, times(1)).getBillsToPayByUserID(anyLong(), any(Locale.class));
         assertEquals(billInfoToPayDtos, result.getModel().get("BillInfoToPayDtoList"));
         assertEquals("user/user-delivery-pay", result.getViewName());
     }

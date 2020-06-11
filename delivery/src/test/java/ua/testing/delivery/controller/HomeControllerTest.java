@@ -78,7 +78,6 @@ public class HomeControllerTest {
     }
 
 
-
     @Test
     public void homeCountAllCorrect() throws UnsupportableWeightFactorException, NoSuchWayException {
         String expected = "redirect:/home";
@@ -88,7 +87,7 @@ public class HomeControllerTest {
         when(deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto)).thenReturn(priceAndTimeOnDeliveryDto);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        ModelAndView result = homeController.homeCount(deliveryInfoRequestDto,bindingResult, redirectAttributes);
+        ModelAndView result = homeController.homeCount(deliveryInfoRequestDto, bindingResult, redirectAttributes);
 
         verify(bindingResult, times(1)).hasErrors();
         verify(deliveryService, times(1)).getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
@@ -106,7 +105,7 @@ public class HomeControllerTest {
         when(deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto)).thenReturn(priceAndTimeOnDeliveryDto);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        ModelAndView result = homeController.homeCount(deliveryInfoRequestDto,bindingResult, redirectAttributes);
+        ModelAndView result = homeController.homeCount(deliveryInfoRequestDto, bindingResult, redirectAttributes);
 
         verify(bindingResult, times(1)).hasErrors();
         verify(deliveryService, times(0)).getDeliveryCostAndTimeDto(deliveryInfoRequestDto);
@@ -122,10 +121,11 @@ public class HomeControllerTest {
         when(deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto)).thenThrow(UnsupportableWeightFactorException.class);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        homeController.homeCount(deliveryInfoRequestDto,bindingResult, redirectAttributes);
+        homeController.homeCount(deliveryInfoRequestDto, bindingResult, redirectAttributes);
 
         fail();
     }
+
     @Test(expected = NoSuchWayException.class)
     public void homeCountServiceThrowNoSuchWayException() throws UnsupportableWeightFactorException, NoSuchWayException {
         DeliveryInfoRequestDto deliveryInfoRequestDto = getDeliveryInfoRequestDto();
@@ -133,7 +133,7 @@ public class HomeControllerTest {
         when(deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto)).thenThrow(NoSuchWayException.class);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 
-        homeController.homeCount(deliveryInfoRequestDto,bindingResult, redirectAttributes);
+        homeController.homeCount(deliveryInfoRequestDto, bindingResult, redirectAttributes);
 
         fail();
     }
@@ -149,7 +149,6 @@ public class HomeControllerTest {
         assertTrue((Boolean) redirectAttributes.getFlashAttributes().get("noSuchWayException"));
         assertEquals(expected, result.getViewName());
     }
-
 
 
     @Test
@@ -177,6 +176,7 @@ public class HomeControllerTest {
                 .timeOnWayInHours(1)
                 .build();
     }
+
     private LocaliseLocalityDto getLocaliseLocalityDtoEn(Locality locality) {
         return LocaliseLocalityDto.builder()
                 .id(locality.getId())

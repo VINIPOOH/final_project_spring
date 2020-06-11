@@ -44,19 +44,19 @@ public class UserDeliveryGetControllerTest {
     public void setUp() throws Exception {
         user = getAddreser();
         httpSession = new MockHttpSession();
-        Util.addUserToSession(httpSession,user);
+        Util.addUserToSession(httpSession, user);
     }
 
     @Test
     public void userNotGottenDelivers() {
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         DeliveryInfoToGetDto deliveryInfoToGetDto = getDeliveryInfoToGetDto(delivery);
         List<DeliveryInfoToGetDto> deliveryInfoToGetDtos = Collections.singletonList(deliveryInfoToGetDto);
-        when(deliveryService.getDeliveryInfoToGet(anyLong(),any(Locale.class))).thenReturn(deliveryInfoToGetDtos);
+        when(deliveryService.getDeliveryInfoToGet(anyLong(), any(Locale.class))).thenReturn(deliveryInfoToGetDtos);
 
         ModelAndView result = userDeliveryGetController.userNotGottenDelivers(httpSession, getLocaleEn());
 
-        verify(deliveryService, times(1)).getDeliveryInfoToGet(anyLong(),any(Locale.class));
+        verify(deliveryService, times(1)).getDeliveryInfoToGet(anyLong(), any(Locale.class));
         assertEquals(deliveryInfoToGetDtos, result.getModel().get("DeliveryInfoToGetDtoList"));
         assertEquals("user/user-deliverys-to-get", result.getViewName());
     }
@@ -72,17 +72,17 @@ public class UserDeliveryGetControllerTest {
 
     @Test
     public void userConfirmDeliveryPay() throws AskedDataIsNotExist {
-        when(deliveryService.confirmGettingDelivery(anyLong(),anyLong())).thenReturn(true);
+        when(deliveryService.confirmGettingDelivery(anyLong(), anyLong())).thenReturn(true);
 
         String result = userDeliveryGetController.userConfirmDeliveryPay(1L, httpSession);
 
-        verify(deliveryService, times(1)).confirmGettingDelivery(anyLong(),anyLong());
+        verify(deliveryService, times(1)).confirmGettingDelivery(anyLong(), anyLong());
         assertEquals("redirect:/user/delivers-to-get", result);
     }
 
     @Test(expected = AskedDataIsNotExist.class)
     public void userConfirmDeliveryPayIncorrectData() throws AskedDataIsNotExist {
-        when(deliveryService.confirmGettingDelivery(anyLong(),anyLong())).thenThrow(AskedDataIsNotExist.class);
+        when(deliveryService.confirmGettingDelivery(anyLong(), anyLong())).thenThrow(AskedDataIsNotExist.class);
 
         userDeliveryGetController.userConfirmDeliveryPay(1L, httpSession);
 

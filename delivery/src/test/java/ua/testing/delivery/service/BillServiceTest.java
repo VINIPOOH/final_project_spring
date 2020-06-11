@@ -37,7 +37,6 @@ import static ua.testing.delivery.ServisesTestConstant.*;
 public class BillServiceTest {
 
 
-
     @Autowired
     BillService billService;
 
@@ -74,7 +73,7 @@ public class BillServiceTest {
         bill.setCostInCents(2);
         bill.setId(0);
         bill.setDeliveryPaid(false);
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         delivery.setId(0);
 
         Bill billResult = billService.initializeBill(getDeliveryOrderCreateDto(), getUserId());
@@ -88,7 +87,7 @@ public class BillServiceTest {
         bill.setCostInCents(2);
         bill.setId(0);
         bill.setDeliveryPaid(false);
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         delivery.setId(0);
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
@@ -103,7 +102,7 @@ public class BillServiceTest {
         bill.setCostInCents(2);
         bill.setId(0);
         bill.setDeliveryPaid(false);
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         delivery.setId(0);
         when(wayRepository.findByLocalitySand_IdAndLocalityGet_Id(anyLong(), anyLong())).thenReturn(Optional.empty());
 
@@ -118,7 +117,7 @@ public class BillServiceTest {
         bill.setCostInCents(2);
         bill.setId(0);
         bill.setDeliveryPaid(false);
-        Delivery delivery =getDelivery();
+        Delivery delivery = getDelivery();
         delivery.setId(0);
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
@@ -207,10 +206,10 @@ public class BillServiceTest {
     @Test
     public void getBillHistoryByUserId() {
         List<Bill> bills = getBills();
-        Pageable page = PageRequest.of(1,1);
-        when(billRepository.findAllByUserIdAndIsDeliveryPaidTrue(1, page)).thenReturn(new PageImpl<Bill>(bills , page, 1));
+        Pageable page = PageRequest.of(1, 1);
+        when(billRepository.findAllByUserIdAndIsDeliveryPaidTrue(1, page)).thenReturn(new PageImpl<Bill>(bills, page, 1));
 
-        Page<BillDto> result =billService.getBillHistoryByUserId(1, page);
+        Page<BillDto> result = billService.getBillHistoryByUserId(1, page);
 
         verify(billRepository, times(1)).findAllByUserIdAndIsDeliveryPaidTrue(1, page);
         assertEquals(getBillDto(), result.iterator().next());

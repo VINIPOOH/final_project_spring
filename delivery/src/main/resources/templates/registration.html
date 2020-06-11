@@ -17,10 +17,12 @@
                 <div class="panel-body">
                     <form class="form" method="post" th:action="@{/registration}" th:object="${registrationInfoDto}">
                         <div class="alert alert-danger" role="alert" th:if="${inputPasswordsIsNotEquals}">
-                            <p th:if="${inputPasswordsIsNotEquals}" th:text="#{registrationpage.form.password_reapit.wrong}"></p>
+                            <p th:if="${inputPasswordsIsNotEquals}"
+                               th:text="#{registrationpage.form.password_reapit.wrong}"></p>
                         </div>
                         <div class="alert alert-danger" role="alert" th:if="${OccupiedLoginException}">
-                            <p th:if="${inputPasswordsIsNotEquals}" th:text="#{registrationpage.form.login.already.taken"></p>
+                            <p th:if="${inputPasswordsIsNotEquals}"
+                               th:text="#{registrationpage.form.login.already.taken"></p>
                         </div>
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors()}">
                             <p th:if="${#fields.hasErrors('username')}"
@@ -33,16 +35,16 @@
 
                         <input th:name="${_csrf.headerName}" th:value="${_csrf.token}" type="hidden">
                         <div class="form-group">
-                            <input class="form-control" id="username" name="username" placeholder="notInt" type="text"
-                                   th:placeholder="#{registrationpage.form.leble.email}">
+                            <input class="form-control" id="username" name="username" placeholder="notInt" th:placeholder="#{registrationpage.form.leble.email}"
+                                   type="text">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="password" name="password" type="password"
-                                   th:placeholder="#{loginpage.form.label.password}">
+                            <input class="form-control" id="password" name="password" th:placeholder="#{loginpage.form.label.password}"
+                                   type="password">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="passwordRepeat" name="passwordRepeat" type="password"
-                                   th:placeholder="#{loginpage.form.label.passwordRepeat}">
+                            <input class="form-control" id="passwordRepeat" name="passwordRepeat" th:placeholder="#{loginpage.form.label.passwordRepeat}"
+                                   type="password">
                         </div>
                         <button class="btn btn-success" th:text="#{registrationpage.button.registration}"
                                 type="submit"></button>

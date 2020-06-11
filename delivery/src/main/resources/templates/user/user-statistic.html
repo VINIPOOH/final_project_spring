@@ -17,7 +17,8 @@
 
     <div class="pagination-div" th:if="${BillDtoPage.getTotalElements()}!=0">
     <span th:if="${BillDtoPage.hasPrevious()}">
-        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number - 1},size=${BillDtoPage.size})}" th:text="#{user_statisticpage.button.previous}"></a>
+        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number - 1},size=${BillDtoPage.size})}"
+           th:text="#{user_statisticpage.button.previous}"></a>
     </span>
         <th:block th:each="i : ${#numbers.sequence(0, BillDtoPage.totalPages - 1)}">
             <span class="selected" th:if="${BillDtoPage.number == i}">[[${i}+1]]</span>
@@ -26,7 +27,8 @@
         </span>
         </th:block>
         <span th:if="${BillDtoPage.hasNext()}">
-        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number + 1},size=${BillDtoPage.size})}" th:text="#{user_statisticpage.button.next}">Next</a>
+        <a th:href="@{/user/user-statistic(page=${BillDtoPage.number + 1},size=${BillDtoPage.size})}"
+           th:text="#{user_statisticpage.button.next}">Next</a>
     </span>
     </div>
 </div>

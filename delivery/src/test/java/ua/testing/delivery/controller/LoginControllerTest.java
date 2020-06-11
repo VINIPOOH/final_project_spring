@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = LoginController.class)
 public class LoginControllerTest {
@@ -34,7 +35,7 @@ public class LoginControllerTest {
 
     @Test
     public void loginWithErrorParam() {
-        ModelAndView result = controller.login("error",null);
+        ModelAndView result = controller.login("error", null);
 
         Assert.assertEquals(result.getModel().get("error"), true);
         Assert.assertEquals(result.getModel().get("logout"), false);
@@ -43,7 +44,7 @@ public class LoginControllerTest {
 
     @Test
     public void loginWithLogoutParam() {
-        ModelAndView result = controller.login(null,"logout");
+        ModelAndView result = controller.login(null, "logout");
 
         Assert.assertEquals(result.getModel().get("error"), false);
         Assert.assertEquals(result.getModel().get("logout"), true);

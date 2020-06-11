@@ -25,6 +25,7 @@ public class LocalityServiceTest {
     LocalityService localityService;
     @MockBean
     LocalityRepository localityRepository;
+
     @Test
     public void getLocalitiesRu() {
         Locality locality = getLocalityGet();

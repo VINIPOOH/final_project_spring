@@ -36,8 +36,8 @@ public class ProfileControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        httpSession= new MockHttpSession();
-        user=getAddreser();
+        httpSession = new MockHttpSession();
+        user = getAddreser();
         Util.addUserToSession(httpSession, user);
     }
 
@@ -54,11 +54,11 @@ public class ProfileControllerTest {
 
     @Test
     public void userProfileReplenishAllCorrect() throws NoSuchUserException {
-        when(userService.replenishAccountBalance(anyLong(),anyLong())).thenReturn(user);
+        when(userService.replenishAccountBalance(anyLong(), anyLong())).thenReturn(user);
 
         ModelAndView actual = profileController.userProfileReplenish(httpSession, 10);
 
-        verify(userService, times(1)).replenishAccountBalance(anyLong(),anyLong());
+        verify(userService, times(1)).replenishAccountBalance(anyLong(), anyLong());
         assertNull(actual.getModel().get("incorrectMoney"));
         assertEquals("user/userprofile", actual.getViewName());
     }
@@ -74,7 +74,7 @@ public class ProfileControllerTest {
 
     @Test(expected = NoSuchUserException.class)
     public void userProfileIncorrectUser() throws NoSuchUserException {
-        when(userService.replenishAccountBalance(anyLong(),anyLong())).thenThrow(NoSuchUserException.class);
+        when(userService.replenishAccountBalance(anyLong(), anyLong())).thenThrow(NoSuchUserException.class);
 
         profileController.userProfileReplenish(httpSession, 1);
 
