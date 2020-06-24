@@ -62,7 +62,7 @@ public class UserService {
         log.debug("userId" + userId + "amountMoney" + amountMoney);
 
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
-        if (user.getUserMoneyInCents()+amountMoney<=0){
+        if (user.getUserMoneyInCents() + amountMoney <= 0) {
             throw new ToMuchMoneyException();
         }
         user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);

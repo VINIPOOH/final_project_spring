@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 public class Util {
     private static final Logger log = LogManager.getLogger(Util.class);
     private static final String SESSION_USER = "user";
+
     private Util() {
     }
 
