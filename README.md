@@ -34,8 +34,12 @@ After creating a delivery request, the system creates an invoice that the user c
 
 Clone project to your local repository
 
-Run scripts from /resources/db/ folder to create database and tables
-and to insert data (sql.sql)
+Enter your MySQL username and password into properties spring.datasource.username and spring.datasource.password
+in file /resources/db/application.properties
+
+Enter url to your db into propertie spring.datasource.url in file /resources/db/application.properties
+
+Run scripts from /resources/db/sql.sql folder to create database, tables and to insert data
 
 From project root folder run - mvn spring-boot:run
 
