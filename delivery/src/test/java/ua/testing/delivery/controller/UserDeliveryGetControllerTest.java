@@ -58,7 +58,7 @@ public class UserDeliveryGetControllerTest {
 
         verify(deliveryService, times(1)).getDeliveryInfoToGet(anyLong(), any(Locale.class));
         assertEquals(deliveryInfoToGetDtos, result.getModel().get("DeliveryInfoToGetDtoList"));
-        assertEquals("user/user-deliverys-to-get", result.getViewName());
+        assertEquals("user/user-delivers-to-get", result.getViewName());
     }
 
     private DeliveryInfoToGetDto getDeliveryInfoToGetDto(Delivery delivery) {

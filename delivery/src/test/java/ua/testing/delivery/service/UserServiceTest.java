@@ -3,6 +3,7 @@ package ua.testing.delivery.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +16,7 @@ import ua.testing.delivery.entity.RoleType;
 import ua.testing.delivery.entity.User;
 import ua.testing.delivery.exception.NoSuchUserException;
 import ua.testing.delivery.exception.OccupiedLoginException;
+import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.repository.UserRepository;
 
 import java.util.List;
@@ -36,6 +38,8 @@ public class UserServiceTest {
     PasswordEncoder passwordEncoder;
     @MockBean
     UserRepository userRepository;
+    @Mock
+    User user;
 
     @Before
     public void setUp() throws Exception {
@@ -101,7 +105,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void replenishAccountBalanceAllCorrect() throws NoSuchUserException {
+    public void replenishAccountBalanceAllCorrect() throws NoSuchUserException, ToMuchMoneyException {
         User expected = getAddreser();
         User setIn = getAddreser();
         setIn.setUserMoneyInCents(0L);
@@ -118,8 +122,18 @@ public class UserServiceTest {
     }
 
     @Test(expected = NoSuchUserException.class)
-    public void replenishAccountBalanceNoSuchUser() throws NoSuchUserException {
+    public void replenishAccountBalanceNoSuchUser() throws NoSuchUserException, ToMuchMoneyException {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        userService.replenishAccountBalance(getUserId(), 10);
+
+        fail();
+    }
+
+    @Test(expected = ToMuchMoneyException.class)
+    public void replenishAccountBalanceToMuchMoneyException() throws NoSuchUserException, ToMuchMoneyException {
+        when(user.getUserMoneyInCents()).thenReturn(Long.MAX_VALUE);
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
         userService.replenishAccountBalance(getUserId(), 10);
 

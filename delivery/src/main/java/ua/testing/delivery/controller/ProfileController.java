@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.exception.NoSuchUserException;
+import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -40,7 +41,7 @@ public class ProfileController {
     }
 
     @PostMapping(value = {"/userprofile"})
-    public ModelAndView userProfileReplenish(HttpSession httpSession, int money) throws NoSuchUserException {
+    public ModelAndView userProfileReplenish(HttpSession httpSession, long money) throws NoSuchUserException {
         log.debug("money");
 
         ModelAndView modelAndView = new ModelAndView("user/userprofile");
@@ -48,7 +49,11 @@ public class ProfileController {
             modelAndView.addObject("incorrectMoney", true);
             return modelAndView;
         }
-        Util.addUserToSession(httpSession, userService.replenishAccountBalance(Util.getUserFromSession(httpSession).getId(), money));
+        try {
+            Util.addUserToSession(httpSession, userService.replenishAccountBalance(Util.getUserFromSession(httpSession).getId(), money));
+        } catch (ToMuchMoneyException e) {
+            modelAndView.addObject("incorrectMoney", true);
+        }
         return modelAndView;
     }
 }

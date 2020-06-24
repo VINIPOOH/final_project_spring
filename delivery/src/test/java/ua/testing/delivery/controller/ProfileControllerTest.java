@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.entity.User;
 import ua.testing.delivery.exception.NoSuchUserException;
+import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -53,7 +54,7 @@ public class ProfileControllerTest {
     }
 
     @Test
-    public void userProfileReplenishAllCorrect() throws NoSuchUserException {
+    public void userProfileReplenishAllCorrect() throws NoSuchUserException, ToMuchMoneyException {
         when(userService.replenishAccountBalance(anyLong(), anyLong())).thenReturn(user);
 
         ModelAndView actual = profileController.userProfileReplenish(httpSession, 10);
@@ -73,11 +74,22 @@ public class ProfileControllerTest {
     }
 
     @Test(expected = NoSuchUserException.class)
-    public void userProfileIncorrectUser() throws NoSuchUserException {
+    public void userProfileIncorrectUser() throws NoSuchUserException, ToMuchMoneyException {
         when(userService.replenishAccountBalance(anyLong(), anyLong())).thenThrow(NoSuchUserException.class);
 
         profileController.userProfileReplenish(httpSession, 1);
 
         fail();
+    }
+
+    @Test()
+    public void userProfileToMuchMoneyException() throws NoSuchUserException, ToMuchMoneyException {
+        when(userService.replenishAccountBalance(anyLong(), anyLong())).thenThrow(ToMuchMoneyException.class);
+
+        ModelAndView actual = profileController.userProfileReplenish(httpSession, 10);
+
+        verify(userService, times(1)).replenishAccountBalance(anyLong(), anyLong());
+        assertTrue((Boolean) actual.getModel().get("incorrectMoney"));
+        assertEquals("user/userprofile", actual.getViewName());
     }
 }

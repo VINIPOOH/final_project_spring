@@ -12,6 +12,7 @@ import ua.testing.delivery.entity.RoleType;
 import ua.testing.delivery.entity.User;
 import ua.testing.delivery.exception.NoSuchUserException;
 import ua.testing.delivery.exception.OccupiedLoginException;
+import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -57,11 +58,13 @@ public class UserService {
     }
 
     @Transactional
-    public User replenishAccountBalance(long userId, long amountMoney) throws NoSuchUserException {
-
+    public User replenishAccountBalance(long userId, long amountMoney) throws NoSuchUserException, ToMuchMoneyException {
         log.debug("userId" + userId + "amountMoney" + amountMoney);
 
         User user = userRepository.findById(userId).orElseThrow(NoSuchUserException::new);
+        if (user.getUserMoneyInCents()+amountMoney<=0){
+            throw new ToMuchMoneyException();
+        }
         user.setUserMoneyInCents(user.getUserMoneyInCents() + amountMoney);
         return userRepository.save(user);
     }
