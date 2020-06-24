@@ -1,4 +1,4 @@
-package ua.testing.delivery.service;
+package ua.testing.delivery.service.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +22,7 @@ import ua.testing.delivery.repository.BillRepository;
 import ua.testing.delivery.repository.DeliveryRepository;
 import ua.testing.delivery.repository.UserRepository;
 import ua.testing.delivery.repository.WayRepository;
+import ua.testing.delivery.service.BillService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ import static org.mockito.Mockito.*;
 import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = BillService.class)
+@ContextConfiguration(classes = BillServiceImpl.class)
 public class BillServiceImplTest {
 
 

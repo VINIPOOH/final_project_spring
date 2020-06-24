@@ -1,4 +1,4 @@
-package ua.testing.delivery.service;
+package ua.testing.delivery.service.impl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +17,7 @@ import ua.testing.delivery.exception.NoSuchWayException;
 import ua.testing.delivery.exception.UnsupportableWeightFactorException;
 import ua.testing.delivery.repository.DeliveryRepository;
 import ua.testing.delivery.repository.WayRepository;
+import ua.testing.delivery.service.DeliveryService;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.*;
 import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = DeliveryService.class)
+@ContextConfiguration(classes = DeliveryServiceImpl.class)
 public class DeliveryServiceImplTest {
 
     @Autowired

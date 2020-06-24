@@ -1,4 +1,4 @@
-package ua.testing.delivery.service;
+package ua.testing.delivery.service.impl;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,13 +11,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ua.testing.delivery.entity.RoleType;
 import ua.testing.delivery.entity.User;
 import ua.testing.delivery.repository.UserRepository;
+import ua.testing.delivery.service.AuthenticationService;
 
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = AuthenticationService.class)
+@ContextConfiguration(classes = AuthenticationServiceImpl.class)
 public class AuthenticationServiceImplTest {
 
     @Autowired

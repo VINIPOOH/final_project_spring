@@ -1,4 +1,4 @@
-package ua.testing.delivery.service;
+package ua.testing.delivery.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ua.testing.delivery.dto.LocaliseLocalityDto;
 import ua.testing.delivery.entity.Locality;
 import ua.testing.delivery.repository.LocalityRepository;
+import ua.testing.delivery.service.LocalityService;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.*;
 import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = LocalityService.class)
+@ContextConfiguration(classes = LocalityServiceImpl.class)
 public class LocalityServiceImplTest {
 
     @Autowired

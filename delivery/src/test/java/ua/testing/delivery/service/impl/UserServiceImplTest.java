@@ -1,4 +1,4 @@
-package ua.testing.delivery.service;
+package ua.testing.delivery.service.impl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +18,7 @@ import ua.testing.delivery.exception.NoSuchUserException;
 import ua.testing.delivery.exception.OccupiedLoginException;
 import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.repository.UserRepository;
+import ua.testing.delivery.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.*;
 import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = UserService.class)
+@ContextConfiguration(classes = UserServiceImpl.class)
 public class UserServiceImplTest {
 
     @Autowired
