@@ -19,7 +19,7 @@ import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = LocalityService.class)
-public class LocalityServiceTest {
+public class LocalityServiceImplTest {
 
     @Autowired
     LocalityService localityService;

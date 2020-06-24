@@ -28,7 +28,7 @@ import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = DeliveryService.class)
-public class DeliveryServiceTest {
+public class DeliveryServiceImplTest {
 
     @Autowired
     DeliveryService deliveryService;

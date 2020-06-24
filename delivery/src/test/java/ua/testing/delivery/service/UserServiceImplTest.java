@@ -29,7 +29,7 @@ import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = UserService.class)
-public class UserServiceTest {
+public class UserServiceImplTest {
 
     @Autowired
     UserService userService;

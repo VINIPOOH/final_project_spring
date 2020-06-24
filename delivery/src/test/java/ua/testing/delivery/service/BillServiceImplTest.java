@@ -34,7 +34,7 @@ import static ua.testing.delivery.ServisesTestConstant.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = BillService.class)
-public class BillServiceTest {
+public class BillServiceImplTest {
 
 
     @Autowired

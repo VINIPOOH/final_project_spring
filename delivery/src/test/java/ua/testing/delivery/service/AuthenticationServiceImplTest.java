@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = AuthenticationService.class)
-public class AuthenticationServiceTest {
+public class AuthenticationServiceImplTest {
 
     @Autowired
     AuthenticationService authenticationService;
