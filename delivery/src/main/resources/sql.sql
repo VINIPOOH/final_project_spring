@@ -33,13 +33,12 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`user` (
   `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(255) NOT NULL DEFAULT 'ROLE_USER',
   `user_money_in_cents` BIGINT NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `UKob8kqyqqgmefl0aco34akdtpe` (`email` ASC) VISIBLE)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe` ON `trainingdb`.`user` (`email` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -53,7 +52,6 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`locality` (
   `name_ru` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -71,8 +69,6 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`way` (
   `locality_get_id` BIGINT NOT NULL,
   `locality_send_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `UK5uyqyuwallk6ncd2r78h6e2gt` (`locality_send_id` ASC, `locality_get_id` ASC) VISIBLE,
-  INDEX `FK9cdoukvc31ea903e9gaa8fijl` (`locality_get_id` ASC) VISIBLE,
   CONSTRAINT `FK9cdoukvc31ea903e9gaa8fijl`
     FOREIGN KEY (`locality_get_id`)
     REFERENCES `trainingdb`.`locality` (`id`),
@@ -80,9 +76,12 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`way` (
     FOREIGN KEY (`locality_send_id`)
     REFERENCES `trainingdb`.`locality` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE UNIQUE INDEX `UK5uyqyuwallk6ncd2r78h6e2gt` ON `trainingdb`.`way` (`locality_send_id` ASC, `locality_get_id` ASC) VISIBLE;
+
+CREATE INDEX `FK9cdoukvc31ea903e9gaa8fijl` ON `trainingdb`.`way` (`locality_get_id` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -92,13 +91,11 @@ DROP TABLE IF EXISTS `trainingdb`.`delivery` ;
 
 CREATE TABLE IF NOT EXISTS `trainingdb`.`delivery` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `is_package_received` BIT(1) NOT NULL DEFAULT b'0',
+  `is_package_received` BIT(1) NULL DEFAULT b'0',
   `weight` INT NOT NULL,
   `addressee_id` BIGINT NOT NULL,
   `way_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKmh780m8tinmu5vv2k2yvgapyy` (`addressee_id` ASC) VISIBLE,
-  INDEX `FKtq40wblx9awh2fum7c11ik1c1` (`way_id` ASC) VISIBLE,
   CONSTRAINT `FKmh780m8tinmu5vv2k2yvgapyy`
     FOREIGN KEY (`addressee_id`)
     REFERENCES `trainingdb`.`user` (`id`),
@@ -106,9 +103,12 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`delivery` (
     FOREIGN KEY (`way_id`)
     REFERENCES `trainingdb`.`way` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE INDEX `FKmh780m8tinmu5vv2k2yvgapyy` ON `trainingdb`.`delivery` (`addressee_id` ASC) VISIBLE;
+
+CREATE INDEX `FKtq40wblx9awh2fum7c11ik1c1` ON `trainingdb`.`delivery` (`way_id` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -120,12 +120,10 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`bill` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `cost_in_cents` BIGINT NOT NULL,
   `date_of_pay` DATE NULL DEFAULT NULL,
-  `is_delivery_paid` BIT(1) NOT NULL DEFAULT b'0',
+  `is_delivery_paid` BIT(1) NULL DEFAULT b'0',
   `delivery_id` BIGINT NOT NULL,
   `user_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK8i5q3657tfusgk53x7i4r5w04` (`delivery_id` ASC) VISIBLE,
-  INDEX `FKqhq5aolak9ku5x5mx11cpjad9` (`user_id` ASC) VISIBLE,
   CONSTRAINT `FK8i5q3657tfusgk53x7i4r5w04`
     FOREIGN KEY (`delivery_id`)
     REFERENCES `trainingdb`.`delivery` (`id`),
@@ -133,9 +131,12 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`bill` (
     FOREIGN KEY (`user_id`)
     REFERENCES `trainingdb`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE INDEX `FK8i5q3657tfusgk53x7i4r5w04` ON `trainingdb`.`bill` (`delivery_id` ASC) VISIBLE;
+
+CREATE INDEX `FKqhq5aolak9ku5x5mx11cpjad9` ON `trainingdb`.`bill` (`user_id` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -150,7 +151,6 @@ CREATE TABLE IF NOT EXISTS `trainingdb`.`tariff_weight_factor` (
   `over_pay_on_kilometer` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -163,8 +163,6 @@ DROP TABLE IF EXISTS `trainingdb`.`way_tariff_weight_factor` ;
 CREATE TABLE IF NOT EXISTS `trainingdb`.`way_tariff_weight_factor` (
   `way_id` BIGINT NOT NULL,
   `tariff_weight_factor_id` BIGINT NOT NULL,
-  INDEX `FKt75qu3a8h7qsy726oe3ylpea6` (`tariff_weight_factor_id` ASC) VISIBLE,
-  INDEX `FK5bpbgkkh4sw0tds9gilau5uau` (`way_id` ASC) VISIBLE,
   CONSTRAINT `FK5bpbgkkh4sw0tds9gilau5uau`
     FOREIGN KEY (`way_id`)
     REFERENCES `trainingdb`.`way` (`id`),
@@ -175,10 +173,9 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+CREATE INDEX `FKt75qu3a8h7qsy726oe3ylpea6` ON `trainingdb`.`way_tariff_weight_factor` (`tariff_weight_factor_id` ASC) VISIBLE;
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE INDEX `FK5bpbgkkh4sw0tds9gilau5uau` ON `trainingdb`.`way_tariff_weight_factor` (`way_id` ASC) VISIBLE;
 
 INSERT INTO `trainingdb`.`user` (`account_non_expired`, `account_non_locked`, `credentials_non_expired`, `email`, `enabled`, `password`, `role`, `user_money_in_cents`) VALUES (b'1', b'1', b'1', 'adminSpring@ukr.net', b'1', '$2a$10$SwoEEvxPuCmPHJPDAqsXJ.MilZLjMBYHiP.ugcDE413zRjEjtjBKy', 'ROLE_ADMIN', b'0');
 INSERT INTO `trainingdb`.`user` (`account_non_expired`, `account_non_locked`, `credentials_non_expired`, `email`, `enabled`, `password`, `role`, `user_money_in_cents`) VALUES (b'1', b'1', b'1', 'userSpring@ukr.net', b'1', '$2a$10$gZ27Uy0Yw.xw6IsGT0UL/e8dSJiuOeys6pEiXchSLyMEverNl6KDW', 'ROLE_USER', b'0');
@@ -198,7 +195,7 @@ INSERT INTO `trainingdb`.`way` (`distance_in_kilometres`, `price_for_kilometer_i
 INSERT INTO `trainingdb`.`way` (`distance_in_kilometres`, `price_for_kilometer_in_cents`, `time_on_way_in_days`, `locality_get_id`, `locality_send_id`) VALUES ('670', '15', '2', '2', '3');
 INSERT INTO `trainingdb`.`way` (`distance_in_kilometres`, `price_for_kilometer_in_cents`, `time_on_way_in_days`, `locality_get_id`, `locality_send_id`) VALUES ('540', '14', '1', '2', '1');
 INSERT INTO `trainingdb`.`way` (`distance_in_kilometres`, `price_for_kilometer_in_cents`, `time_on_way_in_days`, `locality_get_id`, `locality_send_id`) VALUES ('490', '18', '1', '3', '1');
-INSERT INTO `trainingdb`.`way` (`distance_in_kilometres`, `price_for_kilometer_in_cents`, `time_on_way_in_days`, `locality_get_id`, `locality_send_id`) VALUES ('700', '22', '2', '3', '2');
+-- INSERT INTO `trainingdb`.`way` (`distance_in_kilometres`, `price_for_kilometer_in_cents`, `time_on_way_in_days`, `locality_get_id`, `locality_send_id`) VALUES ('700', '22', '2', '3', '2');
 
 
 insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(1,1);
@@ -216,6 +213,10 @@ insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_fa
 insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(5,1);
 insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(5,2);
 insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(5,3);
-insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(6,1);
-insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(6,2);
-insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(6,3);
+-- insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(6,1);
+-- insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(6,2);
+-- insert into `trainingdb`.`way_tariff_weight_factor` (`way_id`, `tariff_weight_factor_id`) values(6,3);
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

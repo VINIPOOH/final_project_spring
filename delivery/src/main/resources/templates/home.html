@@ -3,6 +3,7 @@
 <head>
     <div th:include="~{layout/header.html::head_base_data}"></div>
     <title th:text="#{homepage.title}"></title>
+    <script th:src="@{/js/dynamic-locality-get-loader.js}"></script>
 </head>
 <body>
 <div th:include="~{layout/header.html::header}"></div>
@@ -32,16 +33,13 @@
                                    type="number">
                         </div>
                         <label th:text="#{homepage.form.label.locality_sand}"></label>
-                        <select class="form-control" form="form" th:field="*{localitySandID}">
+                        <select class="form-control" form="form" th:field="*{localitySandID}" id="localitySandIDSelect">
                             <option th:each="locality :${localityDtoList}" th:id="localitySandID"
                                     th:name="localitySandID" th:text="${locality.name}"
                                     th:value="${locality.id}"></option>
                         </select>
                         <label th:text="#{homepage.form.label.locality_get}"></label>
-                        <select class="form-control" form="form" th:field="*{localityGetID}">
-                            <option th:each="locality :${localityDtoList}" th:id="localityGetID"
-                                    th:name="localityGetID" th:text="${locality.name}"
-                                    th:value="${locality.id}"></option>
+                        <select class="form-control" form="form" th:field="*{localityGetID}" id ="localityGetID">
                         </select>
                         <p1></p1>
                         <button class="btn btn-success" th:text="#{homepage.form.button}" type="submit"></button>

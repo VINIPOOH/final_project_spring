@@ -10,5 +10,5 @@ import java.util.Locale;
 public interface LocalityService {
 
     List<LocaliseLocalityDto> getLocalities(Locale locale);
-
+    List<LocaliseLocalityDto> findGetLocalitiesByLocalitySetId(Locale locale, long id);
 }

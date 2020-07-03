@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login", "/registration").anonymous()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/home").permitAll()
+                .antMatchers("/", "/home","/get/localitiesGet/by/localitySend/id").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**",
-                        "/js/**", "/images/**", "/scss/**", "/vendor/**", "/img/favicon.ico");
+                       "/js/**", "/images/**", "/scss/**", "/vendor/**", "/img/favicon.ico");
 
     }
 
