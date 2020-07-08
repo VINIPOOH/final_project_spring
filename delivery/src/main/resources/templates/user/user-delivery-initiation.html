@@ -21,16 +21,16 @@
                           th:object="${deliveryOrderCreateDto}">
                         <div>
                             <div class="alert alert-danger" role="alert" th:if="${incorrectWeightInput}">
-                                <p th:text="#{homepage.form.weight.incorect}"></p>
+                                <p th:text="#{homepage.form.weight.incorrect}"></p>
                             </div>
                             <div class="alert alert-danger" role="alert" th:if="${unsupportableWeightFactorException}">
-                                <p th:text="#{registrationpage.form.weight.wrong}"></p>
+                                <p th:text="#{registration.page.form.weight.wrong}"></p>
                             </div>
                             <div class="alert alert-danger" role="alert" th:if="${noSuchWayException}">
-                                <p th:text="#{registrationpage.form.way.wrong}"></p>
+                                <p th:text="#{registration.page.form.way.wrong}"></p>
                             </div>
                             <div class="alert alert-danger" role="alert" th:if="${addresseeIsNotExist}">
-                                <p th:text="#{registrationpage.form.adresee.wrong}"></p>
+                                <p th:text="#{registration.page.form.adresee.wrong}"></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -52,7 +52,7 @@
                             <input class="form-control" id="addresseeEmail" name="addresseeEmail" type="email">
                         </div>
 
-                        <button class="btn btn-success" th:text="#{homepage.form.button}" type="submit"></button>
+                        <button class="btn btn-success" th:text="#{user.delivery.initiation.submit.button}" type="submit"></button>
                     </form>
                 </div>
             </div>

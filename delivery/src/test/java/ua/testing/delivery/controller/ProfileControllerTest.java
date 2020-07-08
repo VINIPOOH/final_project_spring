@@ -50,7 +50,7 @@ public class ProfileControllerTest {
 
         verify(userService, times(1)).findByEmail(anyString());
         assertEquals(user, Util.getUserFromSession(httpSession));
-        assertEquals("user/userprofile", actual.getViewName());
+        assertEquals("user/user-profile", actual.getViewName());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ProfileControllerTest {
 
         verify(userService, times(1)).replenishAccountBalance(anyLong(), anyLong());
         assertNull(actual.getModel().get("incorrectMoney"));
-        assertEquals("user/userprofile", actual.getViewName());
+        assertEquals("user/user-profile", actual.getViewName());
     }
 
     @Test
@@ -70,7 +70,7 @@ public class ProfileControllerTest {
         ModelAndView actual = profileController.userProfileReplenish(httpSession, 0);
 
         assertTrue((Boolean) actual.getModel().get("incorrectMoney"));
-        assertEquals("user/userprofile", actual.getViewName());
+        assertEquals("user/user-profile", actual.getViewName());
     }
 
     @Test(expected = NoSuchUserException.class)
@@ -90,6 +90,6 @@ public class ProfileControllerTest {
 
         verify(userService, times(1)).replenishAccountBalance(anyLong(), anyLong());
         assertTrue((Boolean) actual.getModel().get("incorrectMoney"));
-        assertEquals("user/userprofile", actual.getViewName());
+        assertEquals("user/user-profile", actual.getViewName());
     }
 }

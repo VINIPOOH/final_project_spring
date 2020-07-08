@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:include="~{layout/header.html::head_base_data}"></div>
-    <title th:text="#{userlist.page.header}"></title>
+    <title th:text="#{user.list.page.header}"></title>
 </head>
 <body>
 <div th:include="~{layout/header.html::header}"></div>
@@ -12,24 +12,24 @@
     <div class="row">
         <div class="col-md-6">
             <div class="border border-info mt-2 rounded">
-                <p th:text="#{userprofilepage.paragrapf.userMoneyInCents}"></p>
+                <p th:text="#{user.profile.page.paragraph.userMoneyInCents}"></p>
                 <p th:text="${session.user.userMoneyInCents}"></p>
             </div>
         </div>
         <div class="col-md-6 ">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-heading" th:text="#{userprofilepage.form.header}"></h3>
+                    <h3 class="panel-heading" th:text="#{user.profile.page.form.header}"></h3>
                 </div>
                 <div class="panel-body">
-                    <form class="form" method="post" th:action="@{/user/userprofile}">
+                    <form class="form" method="post" th:action="@{/user/user-profile}">
                         <div class="alert alert-danger" role="alert" th:if="${incorrectMoney}">
-                            <p th:if="${incorrectMoney}" th:text="#{userprofilepage.wrong.money}"></p>
+                            <p th:if="${incorrectMoney}" th:text="#{user.profile.page.wrong.money}"></p>
                         </div>
                         <div class="form-group">
                             <input class="form-control" id="money" name="money" type="number">
                         </div>
-                        <button class="btn btn-success" th:text="#{userprofilepage.button.replenish}"
+                        <button class="btn btn-success" th:text="#{user.profile.page.button.replenish}"
                                 type="submit"></button>
                     </form>
                 </div>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:include="~{layout/header.html::head_base_data}"></div>
-    <title th:text="#{userlist.page.header}"></title>
+    <title th:text="#{user.list.page.header}"></title>
 </head>
 <body>
 <div th:include="~{layout/header.html::header}"></div>
@@ -17,9 +17,9 @@
         ">
     <thead>
     <tr>
-        <th th:text="#{userlist.page.password.colum.name}"></th>
-        <th th:text="#{userlist.page.email.colum.name}"></th>
-        <th th:text="#{userlist.page.role.colum.name}"></th>
+        <th th:text="#{user.list.page.password.column.name}"></th>
+        <th th:text="#{user.list.page.email.column.name}"></th>
+        <th th:text="#{user.list.page.role.column.name}"></th>
     </tr>
     </thead>
     <tbody>

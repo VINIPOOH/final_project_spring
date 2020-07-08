@@ -34,20 +34,20 @@ public class ProfileController {
         this.userService = userService;
     }
 
-    @GetMapping(value = {"/userprofile"})
+    @GetMapping(value = {"/user-profile"})
     public ModelAndView userProfile(HttpSession httpSession, @AuthenticationPrincipal UserDetails userDetails) {
         log.debug(userDetails);
 
-        ModelAndView view = new ModelAndView("user/userprofile");
+        ModelAndView view = new ModelAndView("user/user-profile");
         Util.addUserToSession(httpSession, userService.findByEmail(userDetails.getUsername()));
         return view;
     }
 
-    @PostMapping(value = {"/userprofile"})
+    @PostMapping(value = {"/user-profile"})
     public ModelAndView userProfileReplenish(HttpSession httpSession, long money) throws NoSuchUserException {
         log.debug("money");
 
-        ModelAndView modelAndView = new ModelAndView("user/userprofile");
+        ModelAndView modelAndView = new ModelAndView("user/user-profile");
         if (money <= 0) {
             modelAndView.addObject("incorrectMoney", true);
             return modelAndView;

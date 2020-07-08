@@ -18,13 +18,13 @@
                     <form class="form" id="form" method="post" th:action="@{/home}"
                           th:object="${deliveryInfoRequestDto}">
                         <div class="alert alert-danger" role="alert" th:if="${incorrectWeightInput}">
-                            <p th:text="#{homepage.form.weight.incorect}"></p>
+                            <p th:text="#{homepage.form.weight.incorrect}"></p>
                         </div>
                         <div class="alert alert-danger" role="alert" th:if="${unsupportableWeightFactorException}">
-                            <p th:text="#{registrationpage.form.weight.wrong}"></p>
+                            <p th:text="#{registration.page.form.weight.wrong}"></p>
                         </div>
                         <div class="alert alert-danger" role="alert" th:if="${noSuchWayException}">
-                            <p th:text="#{registrationpage.form.way.wrong}"></p>
+                            <p th:text="#{registration.page.form.way.wrong}"></p>
                         </div>
 
                         <div class="form-group">
@@ -57,11 +57,11 @@
         ">
                 <tbody>
                 <tr>
-                    <td><span th:text="#{homepage.paragraf.price}">  </span></td>
+                    <td><span th:text="#{homepage.paragraph.price}">  </span></td>
                     <td><span th:text="${PriceAndTimeOnDeliveryDto.costInCents}"> </span></td>
                 </tr>
                 <tr>
-                    <td><span th:text="#{homepage.paragraf.time}">  </span></td>
+                    <td><span th:text="#{homepage.paragraph.time}">  </span></td>
                     <td><span th:text="${PriceAndTimeOnDeliveryDto.timeOnWayInHours}"> </span></td>
                 </tr>
                 </tbody>

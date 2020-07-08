@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-10 row justify-content-start">
                         <a class="col-2" th:href="@{/home}" th:text="#{layout.header.homepage}"></a>
-                        <a class="col-2" th:href="@{/user/userprofile}" th:text="#{layout.userheader.cabinet}"></a>
+                        <a class="col-2" th:href="@{/user/user-profile}" th:text="#{layout.user.header.cabinet}"></a>
                     </div>
                 </div>
             </nav>
@@ -46,10 +46,10 @@
                     </div>
                 </div>
                 <div class="row" sec:authorize="!isAuthenticated()">
-                    <a class="btn btn-success" th:href="@{/login}" th:text="#{lofinpage.button.login}"
+                    <a class="btn btn-success" th:href="@{/login}" th:text="#{login.page.button.login}"
                        type="submit"></a>
                     <a align="left" class="btn" th:href="@{/registration}"
-                       th:text="#{lofinpage.button.gotoRegistration}"></a>
+                       th:text="#{login.page.button.gotoRegistration}"></a>
                     </a>
                 </div>
 
@@ -63,14 +63,14 @@
                     <div class="col-md-10 row justify-content-start">
 
                         <a class="col-2" th:href="@{/user/delivers-to-get}"
-                           th:text="#{layout.userheader.not.gotten.delivers}"></a>
-                        <a class="col-1" th:href="@{/user/userprofile}" th:text="#{layout.userheader.balance}"></a>
+                           th:text="#{layout.user.header.not.gotten.delivers}"></a>
+                        <a class="col-1" th:href="@{/user/userp-rofile}" th:text="#{layout.user.header.balance}"></a>
                         <a class="col-2" th:href="@{/user/user-delivery-initiation}"
-                           th:text="#{layout.userheader.delivery.initiation}"></a>
+                           th:text="#{layout.user.header.delivery.initiation}"></a>
                         <a class="col-2" th:href="@{/user/user-delivery-pay}"
-                           th:text="#{layout.userheader.delivery.pay}"></a>
+                           th:text="#{layout.user.header.delivery.pay}"></a>
                         <a class="col-2" th:href="@{/user/user-statistic}"
-                           th:text="#{layout.userheader.user.statistic}"></a>
+                           th:text="#{layout.user.header.user.statistic}"></a>
                     </div>
                 </div>
             </nav>
@@ -82,7 +82,7 @@
                 <div class="container-fluid row">
                     <div class="col-md-10 row justify-content-start">
                         <a class="col-2" th:href="@{/admin/users}"
-                           th:text="#{layout.adminheade.users}"></a>
+                           th:text="#{layout.admin.head.users}"></a>
                     </div>
                 </div>
             </nav>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:include="~{layout/header.html::head_base_data}"></div>
-    <title th:text="#{user_statisticpage.title}"></title>
+    <title th:text="#{user.statistic.page.title}"></title>
 </head>
 <body>
 <div th:include="~{layout/header.html::header}"></div>
@@ -18,7 +18,7 @@
     <div class="pagination-div" th:if="${BillDtoPage.getTotalElements()}!=0">
     <span th:if="${BillDtoPage.hasPrevious()}">
         <a th:href="@{/user/user-statistic(page=${BillDtoPage.number - 1},size=${BillDtoPage.size})}"
-           th:text="#{user_statisticpage.button.previous}"></a>
+           th:text="#{user.statistic.page.button.previous}"></a>
     </span>
         <th:block th:each="i : ${#numbers.sequence(0, BillDtoPage.totalPages - 1)}">
             <span class="selected" th:if="${BillDtoPage.number == i}">[[${i}+1]]</span>
@@ -28,7 +28,7 @@
         </th:block>
         <span th:if="${BillDtoPage.hasNext()}">
         <a th:href="@{/user/user-statistic(page=${BillDtoPage.number + 1},size=${BillDtoPage.size})}"
-           th:text="#{user_statisticpage.button.next}">Next</a>
+           th:text="#{user.statistic.page.button.next}">Next</a>
     </span>
     </div>
 </div>

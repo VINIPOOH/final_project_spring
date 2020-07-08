@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:include="~{layout/header.html::head_base_data}"></div>
-    <title th:text="#{user_statisticpage.title}"></title>
+    <title th:text="#{user.statistic.page.title}"></title>
 </head>
 <body>
 <div th:include="~{layout/header.html::header}"></div>
@@ -12,25 +12,25 @@
     <div class="row border border-info mt-2 rounded" th:each="billForUser : ${BillInfoToPayDtoList}">
         <div class="card-body col-md-3">
             <h5 class="card-title"
-                th:text="#{user-delivery-pay.card.title}+${billForUser.addreeseeEmail}"></h5>
+                th:text="#{user.delivery.pay.card.title}+${billForUser.addreeseeEmail}"></h5>
         </div>
         <div class="col-md-4 mt-3">
             <p1 class="list-group-item"
-                th:text="#{user-delivery-pay.card.list.from.city}+${billForUser.localitySandName}"></p1>
+                th:text="#{user.delivery.pay.card.list.from.city}+${billForUser.localitySandName}"></p1>
         </div>
         <div class="col-md-3 mt-3">
             <p1 class="list-group-item"
-                th:text="#{user-delivery-pay.card.list.to.city}+ ${billForUser.localityGetName}"></p1>
-        </div>
-
-        <div class="col-md-3 mt-3">
-            <p1 class="list-group-item"
-                th:text="#{user-delivery-pay.card.deliveryid}+ ${billForUser.deliveryId}"></p1>
+                th:text="#{user.delivery.pay.card.list.to.city}+ ${billForUser.localityGetName}"></p1>
         </div>
 
         <div class="col-md-3 mt-3">
             <p1 class="list-group-item"
-                th:text="#{user-delivery-pay.card.priceondelivery}+ ${billForUser.price}"></p1>
+                th:text="#{user.delivery.pay.card.delivery.id}+ ${billForUser.deliveryId}"></p1>
+        </div>
+
+        <div class="col-md-3 mt-3">
+            <p1 class="list-group-item"
+                th:text="#{user.delivery.pay.card.price.on.delivery}+ ${billForUser.price}"></p1>
         </div>
 
         <div class="card-body col-md-2">
