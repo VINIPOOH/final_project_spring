@@ -19,7 +19,10 @@ import ua.testing.delivery.service.LocalityService;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Locale;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryInitiationController {

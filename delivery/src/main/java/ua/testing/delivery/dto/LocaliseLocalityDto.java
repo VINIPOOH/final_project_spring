@@ -1,7 +1,10 @@
 package ua.testing.delivery.dto;
 
 import lombok.EqualsAndHashCode;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @EqualsAndHashCode
 public class LocaliseLocalityDto {
     private Long id;

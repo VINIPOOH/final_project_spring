@@ -12,13 +12,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Represent User table in db
+ *
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
-
 @Entity
 @Table(name = "user",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})

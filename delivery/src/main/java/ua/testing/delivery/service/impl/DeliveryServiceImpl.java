@@ -21,7 +21,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
     private static final Logger log = LogManager.getLogger(DeliveryServiceImpl.class);
@@ -37,7 +40,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         this.deliveryRepository = deliveryRepository;
     }
 
-
+@Override
     public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(long userId, Locale locale) {
         log.debug("userId" + userId);
 
@@ -46,6 +49,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     @Transactional
     public boolean confirmGettingDelivery(long userId, long deliveryId) throws AskedDataIsNotExist {
         log.debug("userId" + userId + "deliveryId" + deliveryId);
@@ -57,7 +61,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         return true;
     }
 
-
+@Override
     public PriceAndTimeOnDeliveryDto getDeliveryCostAndTimeDto(DeliveryInfoRequestDto deliveryInfoRequestDto)
             throws NoSuchWayException, UnsupportableWeightFactorException {
         log.debug("deliveryInfoRequestDto" + deliveryInfoRequestDto);

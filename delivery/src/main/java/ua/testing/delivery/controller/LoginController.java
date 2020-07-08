@@ -6,7 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 public class LoginController {
     private static final Logger log = LogManager.getLogger(LoginController.class);

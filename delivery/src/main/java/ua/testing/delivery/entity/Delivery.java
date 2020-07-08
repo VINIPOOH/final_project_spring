@@ -6,7 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
+/**
+ * Represent Delivery table in db
+ *
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

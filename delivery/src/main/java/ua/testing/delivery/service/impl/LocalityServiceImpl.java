@@ -13,7 +13,10 @@ import ua.testing.delivery.service.LocalityService;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public class LocalityServiceImpl implements LocalityService {
     private static final Logger log = LogManager.getLogger(LocalityServiceImpl.class);
@@ -27,6 +30,7 @@ public class LocalityServiceImpl implements LocalityService {
         this.localityRepository = localityRepository;
     }
 
+@Override
     public List<LocaliseLocalityDto> getLocalities(Locale locale) {
         log.debug("");
 
@@ -41,7 +45,7 @@ public class LocalityServiceImpl implements LocalityService {
         log.debug("");
 
 
-        return localityRepository.findGetLocalitiesByLocalitySetId(id).stream()
+        return localityRepository.findGetLocalitiesByLocalitySandId(id).stream()
                 .map(getLocalityToLocaliseLocalityDto(locale)::map)
                 .collect(Collectors.toList());
     }

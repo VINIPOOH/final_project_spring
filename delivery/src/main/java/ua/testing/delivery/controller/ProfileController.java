@@ -16,7 +16,10 @@ import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.service.UserService;
 
 import javax.servlet.http.HttpSession;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = {"/user"})
 public class ProfileController {

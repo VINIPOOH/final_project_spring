@@ -7,12 +7,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-
+/**
+ * Represent Locality table in db
+ *
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 @Entity
 public class Locality {
     @Id

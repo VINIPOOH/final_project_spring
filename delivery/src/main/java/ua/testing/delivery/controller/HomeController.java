@@ -19,7 +19,10 @@ import ua.testing.delivery.service.LocalityService;
 
 import javax.validation.Valid;
 import java.util.Locale;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 public class HomeController {
     private static final String REDIRECT_HOME = "redirect:/home";

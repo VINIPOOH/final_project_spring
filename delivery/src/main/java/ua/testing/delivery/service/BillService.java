@@ -11,10 +11,12 @@ import ua.testing.delivery.exception.*;
 
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public interface BillService {
-
 
     List<BillInfoToPayDto> getBillsToPayByUserID(long userId, Locale locale);
 

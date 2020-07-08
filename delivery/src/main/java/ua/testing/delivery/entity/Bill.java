@@ -8,7 +8,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
-
+/**
+ * Represent Bill table in db
+ *
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Data
 @Entity
 @Builder

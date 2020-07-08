@@ -6,7 +6,10 @@ import ua.testing.delivery.entity.Delivery;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 

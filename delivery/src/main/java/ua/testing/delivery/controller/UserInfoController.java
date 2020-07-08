@@ -14,7 +14,10 @@ import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.service.BillService;
 
 import javax.servlet.http.HttpSession;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = {"/user"})
 public class UserInfoController {

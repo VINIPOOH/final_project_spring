@@ -4,7 +4,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Builder
 @EqualsAndHashCode
 public class BillDto {

@@ -18,7 +18,10 @@ import ua.testing.delivery.service.BillService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryPayController {

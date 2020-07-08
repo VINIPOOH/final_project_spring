@@ -2,7 +2,10 @@ package ua.testing.delivery.dto;
 
 import lombok.Builder;
 import lombok.Data;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Builder
 @Data
 public class BillInfoToPayDto {

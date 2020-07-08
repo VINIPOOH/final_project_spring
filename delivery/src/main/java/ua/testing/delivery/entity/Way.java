@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-
+/**
+ * Represent Way table in db
+ *
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

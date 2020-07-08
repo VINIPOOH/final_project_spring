@@ -16,7 +16,10 @@ import ua.testing.delivery.exception.OccupiedLoginException;
 import ua.testing.delivery.service.UserService;
 
 import javax.validation.Valid;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 public class RegistrationController {
     private static final Logger log = LogManager.getLogger(RegistrationController.class);

@@ -5,13 +5,13 @@ import org.apache.log4j.Logger;
 import ua.testing.delivery.entity.User;
 
 import javax.servlet.http.HttpSession;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 public class Util {
     private static final Logger log = LogManager.getLogger(Util.class);
     private static final String SESSION_USER = "user";
-
-    private Util() {
-    }
 
     public static User getUserFromSession(HttpSession httpSession) {
         log.debug(httpSession.getAttribute(SESSION_USER));

@@ -8,10 +8,12 @@ import ua.testing.delivery.exception.OccupiedLoginException;
 import ua.testing.delivery.exception.ToMuchMoneyException;
 
 import java.util.List;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public interface UserService {
-
 
     List<User> getAllUsers();
 

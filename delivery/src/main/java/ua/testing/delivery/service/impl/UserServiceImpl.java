@@ -19,7 +19,10 @@ import ua.testing.delivery.service.UserService;
 
 import javax.transaction.Transactional;
 import java.util.List;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
@@ -34,20 +37,20 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
-
+@Override
     public List<User> getAllUsers() {
         log.debug("");
 
         return userRepository.findAll();
     }
-
+@Override
     public User findByEmail(String email) {
         log.debug("email" + email);
 
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with login: " + email));
     }
-
+@Override
     public User addNewUserToDB(RegistrationInfoDto registrationInfoDto) throws OccupiedLoginException {
         log.debug("registrationInfoDto" + registrationInfoDto);
 

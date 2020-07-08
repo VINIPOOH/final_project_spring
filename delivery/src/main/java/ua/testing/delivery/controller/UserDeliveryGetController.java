@@ -15,7 +15,10 @@ import ua.testing.delivery.service.DeliveryService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = {"/user/"})
 public class UserDeliveryGetController {

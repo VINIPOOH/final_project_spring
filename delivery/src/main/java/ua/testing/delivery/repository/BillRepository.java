@@ -7,7 +7,10 @@ import ua.testing.delivery.entity.Bill;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 public interface BillRepository extends JpaRepository<Bill, Long> {
     List<Bill> findAllByUserIdAndIsDeliveryPaidFalse(long userId);
 

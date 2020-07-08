@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public class BillServiceImpl implements BillService {
     private static final Logger log = LogManager.getLogger(BillServiceImpl.class);
@@ -46,12 +50,53 @@ public class BillServiceImpl implements BillService {
         this.wayRepository = wayRepository;
     }
 
+    @Override
     public List<BillInfoToPayDto> getBillsToPayByUserID(long userId, Locale locale) {
         log.debug("userId" + userId);
 
         return billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userId).stream()
                 .map(getMapperBillInfoToPayDto(locale)::map)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public boolean payForDelivery(long userId, long billId) throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
+        log.debug("userId" + userId + "billId" + billId);
+
+        Bill bill = billRepository.findByIdAndIsDeliveryPaidFalse(billId).orElseThrow(DeliveryAlreadyPaidException::new);
+        User user = userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(userId, bill.getCostInCents()).orElseThrow(NotEnoughMoneyException::new);
+        user.setUserMoneyInCents(user.getUserMoneyInCents() - bill.getCostInCents());
+        bill.setDeliveryPaid(true);
+        bill.setDateOfPay(LocalDate.now());
+        userRepository.save(user);
+        billRepository.save(bill);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Bill initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException, NoSuchUserException, NoSuchWayException {
+
+        log.debug("deliveryOrderCreateDto" + deliveryOrderCreateDto);
+
+        User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new);
+        Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID()
+                , deliveryOrderCreateDto.getLocalityGetID()).orElseThrow(NoSuchWayException::new);
+        Delivery newDelivery = deliveryRepository.save(getBuildDelivery(deliveryOrderCreateDto, addressee, way));
+        return billRepository.save(
+                getBuildBill(newDelivery
+                        , calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way)
+                        , userRepository.findById(initiatorId).orElseThrow(DBWorkIncorrectException::new)));
+    }
+
+
+    @Override
+    public Page<BillDto> getBillHistoryByUserId(long userId, Pageable pageable) {
+        log.debug("userId" + userId);
+
+
+        return billRepository.findAllByUserIdAndIsDeliveryPaidTrue(userId, pageable).map(getBillBillDtoMapper()::map);
     }
 
     private Mapper<Bill, BillInfoToPayDto> getMapperBillInfoToPayDto(Locale locale) {
@@ -72,35 +117,6 @@ public class BillServiceImpl implements BillService {
             }
             return billInfoToPayDto;
         };
-    }
-
-    @Transactional
-    public boolean payForDelivery(long userId, long billId) throws DeliveryAlreadyPaidException, NotEnoughMoneyException {
-        log.debug("userId" + userId + "billId" + billId);
-
-        Bill bill = billRepository.findByIdAndIsDeliveryPaidFalse(billId).orElseThrow(DeliveryAlreadyPaidException::new);
-        User user = userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(userId, bill.getCostInCents()).orElseThrow(NotEnoughMoneyException::new);
-        user.setUserMoneyInCents(user.getUserMoneyInCents() - bill.getCostInCents());
-        bill.setDeliveryPaid(true);
-        bill.setDateOfPay(LocalDate.now());
-        userRepository.save(user);
-        billRepository.save(bill);
-        return true;
-    }
-
-    @Transactional
-    public Bill initializeBill(DeliveryOrderCreateDto deliveryOrderCreateDto, long initiatorId) throws UnsupportableWeightFactorException, NoSuchUserException, NoSuchWayException {
-
-        log.debug("deliveryOrderCreateDto" + deliveryOrderCreateDto);
-
-        User addressee = userRepository.findByEmail(deliveryOrderCreateDto.getAddresseeEmail()).orElseThrow(NoSuchUserException::new);
-        Way way = wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.getLocalitySandID()
-                , deliveryOrderCreateDto.getLocalityGetID()).orElseThrow(NoSuchWayException::new);
-        Delivery newDelivery = deliveryRepository.save(getBuildDelivery(deliveryOrderCreateDto, addressee, way));
-        return billRepository.save(
-                getBuildBill(newDelivery
-                        , calculateDeliveryCost(deliveryOrderCreateDto.getDeliveryWeight(), way)
-                        , userRepository.findById(initiatorId).orElseThrow(DBWorkIncorrectException::new)));
     }
 
     private Bill getBuildBill(Delivery newDelivery, long cost, User sender) {
@@ -128,13 +144,6 @@ public class BillServiceImpl implements BillService {
         return (overPayOnKilometerForWeight + way.getPriceForKilometerInCents()) * way.getDistanceInKilometres();
     }
 
-    public Page<BillDto> getBillHistoryByUserId(long userId, Pageable pageable) {
-        log.debug("userId" + userId);
-
-
-        return billRepository.findAllByUserIdAndIsDeliveryPaidTrue(userId, pageable).map(getBillBillDtoMapper()::map);
-    }
-
     private Mapper<Bill, BillDto> getBillBillDtoMapper() {
         return bill -> BillDto.builder()
                 .id(bill.getId())
@@ -144,4 +153,6 @@ public class BillServiceImpl implements BillService {
                 .dateOfPay(bill.getDateOfPay())
                 .build();
     }
+
+
 }

@@ -11,7 +11,10 @@ import ua.testing.delivery.service.LocalityService;
 
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Controller
 public class LocalitiesController {
     private static final Logger log = LogManager.getLogger(LocalitiesController.class);

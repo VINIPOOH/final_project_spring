@@ -9,7 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ua.testing.delivery.repository.UserRepository;
 import ua.testing.delivery.service.AuthenticationService;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Logger log = LogManager.getLogger(AuthenticationServiceImpl.class);

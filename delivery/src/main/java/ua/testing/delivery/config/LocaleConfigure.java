@@ -14,7 +14,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Locale;
 import java.util.function.Function;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Configuration
 public class LocaleConfigure implements WebMvcConfigurer {
 
@@ -40,15 +43,14 @@ public class LocaleConfigure implements WebMvcConfigurer {
         return localeInterceptor;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeInterceptor());
+    }
+
     @Bean
     public Function<String, String> changeLanguage() {
         return lang -> ServletUriComponentsBuilder.fromCurrentRequest().replaceQueryParam(lang).toUriString();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(localeInterceptor());
     }
 
     @Override

@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
     private static final Logger log = LogManager.getLogger(GlobalExceptionHandler.class);

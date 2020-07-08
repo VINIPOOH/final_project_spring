@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-
+/**
+ * @author Vendelovskyi Ivan
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor
