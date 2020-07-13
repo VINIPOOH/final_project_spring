@@ -6,16 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.testing.delivery.controller.util.Util;
 import ua.testing.delivery.exception.NoSuchUserException;
 import ua.testing.delivery.exception.ToMuchMoneyException;
 import ua.testing.delivery.service.UserService;
 
 import javax.servlet.http.HttpSession;
+
 /**
  * @author Vendelovskyi Ivan
  * @version 1.0
@@ -57,6 +60,14 @@ public class ProfileController {
         } catch (ToMuchMoneyException e) {
             modelAndView.addObject("incorrectMoney", true);
         }
+        return modelAndView;
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView noSuchUserException(RedirectAttributes redirectAttributes) {
+        log.debug("NoSuchUserException");
+        ModelAndView modelAndView = new ModelAndView("user/user-profile");
+        redirectAttributes.addFlashAttribute("incorrectMoney", true);
         return modelAndView;
     }
 }
