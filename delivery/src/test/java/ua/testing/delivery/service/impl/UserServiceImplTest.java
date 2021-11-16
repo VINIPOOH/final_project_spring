@@ -151,7 +151,7 @@ public class UserServiceImplTest {
 
     private User getUser(RegistrationInfoDto registrationInfoDto) {
         return User.builder()
-                .id(0)
+                .id(0L)
                 .accountNonExpired(true)
                 .credentialsNonExpired(true)
                 .accountNonLocked(true)

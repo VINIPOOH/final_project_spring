@@ -33,8 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .csrf()
+                .disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/registration").anonymous()
+                .antMatchers("/login", "/registration", "/users", "/users/**").anonymous()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/", "/home","/get/localitiesGet/by/localitySend/id").permitAll()
                 .anyRequest().authenticated()
